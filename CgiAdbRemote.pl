@@ -72,11 +72,35 @@
       print $cgi->header,
             $cgi->start_html("$who");
       print <<END;
-<iframe height=50 width=500 name=stdout></iframe><br>
+<script type="text/javascript">
+document.dragstart = function() { return false; }
+function mouseDown(i, e) {
+    url="http://localhost:8080/touch?device=$who&down=?"+(e.clientX-i.offsetLeft)+","+(e.clientY-i.offsetTop);
+    document.lastDown = e;
+    window.frames["stdout"].location=url;
+    return true;
+}
+function mouseUp(i, e) {
+    f=document.lastDown;
+    url="http://localhost:8080/touch?device=$who&down=?"+(f.clientX-i.x)+","+(f.clientY-i.y)+"&swipe=?"+(e.x-i.x)+","+(e.y-i.y);
+    window.frames["stdout"].location=url;
+    return true;
+}
+</script>
+<iframe height=50 width=500 id=stdout name=stdout></iframe><br>
 <table border=2><tr><td>
 END
-      print $cgi->a({href=>"/touch?device=$who&coords=",target=>"stdout"},
-              $cgi->img({id=>"screen", src=>"/screenshot?device=$who", ismap=>undef}));
+      print 
+           # $cgi->a({href=>"/touch?device=$who&coords=",target=>"stdout"},
+              $cgi->img({
+                id=>"screen",
+                draggable=>"false",
+                onmousedown=>"mouseDown(this, event)",
+                onmouseup=>"mouseUp(this, event)",
+                src=>"/screenshot?device=$who",
+              })
+           # )
+            ;
       print "</td></tr></table>";
       print $cgi->end_html;
   }
@@ -88,6 +112,10 @@ END
       my $who = $cgi->param('device');
  
       my $coords = $cgi->param('coords');
+      my $up = $cgi->param('swipe');
+      my $down = $cgi->param('down');
+
+      warn "coords $coords  up $up  down $down ".$cgi->query_string();
 
       print $cgi->header,
             $cgi->start_html("$who");
@@ -95,6 +123,12 @@ END
 # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
       if ($coords =~ /\?(\d+),(\d+)$/) {
           my $cmd = "adb -s $who shell input tap $1 $2";
+          warn $cmd;
+          print `$cmd`;
+          print $cmd;
+      }
+      if ("$down$up" =~ /\?(\d+),(\d+)\?(\d+),(\d+)$/) {
+          my $cmd = "adb -s $who shell input swipe $1 $2 $3 $4";
           warn $cmd;
           print `$cmd`;
           print $cmd;
