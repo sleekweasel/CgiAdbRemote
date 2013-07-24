@@ -75,14 +75,41 @@
 <script type="text/javascript">
 document.dragstart = function() { return false; }
 function mouseDown(i, e) {
-    url="http://localhost:8080/touch?device=$who&down=?"+(e.clientX-i.offsetLeft)+","+(e.clientY-i.offsetTop);
     document.lastDown = e;
+
+    xoff = i.x - window.pageXOffset;
+    yoff = i.y - window.pageYOffset;
+
+    x1 = (e.clientX-xoff);
+    y1 = (e.clientY-yoff);
+
+    url="http://localhost:8080/touch?device=$who" +
+        "&down=?" + x1 + "," + y1;
     window.frames["stdout"].location=url;
     return true;
 }
 function mouseUp(i, e) {
     f=document.lastDown;
-    url="http://localhost:8080/touch?device=$who&down=?"+(f.clientX-i.x)+","+(f.clientY-i.y)+"&swipe=?"+(e.x-i.x)+","+(e.y-i.y);
+
+    xoff = i.x - window.pageXOffset;
+    yoff = i.y - window.pageYOffset;
+
+    x1 = (f.clientX-xoff);
+    y1 = (f.clientY-yoff);
+
+    x2 = (e.x-xoff);
+    y2 = (e.y-yoff);
+
+    url="http://localhost:8080/touch?device=$who" +
+        "&down=?" + x1 + "," + y1 +
+        "&swipe=?" + x2 + "," + y2;
+
+    window.frames["stdout"].location=url;
+    return true;
+}
+function keyPress(i, e) {
+    alert("Key pressed ");
+    url="http://localhost:8080/touch?device=$who&key="+e.char;
     window.frames["stdout"].location=url;
     return true;
 }
@@ -97,6 +124,7 @@ END
                 draggable=>"false",
                 onmousedown=>"mouseDown(this, event)",
                 onmouseup=>"mouseUp(this, event)",
+                onkeypress=>"keyPress(this, event)",
                 src=>"/screenshot?device=$who",
               })
            # )
@@ -114,6 +142,7 @@ END
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
       my $down = $cgi->param('down');
+      my $key = $cgi->param('key');
 
       warn "coords $coords  up $up  down $down ".$cgi->query_string();
 
@@ -123,6 +152,12 @@ END
 # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
       if ($coords =~ /\?(\d+),(\d+)$/) {
           my $cmd = "adb -s $who shell input tap $1 $2";
+          warn $cmd;
+          print `$cmd`;
+          print $cmd;
+      }
+      if ($key) {
+          my $cmd = "adb -s $who shell input text $key";
           warn $cmd;
           print `$cmd`;
           print $cmd;
