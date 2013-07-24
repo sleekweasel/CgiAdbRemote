@@ -128,7 +128,9 @@ END
           print $cmd;
       }
       if ("$down$up" =~ /\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-          my $cmd = "adb -s $who shell input swipe $1 $2 $3 $4";
+          my $cmd = ($1 == $3 and $2 == $4)
+            ? "adb -s $who shell input tap $1 $2"
+            : "adb -s $who shell input swipe $1 $2 $3 $4";
           warn $cmd;
           print `$cmd`;
           print $cmd;
