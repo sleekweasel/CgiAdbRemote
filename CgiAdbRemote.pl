@@ -100,6 +100,16 @@ function mouseUp(i, e) {
     x2 = (e.x-xoff);
     y2 = (e.y-yoff);
 
+    if (document.orientation) {
+        x = x1; y = y1;
+        x1 = i.height-y;
+        y1 = x;
+
+        x = x2; y = y2;
+        x2 = i.height-y;
+        y2 = x;
+    }
+
     url="http://localhost:8080/touch?device=$who" +
         "&down=?" + x1 + "," + y1 +
         "&swipe=?" + x2 + "," + y2;
@@ -108,14 +118,28 @@ function mouseUp(i, e) {
     return true;
 }
 function keyPress(i, e) {
-    alert("Key pressed ");
-    url="http://localhost:8080/touch?device=$who&key="+e.char;
+    url="http://localhost:8080/touch?device=$who&text="+String.fromCharCode(e.charCode);
+    window.frames["stdout"].location=url;
+    return true;
+}
+function keyEvent(i, e) {
+    url="http://localhost:8080/touch?device=$who&key="+e;
     window.frames["stdout"].location=url;
     return true;
 }
 </script>
 <iframe height=50 width=500 id=stdout name=stdout></iframe><br>
-<table border=2><tr><td>
+<input type="button" value="home" onclick="keyEvent(this, 3)">
+<input type="button" value="menu" onclick="keyEvent(this, 82)">
+<input type="button" value="back" onclick="keyEvent(this, 4)">
+<input type="button" value="power" onclick="keyEvent(this, 26)">
+<input type="text" value="Type here" onkeypress="keyPress(this, event)">
+<input type="button" value="refresh" onclick="window.location.reload()">
+<br>
+<table border=2>
+<tr><th colspan=2><input type="checkbox" value="port" selected onclick="document.orientation=0">
+<tr><th><input type="checkbox" value="land" onclick="document.orientation=1">
+<td>
 END
       print 
            # $cgi->a({href=>"/touch?device=$who&coords=",target=>"stdout"},
@@ -142,6 +166,7 @@ END
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
       my $down = $cgi->param('down');
+      my $text = $cgi->param('text');
       my $key = $cgi->param('key');
 
       warn "coords $coords  up $up  down $down ".$cgi->query_string();
@@ -156,8 +181,14 @@ END
           print `$cmd`;
           print $cmd;
       }
+      if ($text) {
+          my $cmd = "adb -s $who shell input text $text";
+          warn $cmd;
+          print `$cmd`;
+          print $cmd;
+      }
       if ($key) {
-          my $cmd = "adb -s $who shell input text $key";
+          my $cmd = "adb -s $who shell input keyevent $key";
           warn $cmd;
           print `$cmd`;
           print $cmd;
