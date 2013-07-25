@@ -14,6 +14,7 @@ $banner ||= "WARNING: TESTS MAY BE RUNNING";
       '/' => \&resp_root,
       '/screenshot' => \&resp_screenshot,
       '/console' => \&resp_console,
+      '/killServer' => \&resp_killServer,
       '/touch' => \&resp_touch,
       #'/touch' => { status => "204 No content", response => \&resp_touch },
       # ...
@@ -66,6 +67,29 @@ $banner ||= "WARNING: TESTS MAY BE RUNNING";
         }
       }
       print $cgi->end_ul();
+      print <<END;
+<script type="text/javascript">
+function killServer() {
+    if (!confirm("Are you really sure you want to kill ADB?")) {
+      alert("User uncertain. Aborted.");
+    }
+    else {
+      if (confirm("Are any tests running? (OK=YES)")) {
+        alert("Tests were running, Aborted.");
+      }
+      else {
+        here = window.location.href.split("/");
+        here.pop();
+        here = here.join("/");
+        url=here+"/killServer";
+        window.frames["stdout"].location=url;
+      }
+    }
+}
+</script>
+<input type='button' value="kill-server" onclick="killServer()">
+<iframe height=50 width=500 align=left id=stdout name=stdout></iframe><br>
+END
       print $cgi->end_html;
   }
 
@@ -259,6 +283,17 @@ END
       $image =~ s/\r\n/\n/g;
       $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       print $cgi->header( -type => 'image/png' ), $image;
+  }
+
+  sub resp_killServer {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $cmd = "adb kill-server";
+      warn "RUNNING $cmd";
+      $image = $cmd.`$cmd`;
+      print $cgi->header,
+            $cgi->start_html("$who"), $image;
   }
 }
 
