@@ -7,10 +7,11 @@ Chrome currently).
 
 Copyright 2013 Tim Baverstock.
 
-Usage: ./CgiAdbRemote
+Usage: ./CgiAdbRemote [-port=8181]
 
 Run on the machine with the phones plugged in by USB, then browse on some other
-machine to http://the.phone.host:8080/ for a list of devices connected via ADB.
+machine to http://the.phone.host:8080/ (or other port) for a list of devices
+connected via ADB.
 
 Each active device provides a link to a display of its screen which supports
 mouse clicks and mouse drags, hard buttons representing POWER, HOME, BACK, and

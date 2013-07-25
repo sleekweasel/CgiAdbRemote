@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -s
 {
   package MyWebServer;
 
@@ -265,7 +265,8 @@ END
   }
 }
 
-# start the server on port 8080
-#my $pid = MyWebServer->new(8080)->background();
-my $pid = MyWebServer->new(8181)->run();
-print "Use 'kill $pid' to stop server.\n";
+$port ||= 8080;
+# start the server on $port
+#my $pid = MyWebServer->new($port)->background();
+my $pid = MyWebServer->new($port)->run();
+print "Use 'kill $pid' to stop server running on port $port.\n";
