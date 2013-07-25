@@ -11,13 +11,16 @@ Copyright 2013 Tim Baverstock.
 Usage: ./CgiAdbRemote
 
 Run on the machine with the phones plugged in by USB, then browse on some other
-machine to http://localhost:8080/ for a list of devices connected via ADB.
+machine to http://the.phone.host:8080/ for a list of devices connected via ADB.
 
 Each active device provides a link to a display of its screen which supports
 mouse clicks and mouse drags, hard buttons representing POWER, HOME, BACK, and
 MENU, a text entry box for sending key events to the device, and the ability to
 rotate the device by 90 degrees. The screen updates automatically about half a
 second after the last operation.
+
+Adb must be available to this script; the user running it must have permissions
+to invoke adb on the phones.
 
 TODO:
 
@@ -34,6 +37,7 @@ TODO:
 0. Perhaps some sort of authorisation system for security and to help inform about who else is using a device at the moment.
 0. A button to invoke adb kill-server.
 0. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
+0. Command-line option for the location of adb.
 
 
 License: share and enjoy, but attribute me please.
