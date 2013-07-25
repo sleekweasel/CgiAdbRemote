@@ -1,32 +1,32 @@
 CgiAdbRemote
 ============
 
-For remotely monitoring and controlling UNROOTED Android devices connected to a
-physically inaccessible machine, through a local web browser (only tested on
-Chrome currently).
+###### For remotely monitoring and controlling *unrooted* Android devices connected to a physically inaccessible machine, through a local web browser (only tested on Chrome currently).
 
 Copyright 2013 Tim Baverstock.
 
-Usage: ./CgiAdbRemote [-port=8181] [-foreground] [-banner="SOME MESSAGE"]
+Usage:
+`./CgiAdbRemote [-port=8181] [-foreground] [-banner="SOME MESSAGE"]`
 
-Run on the machine with the phones plugged in by USB, then browse on some other
+Run on the machine with the device plugged in by USB, then browse on some other
 machine to http://the.phone.host:8080/ (or other port) for a list of devices
 connected via ADB.
 
 Each active device provides a link to a display of its screen which supports
-mouse clicks and mouse drags, hard buttons representing POWER, HOME, BACK, and
-MENU, a text entry box for sending key events to the device, and the ability to
-rotate the display by 90 degrees. The screen updates automatically about half a
-second after the last operation unless some other operation resets the timer.
+mouse clicks and mouse drags, hard buttons representing `POWER`, `HOME`, `BACK`, and
+`MENU`, a text entry box for sending key events to the device, and the ability to
+rotate the display by 90 degrees.
+
+The screen updates automatically every [500ms](https://github.com/sleekweasel/CgiAdbRemote/blob/b105f53aeb69c981521ca9cbb8a2e7ed2d0fa95d/CgiAdbRemote.pl#L204) after the last operation unless some other operation resets the timer.
 (This is to allow typing and sequential drag/click operations to be performed
 rapidly without the screen update getting in the way.)
 
-Adb must be available to this script; the user running it must have permissions
-to invoke adb on the phones.
+[Adb](http://developer.android.com/tools/help/adb.html) must be available to this script; the user running it must have permissions
+to invoke adb on the devices.
 
 ISSUES:
 
-0. Not all devices implement all the 'input' subcommands used, like 'input swipe'.
+[1](https://github.com/sleekweasel/CgiAdbRemote/issues/1). Not all devices implement all the 'input' subcommands used, like 'input swipe'.
 
 TODO:
 
