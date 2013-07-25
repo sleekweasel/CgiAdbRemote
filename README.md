@@ -16,7 +16,7 @@ machine to http://the.phone.host:8080/ for a list of devices connected via ADB.
 Each active device provides a link to a display of its screen which supports
 mouse clicks and mouse drags, hard buttons representing POWER, HOME, BACK, and
 MENU, a text entry box for sending key events to the device, and the ability to
-rotate the device by 90 degrees. The screen updates automatically about half a
+rotate the display by 90 degrees. The screen updates automatically about half a
 second after the last operation.
 
 Adb must be available to this script; the user running it must have permissions
