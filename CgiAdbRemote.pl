@@ -100,16 +100,6 @@ function mouseUp(i, e) {
     x2 = (e.x-xoff);
     y2 = (e.y-yoff);
 
-    if (document.orientation) {
-        x = x1; y = y1;
-        x1 = i.height-y;
-        y1 = x;
-
-        x = x2; y = y2;
-        x2 = i.height-y;
-        y2 = x;
-    }
-
     url="http://localhost:8080/touch?device=$who" +
         "&down=?" + x1 + "," + y1 +
         "&swipe=?" + x2 + "," + y2;
@@ -127,6 +117,14 @@ function keyEvent(i, e) {
     window.frames["stdout"].location=url;
     return true;
 }
+function rotate(i) {
+    i = document.getElementById("screen");
+    w = (i.width/2) + 'px';
+    h = (i.height/2) + 'px';
+    i.style.webkitTransform='translate(-'+w+',-'+h+') ' +
+                            'rotate(90deg) ' +
+                            'translate('+w+',-'+h+')'; 
+}
 </script>
 <iframe height=50 width=500 id=stdout name=stdout></iframe><br>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
@@ -135,16 +133,14 @@ function keyEvent(i, e) {
 <input type="button" value="power" onclick="keyEvent(this, 26)">
 <input type="text" value="Type here" onkeypress="keyPress(this, event)">
 <input type="button" value="refresh" onclick="window.location.reload()">
+<input type="button" value="rotate" onclick="rotate(this)">
 <br>
-<table border=2>
-<tr><th colspan=2><input type="checkbox" value="port" selected onclick="document.orientation=0">
-<tr><th><input type="checkbox" value="land" onclick="document.orientation=1">
-<td>
 END
       print 
            # $cgi->a({href=>"/touch?device=$who&coords=",target=>"stdout"},
               $cgi->img({
                 id=>"screen",
+                style=>"border:5px dotted grey",
                 draggable=>"false",
                 onmousedown=>"mouseDown(this, event)",
                 onmouseup=>"mouseUp(this, event)",
@@ -153,7 +149,6 @@ END
               })
            # )
             ;
-      print "</td></tr></table>";
       print $cgi->end_html;
   }
 
