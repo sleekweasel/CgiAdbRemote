@@ -4,7 +4,8 @@ CgiAdbRemote
 For accessing and controlling Android devices connected to a physically
 inaccessible machine, from a browser (only tested on Chrome currently).
 
-Hacky little Perl HTTP server for controlling Android devices via a web browser.
+Hacky little Perl HTTP server for controlling UNROOTED Android devices via a
+web browser.
 
 Copyright 2013 Tim Baverstock.
 
