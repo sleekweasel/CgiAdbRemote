@@ -1,6 +1,9 @@
 #!/usr/bin/perl -s
 #
 #  Options:
+die "Use -port=01, not -port 1\n" if $port eq '1';
+die "Use -banner=Something, not -banner Something\n" if $banner eq '1';
+
 $port ||= 8080;
 $foreground ||= 0;
 $banner ||= "WARNING: TESTS MAY BE RUNNING";
