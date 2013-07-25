@@ -34,6 +34,7 @@
           print $cgi->header,
                 $cgi->start_html('Not found'),
                 $cgi->h1('Not found'),
+		"The path $path was not found",
                 $cgi->end_html;
       }
   }
@@ -85,7 +86,10 @@ function mouseDown(i, e) {
     x1 = (e.clientX-xoff);
     y1 = (e.clientY-yoff);
 
-    url="http://localhost:8080/touch?device=$who" +
+    here = window.location.href.split("/");
+    here.pop();
+    here = here.join("/");
+    url=here+"/touch?device=$who" +
         "&down=?" + x1 + "," + y1;
     window.frames["stdout"].location=url;
     return true;
@@ -102,7 +106,10 @@ function mouseUp(i, e) {
     x2 = (e.x-xoff);
     y2 = (e.y-yoff);
 
-    url="http://localhost:8080/touch?device=$who" +
+    here = window.location.href.split("/");
+    here.pop();
+    here = here.join("/");
+    url=here+"/touch?device=$who" +
         "&down=?" + x1 + "," + y1 +
         "&swipe=?" + x2 + "," + y2;
 
@@ -122,14 +129,20 @@ function keyPress(i, e) {
       keyEvent(i, 62);
     }
     else {
-      url="http://localhost:8080/touch?device=$who&text="+String.fromCharCode(e.charCode);
+      here = window.location.href.split("/");
+      here.pop();
+      here = here.join("/");
+      url=here+"/touch?device=$who&text="+String.fromCharCode(e.charCode);
       window.frames["stdout"].location=url;
     }
     document.bumped = 3; // Slower autorefresh for typing.
     return true;
 }
 function keyEvent(i, e) {
-    url="http://localhost:8080/touch?device=$who&key="+e;
+    here = window.location.href.split("/");
+    here.pop();
+    here = here.join("/");
+    url=here + "/touch?device=$who&key="+e;
     window.frames["stdout"].location=url;
     document.bumped = 3;
     return true;
@@ -244,14 +257,15 @@ END
       
       my $who = $cgi->param('device');
 
-      my $cmd = "adb -s $who  shell screencap -p | sed 's/\\r\$//'";
+      my $cmd = "adb -s $who  shell screencap -p";
       warn "RUNNING $cmd";
-
-      print $cgi->header( -type => 'image/png' ), `$cmd`;
+      $image = `$cmd`;
+      $image =~ s/\r\n/\n/g;
+      print $cgi->header( -type => 'image/png' ), $image;
   }
 }
 
 # start the server on port 8080
 #my $pid = MyWebServer->new(8080)->background();
-my $pid = MyWebServer->new(8080)->run();
+my $pid = MyWebServer->new(8181)->run();
 print "Use 'kill $pid' to stop server.\n";
