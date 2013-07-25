@@ -17,7 +17,9 @@ Each active device provides a link to a display of its screen which supports
 mouse clicks and mouse drags, hard buttons representing POWER, HOME, BACK, and
 MENU, a text entry box for sending key events to the device, and the ability to
 rotate the display by 90 degrees. The screen updates automatically about half a
-second after the last operation.
+second after the last operation unless some other operation resets the timer.
+(This is to allow typing and sequential drag/click operations to be performed
+rapidly without the screen update getting in the way.)
 
 Adb must be available to this script; the user running it must have permissions
 to invoke adb on the phones.
