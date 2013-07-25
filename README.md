@@ -1,11 +1,9 @@
 CgiAdbRemote
 ============
 
-For accessing and controlling Android devices connected to a physically
-inaccessible machine, from a browser (only tested on Chrome currently).
-
-Hacky little Perl HTTP server for controlling UNROOTED Android devices via a
-web browser.
+For remotely monitoring and controlling UNROOTED Android devices connected to a
+physically inaccessible machine, through a local web browser (only tested on
+Chrome currently).
 
 Copyright 2013 Tim Baverstock.
 
@@ -41,6 +39,7 @@ TODO:
 0. A button to invoke adb kill-server.
 0. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
 0. Command-line option for the location of adb.
+0. Some means to display whether the phone is in standby ('off').
 
 
 License: share and enjoy, but attribute me please.
