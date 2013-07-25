@@ -7,7 +7,7 @@ Chrome currently).
 
 Copyright 2013 Tim Baverstock.
 
-Usage: ./CgiAdbRemote [-port=8181]
+Usage: ./CgiAdbRemote [-port=8181] [-foreground]
 
 Run on the machine with the phones plugged in by USB, then browse on some other
 machine to http://the.phone.host:8080/ (or other port) for a list of devices
@@ -34,8 +34,6 @@ TODO:
 0. Make the server multi-threaded, but only per device: serial access is good for typing!
 0. See whether it's worth persisting the adb connections per device.
 0. Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
-0. Command-line option to invoke with .background() instead of .run(), so the server daemonises itself.
-0. Command-line option to specify port.
 0. Perhaps some sort of authorisation system for security and to help inform about who else is using a device at the moment.
 0. A button to invoke adb kill-server.
 0. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
