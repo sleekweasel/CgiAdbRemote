@@ -3,6 +3,7 @@
 #  Options:
 $port ||= 8080;
 $foreground ||= 0;
+$banner ||= "WARNING: TESTS MAY BE RUNNING";
 {
   package MyWebServer;
 
@@ -175,6 +176,7 @@ function maybeRotate(image) {
 }
 setInterval(interval, 500);
 </script>
+<h1 style="color: red">$::banner</h1>
 <iframe height=500 width=100 align=left id=stdout name=stdout></iframe><br>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
 <input type="button" value="menu" onclick="keyEvent(this, 82)">
@@ -184,21 +186,11 @@ setInterval(interval, 500);
 <input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
 <input type="button" value="refresh 90deg" onclick="window.location='$myself#90deg'; window.location.reload()">
 <br>
-END
-      print 
-           # $cgi->a({href=>"/touch?device=$who&coords=",target=>"stdout"},
-              $cgi->img({
-                id=>"screen",
-                style=>"border:5px dotted grey",
-                draggable=>"false",
-                onmousedown=>"mouseDown(this, event)",
-                onmouseup=>"mouseUp(this, event)",
-                onload=>"maybeRotate(this)",
-                src=>"/screenshot?device=$who",
-              })
-           # )
-            ;
-      print <<END;
+<img id="screen" style="border:5px dotted grey" draggable="false"
+  onmousedown="mouseDown(this, event)"
+  onmouseup="mouseUp(this,event)"
+  onload="maybeRotate(this)"
+  src="/screenshot?device=$who">
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
 </script>
@@ -265,6 +257,7 @@ END
       warn "RUNNING $cmd";
       $image = `$cmd`;
       $image =~ s/\r\n/\n/g;
+      $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       print $cgi->header( -type => 'image/png' ), $image;
   }
 }
