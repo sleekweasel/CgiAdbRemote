@@ -29,6 +29,7 @@ TODO:
 5. Make the server multi-threaded, but only per device: serial access is good for typing!
 6. See whether it's worth persisting the adb connections per device.
 7. Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
+8. Replace .run() with .background(), so the server daemonises itself.
 
 License: share and enjoy, but attribute me please.
 
