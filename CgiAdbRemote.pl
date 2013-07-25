@@ -69,6 +69,8 @@
       
       my $who = $cgi->param('device');
 
+      my $myself = $cgi->self_url;
+
       print $cgi->header,
             $cgi->start_html("$who");
       print <<END;
@@ -105,16 +107,19 @@ function mouseUp(i, e) {
         "&swipe=?" + x2 + "," + y2;
 
     window.frames["stdout"].location=url;
+    document.bumped = 3;
     return true;
 }
 function keyPress(i, e) {
     url="http://localhost:8080/touch?device=$who&text="+String.fromCharCode(e.charCode);
     window.frames["stdout"].location=url;
+    document.bumped = 3;
     return true;
 }
 function keyEvent(i, e) {
     url="http://localhost:8080/touch?device=$who&key="+e;
     window.frames["stdout"].location=url;
+    document.bumped = 3;
     return true;
 }
 function rotate(i) {
@@ -125,6 +130,20 @@ function rotate(i) {
                             'rotate(90deg) ' +
                             'translate('+w+',-'+h+')'; 
 }
+function interval() {
+  if (document.bumped > 0) {
+    document.bumped = document.bumped - 1;
+    if (document.bumped == 0) {
+      window.location.reload();
+    }
+  }
+}
+function maybeRotate(image) {
+  if (window.location.hash == "#90deg") {
+    rotate(image);   
+  }
+}
+setInterval(interval, 500);
 </script>
 <iframe height=50 width=500 id=stdout name=stdout></iframe><br>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
@@ -132,8 +151,8 @@ function rotate(i) {
 <input type="button" value="back" onclick="keyEvent(this, 4)">
 <input type="button" value="power" onclick="keyEvent(this, 26)">
 <input type="text" value="Type here" onkeypress="keyPress(this, event)">
-<input type="button" value="refresh" onclick="window.location.reload()">
-<input type="button" value="rotate" onclick="rotate(this)">
+<input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
+<input type="button" value="refresh 90deg" onclick="window.location='$myself#90deg'; window.location.reload()">
 <br>
 END
       print 
@@ -145,6 +164,7 @@ END
                 onmousedown=>"mouseDown(this, event)",
                 onmouseup=>"mouseUp(this, event)",
                 onkeypress=>"keyPress(this, event)",
+                onload=>"maybeRotate(this)",
                 src=>"/screenshot?device=$who",
               })
            # )
