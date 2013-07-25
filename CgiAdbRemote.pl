@@ -111,9 +111,21 @@ function mouseUp(i, e) {
     return true;
 }
 function keyPress(i, e) {
-    url="http://localhost:8080/touch?device=$who&text="+String.fromCharCode(e.charCode);
-    window.frames["stdout"].location=url;
-    document.bumped = 3;
+// Try to handle keypress and keydown together: assume charCode=0 if press.
+    if (e.keyCode == 8) {
+      keyEvent(i, 67);
+    }
+    else if (e.charCode == 0) {
+      return;
+    }
+    else if (e.charCode == 32) {
+      keyEvent(i, 62);
+    }
+    else {
+      url="http://localhost:8080/touch?device=$who&text="+String.fromCharCode(e.charCode);
+      window.frames["stdout"].location=url;
+    }
+    document.bumped = 3; // Slower autorefresh for typing.
     return true;
 }
 function keyEvent(i, e) {
@@ -134,7 +146,8 @@ function interval() {
   if (document.bumped > 0) {
     document.bumped = document.bumped - 1;
     if (document.bumped == 0) {
-      window.location.reload();
+      screen = document.getElementById("screen");
+      screen.src = screen.src.split("#")[0] + "#" + new Date();
     }
   }
 }
@@ -145,12 +158,12 @@ function maybeRotate(image) {
 }
 setInterval(interval, 500);
 </script>
-<iframe height=50 width=500 id=stdout name=stdout></iframe><br>
+<iframe height=500 width=100 align=left id=stdout name=stdout></iframe><br>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
 <input type="button" value="menu" onclick="keyEvent(this, 82)">
 <input type="button" value="back" onclick="keyEvent(this, 4)">
 <input type="button" value="power" onclick="keyEvent(this, 26)">
-<input type="text" value="Type here" onkeypress="keyPress(this, event)">
+<input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
 <input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
 <input type="button" value="refresh 90deg" onclick="window.location='$myself#90deg'; window.location.reload()">
 <br>
@@ -163,12 +176,16 @@ END
                 draggable=>"false",
                 onmousedown=>"mouseDown(this, event)",
                 onmouseup=>"mouseUp(this, event)",
-                onkeypress=>"keyPress(this, event)",
                 onload=>"maybeRotate(this)",
                 src=>"/screenshot?device=$who",
               })
            # )
             ;
+      print <<END;
+<script type="text/javascript">
+  document.getElementById("textEntry").focus();
+</script>
+END
       print $cgi->end_html;
   }
 
@@ -195,6 +212,9 @@ END
           warn $cmd;
           print `$cmd`;
           print $cmd;
+      }
+      if ($text eq ' ') {
+        $text = undef; $key = 62;
       }
       if ($text) {
           my $cmd = "adb -s $who shell input text $text";
