@@ -1,39 +1,40 @@
 CgiAdbRemote
 ============
 
-For remotely monitoring and controlling UNROOTED Android devices connected to a
-physically inaccessible machine, through a local web browser (only tested on
-Chrome currently).
+###### For remotely monitoring and controlling *unrooted* Android devices connected to a physically inaccessible machine, through a local web browser (only tested on Chrome currently).
 
 Copyright 2013 Tim Baverstock.
 
-Usage: ./CgiAdbRemote [-port=8181] [-foreground] [-banner="SOME MESSAGE"]
+Usage:
+`./CgiAdbRemote [-port=8181] [-foreground] [-banner="SOME MESSAGE"]`
 
-  -port=      : port upon which the server should run.
-  -banner=    : Message to display in big red at the top of the screen.
-  -foreground : do not run in the background; mainly for development.
+  -port=      : port upon which the server should run.  
+  -banner=    : Message to display in big red at the top of the screen.  
+  -foreground : do not run in the background; mainly for development.  
 
-Run this on the machine with the phones attached, then browse on some other
+Run this on the machine with the devices attached, then browse on some other
 machine to http://the.phone.host:8080/ (or other nominated port) for a list of
-devices visible via ADB.
+devices visible to ADB.
 
-Each active device displays as a link to a console, which displays a screen
-shot that supports mouse clicks and mouse drags, together with hard buttons
-representing POWER, HOME, BACK, and MENU, a text entry box for sending key
-events to the device, and the ability to rotate the screen by 90 degrees. The
-screen updates automatically every seven seconds, or one second after the last
-operation unless a new operation resets the timer. (This is to allow typing and
-sequential drag/click operations to be performed rapidly without the screen
-update getting in the way.)
+Each active device provides a link to a console which displays a screen shot
+that supports mouse clicks and mouse drags, together with hard buttons
+representing `POWER`, `HOME`, `BACK`, and `MENU`, a text entry box for sending
+key events to the device, and the ability to rotate the display by 90 degrees.
 
-Adb must be available to this script; the user running it must have permissions
-to invoke adb on the phones.
+The screen updates automatically every seven seconds, or one second after the
+last operation unless a new operation resets the timer. (This is to allow
+typing and sequential drag/click operations to be performed rapidly without the
+screen update getting in the way.)
+
+[Adb](http://developer.android.com/tools/help/adb.html) must be available to
+this script (i.e. typing 'adb' on the command-line must work); the user running
+it must have permissions to invoke adb on the devices.
 
 This script requires Perl and the module HTTP::Server::Simple::CGI
 
 ISSUES:
 
-0. Not all devices implement all the 'input' subcommands used, like 'input swipe'.
+[1](https://github.com/sleekweasel/CgiAdbRemote/issues/1). Not all devices implement all the 'input' subcommands used, like 'input swipe'.
 
 TODO:
 
