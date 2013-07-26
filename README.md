@@ -5,12 +5,15 @@ CgiAdbRemote
 
 Copyright 2013 Tim Baverstock.
 
-Usage:
-`./CgiAdbRemote [-port=8181] [-foreground] [-banner="SOME MESSAGE"]`
+Example Usage:  
+>./CgiAdbRemote -port=8181
 
-  -port=      : port upon which the server should run.  
-  -banner=    : Message to display in big red at the top of the screen.  
-  -foreground : do not run in the background; mainly for development.  
+Full options:  
+>  -port=       : port upon which the server should run.  
+  -banner=     : Message to display in big red at the top of the screen.  
+  -foreground  : do not run in the background; mainly for development.  
+  -autodelay=  : Half seconds of idle before reloading the screen.  
+  -touchdelay= : Half seconds after a touch before reloading the screen.  
 
 Run this on the machine with the devices attached, then browse on some other
 machine to http://the.phone.host:8080/ (or other nominated port) for a list of
@@ -31,6 +34,9 @@ this script (i.e. typing 'adb' on the command-line must work); the user running
 it must have permissions to invoke adb on the devices.
 
 This script requires Perl and the module HTTP::Server::Simple::CGI
+
+Due to the implementation of the Perl -s option, to specify a numeric value of
+'1' on the command-line, write it as '01'.
 
 ISSUES:
 

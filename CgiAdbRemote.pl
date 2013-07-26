@@ -3,10 +3,14 @@
 #  Options:
 die "Use -port=01, not -port 1\n" if $port eq '1';
 die "Use -banner=Something, not -banner Something\n" if $banner eq '1';
+die "use -autodelay=01, not -autodelay 1\n" if $autodelay eq '1';
+die "use -touchdelay=01, not -touchdelay 1\n" if $touchdelay eq '1';
 
 $port ||= 8080;
 $foreground ||= 0;
 $banner ||= "WARNING: TESTS MAY BE RUNNING";
+$autodelay ||= 14;
+$touchdelay ||= 3;
 {
   package MyWebServer;
 
@@ -57,9 +61,9 @@ $banner ||= "WARNING: TESTS MAY BE RUNNING";
       @devices = `$cmd`;
       
       print $cgi->header,
-            $cgi->start_html("Devices");
+            $cgi->start_html("Devices"),localtime();
       my $myself = $cgi->self_url;
-      print $cgi->h1($cmd . localtime());
+      print $cgi->h1("$cmd ");
       print $cgi->start_ul();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
@@ -94,6 +98,8 @@ function killServer() {
 </script>
 <input type='button' value="kill-server" onclick="killServer()">
 <iframe height=50 width=500 id=stdout name=stdout></iframe><br>
+<hr>
+<a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
 END
       print $cgi->end_html;
   }
@@ -156,7 +162,7 @@ function mouseUp(i, e) {
         "&down=?" + x1 + "," + y1 +
         "&swipe=?" + x2 + "," + y2);
 
-    document.refreshScreenAfter = 3;
+    document.refreshScreenAfter = $::touchdelay;
     return true;
 }
 function keyPress(i, e) {
@@ -174,12 +180,12 @@ function keyPress(i, e) {
       window.frames["stdout"].location=url(
         "touch?device=$who&text="+String.fromCharCode(e.charCode));
     }
-    document.refreshScreenAfter = 3;
+    document.refreshScreenAfter = $::touchdelay;
     return true;
 }
 function keyEvent(i, e) {
     window.frames["stdout"].location=url("touch?device=$who&key="+e);
-    document.refreshScreenAfter = 3;
+    document.refreshScreenAfter = $::touchdelay;
     return true;
 }
 function rotate(i) {
@@ -202,7 +208,7 @@ function everyHalfSecond() {
 }
 function onLoadScreen(image) {
   maybeRotate(image);
-  document.refreshScreenAfter = 14;
+  document.refreshScreenAfter = $::autodelay;
 }
 
 function maybeRotate(image) {
@@ -231,6 +237,8 @@ setInterval(everyHalfSecond, 500);
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
 </script>
+<hr>
+<a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
 END
       print $cgi->end_html;
   }
