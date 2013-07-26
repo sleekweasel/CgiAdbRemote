@@ -31,6 +31,7 @@ ISSUES:
 TODO:
 
 High
+
 0. E. Update the screen unconditionally every few seconds.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Rotate by 180deg and 270deg.
@@ -39,6 +40,7 @@ High
 0. M. Some sort of username thing to see who was playing with a device and how recently.
 
 Medium
+
 0. E. A button to invoke adb kill-server.
 0. E. Command-line option for the location of adb.
 0. M. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
@@ -48,6 +50,7 @@ Medium
 0. H. Some means to display whether the phone is in standby ('off').
 
 Low
+
 0. H. Make the server multi-threaded, but only per device: serial access is good for typing!
 0. H. See whether it's worth persisting the adb connections per device.
 
