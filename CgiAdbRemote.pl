@@ -191,6 +191,7 @@ function rotate(i) {
                             'translate('+w+',-'+h+')'; 
 }
 function everyHalfSecond() {
+  document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s";
   if (document.refreshScreenAfter > 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter == 0) {
@@ -220,6 +221,7 @@ setInterval(everyHalfSecond, 500);
 <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
 <input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
 <input type="button" value="refresh 90deg" onclick="window.location='$myself#90deg'; window.location.reload()">
+<span id="refreshAfter"></span>
 <br>
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"
