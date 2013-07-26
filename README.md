@@ -9,20 +9,27 @@ Copyright 2013 Tim Baverstock.
 
 Usage: ./CgiAdbRemote [-port=8181] [-foreground] [-banner="SOME MESSAGE"]
 
-Run on the machine with the phones plugged in by USB, then browse on some other
-machine to http://the.phone.host:8080/ (or other port) for a list of devices
-connected via ADB.
+  -port=      : port upon which the server should run.
+  -banner=    : Message to display in big red at the top of the screen.
+  -foreground : do not run in the background; mainly for development.
 
-Each active device provides a link to a display of its screen which supports
-mouse clicks and mouse drags, hard buttons representing POWER, HOME, BACK, and
-MENU, a text entry box for sending key events to the device, and the ability to
-rotate the display by 90 degrees. The screen updates automatically about half a
-second after the last operation unless some other operation resets the timer.
-(This is to allow typing and sequential drag/click operations to be performed
-rapidly without the screen update getting in the way.)
+Run this on the machine with the phones attached, then browse on some other
+machine to http://the.phone.host:8080/ (or other nominated port) for a list of
+devices visible via ADB.
+
+Each active device displays as a link to a console, which displays a screen
+shot that supports mouse clicks and mouse drags, together with hard buttons
+representing POWER, HOME, BACK, and MENU, a text entry box for sending key
+events to the device, and the ability to rotate the screen by 90 degrees. The
+screen updates automatically every seven seconds, or one second after the last
+operation unless a new operation resets the timer. (This is to allow typing and
+sequential drag/click operations to be performed rapidly without the screen
+update getting in the way.)
 
 Adb must be available to this script; the user running it must have permissions
 to invoke adb on the phones.
+
+This script requires Perl and the module HTTP::Server::Simple::CGI
 
 ISSUES:
 
@@ -32,7 +39,6 @@ TODO:
 
 High
 
-0. E. Update the screen unconditionally every few seconds.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Rotate by 180deg and 270deg.
 0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
@@ -41,7 +47,6 @@ High
 
 Medium
 
-0. E. A button to invoke adb kill-server.
 0. E. Command-line option for the location of adb.
 0. M. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
 0. M. Some sort of 'adb shell' console, to interrogate devices (similar to, but distinct from, the touch event log iframe).

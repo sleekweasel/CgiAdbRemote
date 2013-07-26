@@ -72,6 +72,12 @@ $banner ||= "WARNING: TESTS MAY BE RUNNING";
       print $cgi->end_ul();
       print <<END;
 <script type="text/javascript">
+function url(rest) {
+    here = window.location.href.split("/");
+    here.pop();
+    here.push(rest);
+    return here.join("/");
+}
 function killServer() {
     if (!confirm("Are you really sure you want to kill ADB?")) {
       alert("User uncertain. Aborted.");
@@ -81,19 +87,23 @@ function killServer() {
         alert("Tests were running, Aborted.");
       }
       else {
-        here = window.location.href.split("/");
-        here.pop();
-        here = here.join("/");
-        url=here+"/killServer";
-        window.frames["stdout"].location=url;
+        window.frames["stdout"].location=url("killServer");
       }
     }
 }
 </script>
 <input type='button' value="kill-server" onclick="killServer()">
-<iframe height=50 width=500 align=left id=stdout name=stdout></iframe><br>
+<iframe height=50 width=500 id=stdout name=stdout></iframe><br>
 END
       print $cgi->end_html;
+  }
+
+  sub runCmd {
+    my $cmd = shift;
+    my $log = localtime() . ": $cmd\n";
+    warn $log;
+    print $log;
+    print `$cmd`;
   }
 
   sub resp_console {
@@ -109,6 +119,12 @@ END
       print <<END;
 <script type="text/javascript">
 document.dragstart = function() { return false; }
+function url(rest) {
+    here = window.location.href.split("/");
+    here.pop();
+    here.push(rest);
+    return here.join("/");
+}
 function mouseDown(i, e) {
     document.lastDown = e;
 
@@ -118,12 +134,9 @@ function mouseDown(i, e) {
     x1 = (e.clientX-xoff);
     y1 = (e.clientY-yoff);
 
-    here = window.location.href.split("/");
-    here.pop();
-    here = here.join("/");
-    url=here+"/touch?device=$who" +
-        "&down=?" + x1 + "," + y1;
-    window.frames["stdout"].location=url;
+    window.frames["stdout"].location=url(
+        "touch?device=$who" +
+        "&down=?" + x1 + "," + y1);
     return true;
 }
 function mouseUp(i, e) {
@@ -138,15 +151,12 @@ function mouseUp(i, e) {
     x2 = (e.x-xoff);
     y2 = (e.y-yoff);
 
-    here = window.location.href.split("/");
-    here.pop();
-    here = here.join("/");
-    url=here+"/touch?device=$who" +
+    window.frames["stdout"].location=url(
+        "touch?device=$who" +
         "&down=?" + x1 + "," + y1 +
-        "&swipe=?" + x2 + "," + y2;
+        "&swipe=?" + x2 + "," + y2);
 
-    window.frames["stdout"].location=url;
-    document.bumped = 3;
+    document.refreshScreenAfter = 3;
     return true;
 }
 function keyPress(i, e) {
@@ -161,22 +171,15 @@ function keyPress(i, e) {
       keyEvent(i, 62);
     }
     else {
-      here = window.location.href.split("/");
-      here.pop();
-      here = here.join("/");
-      url=here+"/touch?device=$who&text="+String.fromCharCode(e.charCode);
-      window.frames["stdout"].location=url;
+      window.frames["stdout"].location=url(
+        "touch?device=$who&text="+String.fromCharCode(e.charCode));
     }
-    document.bumped = 3; // Slower autorefresh for typing.
+    document.refreshScreenAfter = 3;
     return true;
 }
 function keyEvent(i, e) {
-    here = window.location.href.split("/");
-    here.pop();
-    here = here.join("/");
-    url=here + "/touch?device=$who&key="+e;
-    window.frames["stdout"].location=url;
-    document.bumped = 3;
+    window.frames["stdout"].location=url("touch?device=$who&key="+e);
+    document.refreshScreenAfter = 3;
     return true;
 }
 function rotate(i) {
@@ -187,24 +190,29 @@ function rotate(i) {
                             'rotate(90deg) ' +
                             'translate('+w+',-'+h+')'; 
 }
-function interval() {
-  if (document.bumped > 0) {
-    document.bumped = document.bumped - 1;
-    if (document.bumped == 0) {
+function everyHalfSecond() {
+  if (document.refreshScreenAfter > 0) {
+    document.refreshScreenAfter = document.refreshScreenAfter - 1;
+    if (document.refreshScreenAfter == 0) {
       screen = document.getElementById("screen");
       screen.src = screen.src.split("#")[0] + "#" + new Date();
     }
   }
 }
+function onLoadScreen(image) {
+  maybeRotate(image);
+  document.refreshScreenAfter = 14;
+}
+
 function maybeRotate(image) {
   if (window.location.hash == "#90deg") {
     rotate(image);   
   }
 }
-setInterval(interval, 500);
+setInterval(everyHalfSecond, 500);
 </script>
 <h1 style="color: red">$::banner</h1>
-<iframe height=500 width=100 align=left id=stdout name=stdout></iframe><br>
+<iframe height=100 width=500 id=stdout name=stdout></iframe><br>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
 <input type="button" value="menu" onclick="keyEvent(this, 82)">
 <input type="button" value="back" onclick="keyEvent(this, 4)">
@@ -216,7 +224,7 @@ setInterval(interval, 500);
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"
   onmouseup="mouseUp(this,event)"
-  onload="maybeRotate(this)"
+  onload="onLoadScreen(this)"
   src="/screenshot?device=$who">
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
@@ -237,40 +245,31 @@ END
       my $text = $cgi->param('text');
       my $key = $cgi->param('key');
 
-      warn "coords $coords  up $up  down $down ".$cgi->query_string();
-
       print $cgi->header,
             $cgi->start_html("$who");
 
 # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
       if ($coords =~ /\?(\d+),(\d+)$/) {
-          my $cmd = "adb -s $who shell input tap $1 $2";
-          warn $cmd;
-          print `$cmd`;
-          print $cmd;
+          runCmd "adb -s $who shell input tap $1 $2";
+          return;
       }
       if ($text eq ' ') {
         $text = undef; $key = 62;
       }
       if ($text) {
-          my $cmd = "adb -s $who shell input text $text";
-          warn $cmd;
-          print `$cmd`;
-          print $cmd;
+          runCmd "adb -s $who shell input text $text";
+          return;
       }
       if ($key) {
-          my $cmd = "adb -s $who shell input keyevent $key";
-          warn $cmd;
-          print `$cmd`;
-          print $cmd;
+          runCmd "adb -s $who shell input keyevent $key";
+          return;
       }
       if ("$down$up" =~ /\?(\d+),(\d+)\?(\d+),(\d+)$/) {
           my $cmd = ($1 == $3 and $2 == $4)
             ? "adb -s $who shell input tap $1 $2"
             : "adb -s $who shell input swipe $1 $2 $3 $4";
-          warn $cmd;
-          print `$cmd`;
-          print $cmd;
+          runCmd $cmd;
+          return;
       }
   }
 
@@ -281,8 +280,8 @@ END
       my $who = $cgi->param('device');
 
       my $cmd = "adb -s $who  shell screencap -p";
-      warn "RUNNING $cmd";
-      $image = `$cmd`;
+      warn localtime().": $cmd\n";
+      my $image = `$cmd`;
       $image =~ s/\r\n/\n/g;
       $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       print $cgi->header( -type => 'image/png' ), $image;
@@ -292,11 +291,9 @@ END
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
       
-      my $cmd = "adb kill-server";
-      warn "RUNNING $cmd";
-      $image = $cmd.`$cmd`;
       print $cgi->header,
-            $cgi->start_html("$who"), $image;
+            $cgi->start_html("$who");
+      runCmd "adb kill-server";
   }
 }
 
