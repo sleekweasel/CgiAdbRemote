@@ -6,7 +6,7 @@ CgiAdbRemote
 Copyright 2013 Tim Baverstock.
 
 Example Usage:  
->./CgiAdbRemote -port=8181
+>./CgiAdbRemote.pl -port=8181
 
 Full options:  
 >  -port=       : port upon which the server should run.  
