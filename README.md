@@ -11,7 +11,7 @@ Example Usage:
 Full options:  
 >  -port=       : port upon which the server should run.  
   -banner=     : Message to display in big red at the top of the screen.  
-  -adb=        : location of the adb command, if not available on the path.
+  -adb=        : location of the adb command, if not available on the path.  
   -foreground  : do not run in the background; mainly for development.  
   -autodelay=  : Seconds of idle before reloading the screen.  
   -touchdelay= : Seconds after a touch before reloading the screen.  
