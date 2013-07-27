@@ -3,17 +3,19 @@
 #  Options:
 die "Use -port=01, not -port 1\n" if $port eq '1';
 die "Use -banner=Something, not -banner Something\n" if $banner eq '1';
+die "Use -adb=Something, not -adb adb\n" if $adb eq '1';
 die "use -autodelay=01, not -autodelay 1\n" if $autodelay eq '1';
 die "use -touchdelay=01, not -touchdelay 1\n" if $touchdelay eq '1';
 
 $port ||= 8080;
 $foreground ||= 0;
+$adb ||= 'adb';
 $banner ||= "WARNING: TESTS MAY BE RUNNING";
 $autodelay ||= 7;
 $touchdelay ||= 1.5;
 
-$autodelay *= 2; // Interval is 500ms
-$touchdelay *= 2; // Interval is 500ms
+$autodelay *= 2; # Interval is 500ms
+$touchdelay *= 2; # Interval is 500ms
 {
   package MyWebServer;
 
@@ -29,6 +31,12 @@ $touchdelay *= 2; // Interval is 500ms
       #'/touch' => { status => "204 No content", response => \&resp_touch },
       # ...
   );
+
+  sub errorRunning {
+    my $cmd = shift;
+    return "Error running '$cmd'; is adb available? "
+        .(($::adb eq 'adb')?"which adb='".qx/which adb/."'":"adb=$::adb");
+  }
 
   sub handle_request {
       my $self = shift;
@@ -50,9 +58,16 @@ $touchdelay *= 2; // Interval is 500ms
           print $cgi->header,
                 $cgi->start_html('Not found'),
                 $cgi->h1('Not found'),
-		"The path $path was not found",
+                "The path $path was not found",
                 $cgi->end_html;
       }
+  }
+
+  sub execute {
+    # Allow access to ?$ return code:
+    local $SIG{'CHLD'} = 'DEFAULT';
+    my $cmd = shift;
+    return qx/$cmd/;
   }
 
   sub resp_root {
@@ -60,11 +75,14 @@ $touchdelay *= 2; // Interval is 500ms
       return if !ref $cgi;
       
       my $who = $cgi->param('name');
-      $cmd="adb devices";
-      @devices = `$cmd`;
+      $cmd="$::adb devices";
+      @devices = execute $cmd;
+      if ($? != 0) {
+        push @devices, errorRunning($cmd);
+      }
       
       print $cgi->header,
-            $cgi->start_html("Devices"),localtime();
+            $cgi->start_html("Devices");
       my $myself = $cgi->self_url;
       print $cgi->h1("$cmd ");
       print $cgi->start_ul();
@@ -104,15 +122,24 @@ function killServer() {
 <hr>
 <a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
 END
+      print " " . localtime();
       print $cgi->end_html;
   }
 
   sub runCmd {
     my $cmd = shift;
-    my $log = localtime() . ": $cmd\n";
+    my $log = localtime() . ": $$: $cmd\n";
     warn $log;
     print $log;
-    print `$cmd`;
+    print execute $cmd;
+    if ($? != 0) {
+        print errorRunning($cmd);
+    }
+  }
+
+  sub runAdb {
+    my $cmd = shift;
+    runCmd "$::adb $cmd";
   }
 
   sub resp_console {
@@ -227,11 +254,17 @@ function onLoadScreen(image) {
   maybeRotate(image);
   document.refreshScreenAfter = $::autodelay;
 }
+function logResponse(doc) {
+    logger = doc.getElementById("logger");
+    stdout = doc.getElementById("stdout");
+    logger.innerHTML = logger.innerHTML + "oho yes" + stdout.innerHTML;
+}
 
 setInterval(everyHalfSecond, 500);
 </script>
 <h1 style="color: red">$::banner</h1>
-<iframe height=100 width=500 id=stdout name=stdout></iframe><br>
+<iframe height=60 width=500 id=stdout name=stdout></iframe><br>
+<iframe height=100 width=500 id=logger name=logger>stuff</iframe><br>
 <table><td>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
 <input type="button" value="menu" onclick="keyEvent(this, 82)">
@@ -251,6 +284,9 @@ setInterval(everyHalfSecond, 500);
 </table>
 </tr><td>
 <span id="refreshAfter"></span>
+<br>
+If the device's clock shows the wrong time and it's unresponsive, the screen is
+probably powered off.
 </table>
 
 <br>
@@ -285,25 +321,25 @@ END
 
 # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
       if ($coords =~ /\?(\d+),(\d+)$/) {
-          runCmd "adb -s $who shell input tap $1 $2";
+          runAdb "-s $who shell input tap $1 $2";
           return;
       }
       if ($text eq ' ') {
         $text = undef; $key = 62;
       }
       if ($text) {
-          runCmd "adb -s $who shell input text $text";
+          runAdb "-s $who shell input text $text";
           return;
       }
       if ($key) {
-          runCmd "adb -s $who shell input keyevent $key";
+          runAdb "-s $who shell input keyevent $key";
           return;
       }
       if ("$down$up" =~ /\?(\d+),(\d+)\?(\d+),(\d+)$/) {
           my $cmd = ($1 == $3 and $2 == $4)
-            ? "adb -s $who shell input tap $1 $2"
-            : "adb -s $who shell input swipe $1 $2 $3 $4";
-          runCmd $cmd;
+            ? "-s $who shell input tap $1 $2"
+            : "-s $who shell input swipe $1 $2 $3 $4";
+          runAdb $cmd;
           return;
       }
   }
@@ -314,9 +350,12 @@ END
       
       my $who = $cgi->param('device');
 
-      my $cmd = "adb -s $who  shell screencap -p";
-      warn localtime().": $cmd\n";
-      my $image = `$cmd`;
+      my $cmd = "$::adb -s $who  shell screencap -p";
+      warn localtime().": $$: $cmd\n";
+      my $image = execute $cmd;
+      if ($? != 0) {
+        print $cgi->headers, errorRunning($cmd);
+      }
       $image =~ s/\r\n/\n/g;
       $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       print $cgi->header( -type => 'image/png' ), $image;
@@ -328,7 +367,7 @@ END
       
       print $cgi->header,
             $cgi->start_html("$who");
-      runCmd "adb kill-server";
+      runAdb "kill-server";
   }
 }
 
