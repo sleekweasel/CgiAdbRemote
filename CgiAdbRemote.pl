@@ -274,6 +274,7 @@ function logResponse(doc) {
 
 setInterval(everyHalfSecond, 500);
 </script>
+<a href='/'>Adb devices</a>
 <h1 style="color: red">$::banner</h1>
 <iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
 <iframe height=100 width='100%' id=logger name=logger></iframe><br>
