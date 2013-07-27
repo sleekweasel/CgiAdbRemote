@@ -11,6 +11,7 @@ Example Usage:
 Full options:  
 >  -port=       : port upon which the server should run.  
   -banner=     : Message to display in big red at the top of the screen.  
+  -adb=        : location of the adb command, if not available on the path.
   -foreground  : do not run in the background; mainly for development.  
   -autodelay=  : Seconds of idle before reloading the screen.  
   -touchdelay= : Seconds after a touch before reloading the screen.  
@@ -30,13 +31,14 @@ typing and sequential drag/click operations to be performed rapidly without the
 screen update getting in the way.)
 
 [Adb](http://developer.android.com/tools/help/adb.html) must be available to
-this script (i.e. typing 'adb' on the command-line must work); the user running
-it must have permissions to invoke adb on the devices.
+this script (ideally, typing 'adb' on the command-line will work, but you can
+specify a command-line option); the user running it must have permissions to
+invoke adb on the devices.
 
 This script requires Perl and the module HTTP::Server::Simple::CGI
 
 Due to the implementation of the Perl -s option, to specify a numeric value of
-'1' on the command-line, write it as '01'.
+'1' to a command-line option, write it as '01'.
 
 ISSUES:
 
@@ -53,12 +55,10 @@ High
 
 Medium
 
-0. E. Command-line option for the location of adb.
 0. M. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
-0. M. Some sort of 'adb shell' console, to interrogate devices (similar to, but distinct from, the touch event log iframe).
-0. M. Some per-device config, to remember whether they implement things like 'input swipe' or whether (and how) they need emulating.
+0. M. Some per-device config, to remember whether they implement things like 'input swipe' or how those need emulating.
 0. H. Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
-0. H. Some means to display whether the phone is in standby ('off').
+0. H. Some means to display whether the phone is in standby ('off') = adb shell dumpsys power ... mPowerState=0/1
 
 Low
 
