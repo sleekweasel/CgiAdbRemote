@@ -9,8 +9,11 @@ die "use -touchdelay=01, not -touchdelay 1\n" if $touchdelay eq '1';
 $port ||= 8080;
 $foreground ||= 0;
 $banner ||= "WARNING: TESTS MAY BE RUNNING";
-$autodelay ||= 14;
-$touchdelay ||= 3;
+$autodelay ||= 7;
+$touchdelay ||= 1.5;
+
+$autodelay *= 2; // Interval is 500ms
+$touchdelay *= 2; // Interval is 500ms
 {
   package MyWebServer;
 
@@ -188,19 +191,33 @@ function keyEvent(i, e) {
     document.refreshScreenAfter = $::touchdelay;
     return true;
 }
-function rotate(i) {
-    i = document.getElementById("screen");
-    w = (i.width/2) + 'px';
-    h = (i.height/2) + 'px';
-    i.style.webkitTransform='translate(-'+w+',-'+h+') ' +
-                            'rotate(90deg) ' +
-                            'translate('+w+',-'+h+')'; 
+function maybeRotate(image) {
+    image = document.getElementById("screen");
+    w = (image.width/2) + 'px';
+    h = (image.height/2) + 'px';
+    w2 = (image.width) + 'px';
+    h2 = (image.height) + 'px';
+    switch (window.location.hash) {
+    case "#90deg":
+        image.style.webkitTransform='translate(-'+w+',-'+h+') ' +
+                                'rotate(90deg) ' +
+                                'translate('+w+',-'+h+')'; 
+        break;
+    case "#180deg":
+        image.style.webkitTransform= 'rotate(180deg)'; 
+        break;
+    case "#270deg":
+        image.style.webkitTransform='translate(-'+w+',-'+h+') ' +
+                                'rotate(270deg) ' +
+                                'translate(-'+w+','+h+')'; 
+        break;
+    }
 }
 function everyHalfSecond() {
   document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s";
   if (document.refreshScreenAfter > 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
-    if (document.refreshScreenAfter == 0) {
+    if (document.refreshScreenAfter <= 0) {
       screen = document.getElementById("screen");
       screen.src = screen.src.split("#")[0] + "#" + new Date();
     }
@@ -211,23 +228,31 @@ function onLoadScreen(image) {
   document.refreshScreenAfter = $::autodelay;
 }
 
-function maybeRotate(image) {
-  if (window.location.hash == "#90deg") {
-    rotate(image);   
-  }
-}
 setInterval(everyHalfSecond, 500);
 </script>
 <h1 style="color: red">$::banner</h1>
 <iframe height=100 width=500 id=stdout name=stdout></iframe><br>
+<table><td>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
 <input type="button" value="menu" onclick="keyEvent(this, 82)">
 <input type="button" value="back" onclick="keyEvent(this, 4)">
 <input type="button" value="power" onclick="keyEvent(this, 26)">
 <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
+<td rowspan=2>
+<table style="display: inline;"><th colspan=2>
 <input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
+</th></tr><tr><th>
+<input type="button" value="refresh 270deg" onclick="window.location='$myself#270deg'; window.location.reload()">
+</th><th>
 <input type="button" value="refresh 90deg" onclick="window.location='$myself#90deg'; window.location.reload()">
+</th></tr><tr><th colspan=2>
+</td>
+<input type="button" value="refresh 180deg" onclick="window.location='$myself#180deg'; window.location.reload()">
+</table>
+</tr><td>
 <span id="refreshAfter"></span>
+</table>
+
 <br>
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"

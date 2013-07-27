@@ -12,8 +12,8 @@ Full options:
 >  -port=       : port upon which the server should run.  
   -banner=     : Message to display in big red at the top of the screen.  
   -foreground  : do not run in the background; mainly for development.  
-  -autodelay=  : Half seconds of idle before reloading the screen.  
-  -touchdelay= : Half seconds after a touch before reloading the screen.  
+  -autodelay=  : Seconds of idle before reloading the screen.  
+  -touchdelay= : Seconds after a touch before reloading the screen.  
 
 Run this on the machine with the devices attached, then browse on some other
 machine to http://the.phone.host:8080/ (or other nominated port) for a list of
@@ -22,7 +22,7 @@ devices visible to ADB.
 Each active device provides a link to a console which displays a screen shot
 that supports mouse clicks and mouse drags, together with hard buttons
 representing `POWER`, `HOME`, `BACK`, and `MENU`, a text entry box for sending
-key events to the device, and the ability to rotate the display by 90 degrees.
+key events to the device, and buttons to rotate the display.
 
 The screen updates automatically every seven seconds, or one second after the
 last operation unless a new operation resets the timer. (This is to allow
@@ -47,7 +47,6 @@ TODO:
 High
 
 0. M. Restructure, refactor, tidy, and comment properly.
-0. M. Rotate by 180deg and 270deg.
 0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
 0. M. Passwords for view-only and view-and-interact operations
 0. M. Some sort of username thing to see who was playing with a device and how recently.
