@@ -37,7 +37,7 @@ invoke adb on the devices.
 
 This script requires Perl and the module HTTP::Server::Simple::CGI
 
-Due to the implementation of the Perl -s option, to specify a numeric value of
+Due to the implementation details, '1' is a reserved value: to pass the value
 '1' to a command-line option, write it as '01'.
 
 ISSUES:
