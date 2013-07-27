@@ -28,6 +28,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/console' => \&resp_console,
       '/killServer' => \&resp_killServer,
       '/touch' => \&resp_touch,
+      '/adbCmd' => \&resp_adbCmd,
       #'/touch' => { status => "204 No content", response => \&resp_touch },
       # ...
   );
@@ -218,6 +219,12 @@ function keyEvent(i, e) {
     document.refreshScreenAfter = $::touchdelay;
     return true;
 }
+function onAdb() {
+    cmd = document.getElementById("adbcmd").value;
+    document.getElementById("adbcmd").value = '';
+    window.frames["stdout"].location=url("adbCmd?device=$who&cmd="+cmd);
+    return true;
+}
 function maybeRotate(image) {
     image = document.getElementById("screen");
     w = (image.width/2) + 'px';
@@ -255,16 +262,21 @@ function onLoadScreen(image) {
   document.refreshScreenAfter = $::autodelay;
 }
 function logResponse(doc) {
-    logger = doc.getElementById("logger");
-    stdout = doc.getElementById("stdout");
-    logger.innerHTML = logger.innerHTML + "oho yes" + stdout.innerHTML;
+    if (doc.logger != null) {
+        logg = doc.logger.frameElement.contentDocument;
+        logg.body.innerHTML = logg.body.innerHTML +
+            "<pre>" +
+            doc.stdout.frameElement.contentDocument.body.innerHTML +
+            "</pre>";
+        logg.body.scrollTop = logg.height;
+    }
 }
 
 setInterval(everyHalfSecond, 500);
 </script>
 <h1 style="color: red">$::banner</h1>
-<iframe height=60 width=500 id=stdout name=stdout></iframe><br>
-<iframe height=100 width=500 id=logger name=logger>stuff</iframe><br>
+<iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
+<iframe height=100 width='100%' id=logger name=logger></iframe><br>
 <table><td>
 <input type="button" value="home" onclick="keyEvent(this, 3)">
 <input type="button" value="menu" onclick="keyEvent(this, 82)">
@@ -272,7 +284,7 @@ setInterval(everyHalfSecond, 500);
 <input type="button" value="power" onclick="keyEvent(this, 26)">
 <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
 <td rowspan=2>
-<table style="display: inline;"><th colspan=2>
+<table><th colspan=2>
 <input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
 </th></tr><tr><th>
 <input type="button" value="refresh 270deg" onclick="window.location='$myself#270deg'; window.location.reload()">
@@ -283,6 +295,7 @@ setInterval(everyHalfSecond, 500);
 <input type="button" value="refresh 180deg" onclick="window.location='$myself#180deg'; window.location.reload()">
 </table>
 </tr><td>
+<input type='button' value='adb shell' onclick="onAdb()"><input type="text" id="adbcmd"><br>
 <span id="refreshAfter"></span>
 <br>
 If the device's clock shows the wrong time and it's unresponsive, the screen is
@@ -368,6 +381,18 @@ END
       print $cgi->header,
             $cgi->start_html("$who");
       runAdb "kill-server";
+  }
+
+  sub resp_adbCmd {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+      my $cmd = $cgi->param('cmd');
+
+      print $cgi->header,
+            $cgi->start_html("$who");
+      runAdb "-s $who shell $cmd" if $cmd !~ /^\s*$/;
   }
 }
 
