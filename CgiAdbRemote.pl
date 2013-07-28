@@ -246,6 +246,14 @@ function maybeRotate(image) {
                                 'translate(-'+w+','+h+')'; 
         break;
     }
+    deg = window.location.hash.split('#').pop();
+    if (deg == '') {
+       deg = '0deg';
+    }
+    b = document.getElementById("d"+deg);
+    if (b != null) {
+        b.style.backgroundColor='red';
+    }
 }
 function everyHalfSecond() {
   document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s";
@@ -286,14 +294,14 @@ setInterval(everyHalfSecond, 500);
 <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
 <td rowspan=2>
 <table><th colspan=2>
-<input type="button" value="refresh 0deg" onclick="window.location='$myself#0deg'; window.location.reload()">
+<input type="button" value="refresh 0deg" id='d0deg' onclick="window.location='$myself#0deg'; window.location.reload()">
 </th></tr><tr><th>
-<input type="button" value="refresh 270deg" onclick="window.location='$myself#270deg'; window.location.reload()">
+<input type="button" value="refresh 270deg" id='d270deg' onclick="window.location='$myself#270deg'; window.location.reload()">
 </th><th>
-<input type="button" value="refresh 90deg" onclick="window.location='$myself#90deg'; window.location.reload()">
+<input type="button" value="refresh 90deg" id='d90deg' onclick="window.location='$myself#90deg'; window.location.reload()">
 </th></tr><tr><th colspan=2>
 </td>
-<input type="button" value="refresh 180deg" onclick="window.location='$myself#180deg'; window.location.reload()">
+<input type="button" value="refresh 180deg" id='d180deg' onclick="window.location='$myself#180deg'; window.location.reload()">
 </table>
 </tr><td>
 <input type='button' value='adb shell' onclick="onAdb()"><input type="text" id="adbcmd"><br>
