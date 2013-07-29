@@ -28,6 +28,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/console' => \&resp_console,
       '/killServer' => \&resp_killServer,
       '/touch' => \&resp_touch,
+      '/setInputMode' => \&resp_setInputMode,
       '/adbCmd' => \&resp_adbCmd,
       #'/touch' => { status => "204 No content", response => \&resp_touch },
       # ...
@@ -127,11 +128,16 @@ END
       print $cgi->end_html;
   }
 
-  sub runCmd {
-    my $cmd = shift;
-    my $log = localtime() . ": $$: $cmd\n";
+  sub logg {
+    my $thing = shift;
+    my $log = localtime() . ": $$: $thing\n";
     warn $log;
     print $log;
+  }
+
+  sub runCmd {
+    my $cmd = shift;
+    logg $cmd;
     print execute $cmd;
     if ($? != 0) {
         print errorRunning($cmd);
@@ -174,6 +180,7 @@ function mouseDown(i, e) {
     window.frames["stdout"].location=url(
         "touch?device=$who" +
         "&down=?" + x1 + "," + y1);
+    document.refreshScreenAfter = $::touchdelay;
     return true;
 }
 function mouseUp(i, e) {
@@ -214,6 +221,11 @@ function keyPress(i, e) {
     document.refreshScreenAfter = $::touchdelay;
     return true;
 }
+function setInputMode(mode) {
+    window.frames["stdout"].location=url("setInputMode?device=$who&mode="+mode);
+    document.refreshScreenAfter = $::touchdelay;
+    return true;
+}
 function keyEvent(i, e) {
     window.frames["stdout"].location=url("touch?device=$who&key="+e);
     document.refreshScreenAfter = $::touchdelay;
@@ -233,17 +245,15 @@ function maybeRotate(image) {
     h2 = (image.height) + 'px';
     switch (window.location.hash) {
     case "#90deg":
-        image.style.webkitTransform='translate(-'+w+',-'+h+') ' +
-                                'rotate(90deg) ' +
-                                'translate('+w+',-'+h+')'; 
+        image.style.webkitTransform=
+            'translate(-'+w+',-'+h+') rotate(90deg) translate('+w+',-'+h+')'; 
         break;
     case "#180deg":
-        image.style.webkitTransform= 'rotate(180deg)'; 
+        image.style.webkitTransform='rotate(180deg)'; 
         break;
     case "#270deg":
-        image.style.webkitTransform='translate(-'+w+',-'+h+') ' +
-                                'rotate(270deg) ' +
-                                'translate(-'+w+','+h+')'; 
+        image.style.webkitTransform=
+            'translate(-'+w+',-'+h+') rotate(270deg) translate(-'+w+','+h+')'; 
         break;
     }
     deg = window.location.hash.split('#').pop();
@@ -286,31 +296,53 @@ setInterval(everyHalfSecond, 500);
 <h1 style="color: red">$::banner</h1>
 <iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
 <iframe height=100 width='100%' id=logger name=logger></iframe><br>
-<table><td>
-<input type="button" value="home" onclick="keyEvent(this, 3)">
-<input type="button" value="menu" onclick="keyEvent(this, 82)">
-<input type="button" value="back" onclick="keyEvent(this, 4)">
-<input type="button" value="power" onclick="keyEvent(this, 26)">
-<input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
-<td rowspan=2>
-<table><th colspan=2>
-<input type="button" value="refresh 0deg" id='d0deg' onclick="window.location='$myself#0deg'; window.location.reload()">
-</th></tr><tr><th>
-<input type="button" value="refresh 270deg" id='d270deg' onclick="window.location='$myself#270deg'; window.location.reload()">
-</th><th>
-<input type="button" value="refresh 90deg" id='d90deg' onclick="window.location='$myself#90deg'; window.location.reload()">
-</th></tr><tr><th colspan=2>
-</td>
-<input type="button" value="refresh 180deg" id='d180deg' onclick="window.location='$myself#180deg'; window.location.reload()">
-</table>
-</tr><td>
-<input type='button' value='adb shell' onclick="onAdb()"><input type="text" id="adbcmd"><br>
-<span id="refreshAfter"></span>
-<br>
-If the device's clock shows the wrong time and it's unresponsive, the screen is
-probably powered off.
-</table>
 
+<table border=1>
+  <td>
+    <input type="button" value="home" onclick="keyEvent(this, 3)">
+    <input type="button" value="menu" onclick="keyEvent(this, 82)">
+    <input type="button" value="back" onclick="keyEvent(this, 4)">
+    <input type="button" value="power" onclick="keyEvent(this, 26)">
+    <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
+  <td rowspan=2>
+    <table border=1>
+      <tr>
+        <th colspan=2>
+          <input type="button" value="refresh 0deg" id='d0deg' onclick="window.location='$myself#0deg'; window.location.reload()">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input type="button" value="refresh 270deg" id='d270deg' onclick="window.location='$myself#270deg'; window.location.reload()">
+        </th>
+        <th>
+          <input type="button" value="refresh 90deg" id='d90deg' onclick="window.location='$myself#90deg'; window.location.reload()">
+        </th>
+      </tr>
+      <tr>
+        <th colspan=2>
+          <input type="button" value="refresh 180deg" id='d180deg' onclick="window.location='$myself#180deg'; window.location.reload()">
+        </th>
+      </tr>
+    </table>
+  <td rowspan=2>
+    <table border=1>
+     <tr><td><input type="button" value="TapSwipe" onclick="setInputMode(0)">
+     <tr><td>Experimental: <input type="button" value="Older sendevent" onclick="setInputMode(1)">
+     <tr><td>Experimental: <input type="button" value="Newer sendevent" onclick="setInputMode(2)">
+    </table>
+  </tr>
+  <tr>
+    <td>
+      <input type='button' value='adb shell' onclick="onAdb()">
+      <input type="text" id="adbcmd">
+      <br>
+      <span id="refreshAfter"></span>
+      <br>If the device's clock shows the wrong time and it's unresponsive, the
+          screen is probably powered off.
+    </td>
+  </tr>
+</table>
 <br>
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"
@@ -326,12 +358,24 @@ END
       print $cgi->end_html;
   }
 
+
   sub resp_touch {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+
+      my %q;
  
+      if (-f "$0.devices/$who") {
+        for (qx"cat $0.devices/$who") {
+          chomp;
+          @q = split(/:/,$_,2);
+          $q{$q[0]}=$q[1] if $q[0];
+        }
+      }
+      $q{inputMode} ||= 0;
+
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
       my $down = $cgi->param('down');
@@ -341,30 +385,94 @@ END
       print $cgi->header,
             $cgi->start_html("$who");
 
-# http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
+      my $shell = "-s $who shell ";
+
       if ($coords =~ /\?(\d+),(\d+)$/) {
-          runAdb "-s $who shell input tap $1 $2";
+          runAdb "$shell input tap $1 $2";
           return;
       }
       if ($text eq ' ') {
         $text = undef; $key = 62;
       }
       if ($text) {
-          runAdb "-s $who shell input text $text";
+          runAdb "$shell input text $text";
           return;
       }
       if ($key) {
-          runAdb "-s $who shell input keyevent $key";
+          runAdb "$shell input keyevent $key";
           return;
       }
-      if ("$down$up" =~ /\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-          my $cmd = ($1 == $3 and $2 == $4)
-            ? "-s $who shell input tap $1 $2"
-            : "-s $who shell input swipe $1 $2 $3 $4";
-          runAdb $cmd;
-          return;
+      # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
+      $touch = $TOUCH[$q{inputMode}];
+      if ("$down$up" =~ /^\?(\d+),(\d+)$/) {
+        my $cmd = $touch->{down}($touch, $1, $2);
+        runAdb "$shell \"$cmd\"" if $cmd;
+        return;
+      }
+      if ("$down$up" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
+        my $cmd = $touch->{downup}($touch, $1, $2, $3, $4);
+        runAdb "$shell \"$cmd\"" if $cmd;
+        return;
       }
   }
+
+@TOUCH=(
+  {
+    down => sub {
+      return '';
+    },
+    downup => sub {
+      # my $self = $_[0];
+      my $cmd = ($_[1] == $_[3] and $_[2] == $_[4])
+        ? "input tap $_[1] $_[2]"
+        : "input swipe $_[1] $_[2] $_[3] $_[4]";
+      return $cmd;
+    }
+  },
+  {
+    locate => sub {
+warn "$_[1], $_[2]";
+      return " sendevent /dev/input/event2 3 0 $_[1] ;".
+             " sendevent /dev/input/event2 3 1 $_[2] ;";
+    },
+    push => sub {
+      my $c = $_[0] ? 1 : 0;
+      return " sendevent /dev/input/event2 1 330 $c ;". # 1 down 0 up
+             " sendevent /dev/input/event2 0 0 0 ;";
+    },
+    down => sub {
+      my $self = $_[0];
+      return &{$self->{locate}}.&{$self->{push}}(1);
+    },
+    downup => sub {
+      my $self = $_[0];
+      return &{$self->{locate}}.&{$self->{push}}(0);
+    }
+  },
+  {
+    locate => sub {
+warn "$_[1], $_[2]";
+      return " sendevent /dev/input/event0 3 53 $_[1] ;".
+             " sendevent /dev/input/event0 3 54 $_[2] ;";
+    },
+    push => sub {
+      my $c = $_[0] ? 6 : 8;
+      return " sendevent /dev/input/event0 3 58 59 ;".
+             " sendevent /dev/input/event0 3 48 $c ;". # down=6 up=7 ... 8?
+             " sendevent /dev/input/event0 3 57 0 ;".
+             " sendevent /dev/input/event0 0 2 0 ;".
+             " sendevent /dev/input/event0 0 0 0 ;";
+    },
+    down => sub {
+      my $self = $_[0];
+      return &{$self->{locate}}.&{$self->{push}}(1);
+    },
+    downup => sub {
+      my $self = $_[0];
+      return &{$self->{locate}}.&{$self->{push}}(0);
+    }
+  }
+);
 
   sub resp_screenshot {
       my $cgi  = shift;   # CGI.pm object
@@ -392,6 +500,36 @@ END
       runAdb "kill-server";
   }
 
+  sub resp_setInputMode {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+      my $mode = $cgi->param('mode');
+
+      my %q;
+      if (-f "$0.devices/$who") {
+        for (qx"cat $0.devices/$who") {
+          chomp;
+          @q = split(/:/,$_,2);
+          $q{$q[0]}=$q[1] if $q[0];
+        }
+      }
+
+      $q{inputMode}=$mode;
+
+      print $cgi->header,
+            $cgi->start_html("$who");
+      logg "mode=$mode";
+
+      mkdir("$0.devices");
+      if (open FILE, ">$0.devices/$who") {
+        for (sort keys %q) {
+          print FILE "$_:$q{$_}\n";
+        }
+        close FILE;
+      }
+  }
   sub resp_adbCmd {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
