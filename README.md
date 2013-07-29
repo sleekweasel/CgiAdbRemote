@@ -55,10 +55,9 @@ High
 
 Medium
 
-0. M. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
-0. M. Some per-device config, to remember whether they implement things like 'input swipe' or how those need emulating.
-0. M. Support for 'input sendevent' for devices with a primitive 'input' command. http://cjix.info/blog/misc/internal-input-event-handling-in-the-linux-kernel-and-the-android-userspace/
-0. H. Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
+0. M. Experimental... Support for 'input sendevent' for devices with a primitive 'input' command. http://cjix.info/blog/misc/internal-input-event-handling-in-the-linux-kernel-and-the-android-userspace/
+0. M. Experimental... Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
+0. H. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
 0. H. Some means to display whether the phone is in standby ('off') = adb shell dumpsys power ... mPowerState=0/1
 
 Low
