@@ -484,7 +484,8 @@ warn "$_[1], $_[2]";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
       if ($? != 0) {
-        print $cgi->headers, errorRunning($cmd);
+        print $cgi->header, errorRunning($cmd);
+        return;
       }
       $image =~ s/\r\n/\n/g;
       $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
