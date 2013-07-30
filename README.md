@@ -48,6 +48,8 @@ TODO:
 
 High
 
+0. E. Add a time-out so a forgotten web page eventually stops asking for screen refreshes.
+0. E. Make the 'time til next screenshot' into a bar, not a count.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
 0. M. Passwords for view-only and view-and-interact operations
