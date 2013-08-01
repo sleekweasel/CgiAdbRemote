@@ -305,7 +305,7 @@ document.s=1.0; // Scale factor... to fit automatically
     }
 }
 function everyHalfSecond() {
-  document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s (for " + document.refreshNum + ")";
+  document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s (for " + document.refreshNum + ", scale "+document.s+")";
   if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter <= 0) {
