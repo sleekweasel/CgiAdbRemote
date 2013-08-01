@@ -174,9 +174,14 @@ function mouseDown(i, e) {
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
 
-    x1 = (e.clientX-xoff);
-    y1 = (e.clientY-yoff);
+    s = document.s;
+    x1 = Math.round((e.clientX-xoff)/s);
+    y1 = Math.round((e.clientY-yoff)/s);
 
+    touch = "touch?device=$who" +
+          "&down=?" + x1 + "," + y1 +
+          "&swipe=?" + x2 + "," + y2;
+    window.frames["stdout"].location=url(touch);
     window.frames["stdout"].location=url(
         "touch?device=$who" +
         "&down=?" + x1 + "," + y1);
@@ -189,16 +194,17 @@ function mouseUp(i, e) {
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
 
-    x1 = (f.clientX-xoff);
-    y1 = (f.clientY-yoff);
+    s = document.s;
+    x1 = Math.round((f.clientX-xoff)/s);
+    y1 = Math.round((f.clientY-yoff)/s);
 
-    x2 = (e.x-xoff);
-    y2 = (e.y-yoff);
+    x2 = Math.round((e.x-xoff)/s);
+    y2 = Math.round((e.y-yoff)/s);
 
-    window.frames["stdout"].location=url(
-        "touch?device=$who" +
-        "&down=?" + x1 + "," + y1 +
-        "&swipe=?" + x2 + "," + y2);
+    touch = "touch?device=$who" +
+          "&down=?" + x1 + "," + y1 +
+          "&swipe=?" + x2 + "," + y2;
+    window.frames["stdout"].location=url(touch);
 
     document.refreshScreenAfter = $::touchdelay;
     return true;
@@ -239,23 +245,51 @@ function onAdb() {
 }
 function maybeRotate(image) {
     image = document.getElementById("screen");
-    w = (image.width/2) + 'px';
-    h = (image.height/2) + 'px';
-    w2 = (image.width) + 'px';
-    h2 = (image.height) + 'px';
+document.s=1.0; // Scale factor... to fit automatically
+    s = document.s;
+    w = (image.width);
+    h = (image.height);
+    wmh = (w-h);
+    hmw = (h-w);
     switch (window.location.hash) {
+    case "#0deg":
+    case "":
+        transform =
+            ''
+            + 'scale(' + s + ') '
+            + 'translate('+Math.round(w*.5/-s)+'px,'+Math.round(h*.5/-s)+'px) '
+            + 'translate('+Math.round(w/2)+'px,'+Math.round(h/2)+'px) '
+            ;
+        break;
     case "#90deg":
-        image.style.webkitTransform=
-            'translate(-'+w+',-'+h+') rotate(90deg) translate('+w+',-'+h+')'; 
+        transform =
+            ''
+            + 'rotate(90deg)'
+            + 'scale(' + s + ') '
+            + 'translate('+Math.round(-h*.5/s)+'px,'+Math.round(w*.5/s)+'px) '
+            + 'translate('+Math.round(w/2)+'px,'+Math.round(-h/2)+'px) '
+            ;
         break;
     case "#180deg":
-        image.style.webkitTransform='rotate(180deg)'; 
+        transform =
+            ''
+            + 'scale(' + s + ') '
+            + 'rotate(180deg)'
+            + 'translate('+Math.round(w*.5/s)+'px,'+Math.round(h*.5/s)+'px) '
+            + 'translate('+Math.round(-w/2)+'px,'+Math.round(-h/2)+'px) '
+            ;
         break;
     case "#270deg":
-        image.style.webkitTransform=
-            'translate(-'+w+',-'+h+') rotate(270deg) translate(-'+w+','+h+')'; 
+        transform =
+            ''
+            + 'scale(' + s + ') '
+            + 'rotate(270deg) '
+            + 'translate('+Math.round(h*.5/s)+'px,'+Math.round(-w*.5/s)+'px) '
+            + 'translate('+Math.round(-w/2)+'px,'+Math.round(h/2)+'px) '
+            ;
         break;
     }
+    image.style.webkitTransform = transform;
     deg = window.location.hash.split('#').pop();
     if (deg == '') {
        deg = '0deg';
