@@ -162,6 +162,11 @@ END
       print <<END;
 <script type="text/javascript">
 document.dragstart = function() { return false; }
+function doTouch() {
+    document.refreshScreenAfter = $::touchdelay;
+    document.refreshNum = 20;
+}
+doTouch();
 function url(rest) {
     here = window.location.href.split("/");
     here.pop();
@@ -185,7 +190,7 @@ function mouseDown(i, e) {
     window.frames["stdout"].location=url(
         "touch?device=$who" +
         "&down=?" + x1 + "," + y1);
-    document.refreshScreenAfter = $::touchdelay;
+    doTouch();
     return true;
 }
 function mouseUp(i, e) {
@@ -206,7 +211,7 @@ function mouseUp(i, e) {
           "&swipe=?" + x2 + "," + y2;
     window.frames["stdout"].location=url(touch);
 
-    document.refreshScreenAfter = $::touchdelay;
+    doTouch();
     return true;
 }
 function keyPress(i, e) {
@@ -224,17 +229,17 @@ function keyPress(i, e) {
       window.frames["stdout"].location=url(
         "touch?device=$who&text="+String.fromCharCode(e.charCode));
     }
-    document.refreshScreenAfter = $::touchdelay;
+    doTouch();
     return true;
 }
 function setInputMode(mode) {
     window.frames["stdout"].location=url("setInputMode?device=$who&mode="+mode);
-    document.refreshScreenAfter = $::touchdelay;
+    doTouch();
     return true;
 }
 function keyEvent(i, e) {
     window.frames["stdout"].location=url("touch?device=$who&key="+e);
-    document.refreshScreenAfter = $::touchdelay;
+    doTouch();
     return true;
 }
 function onAdb() {
@@ -300,10 +305,11 @@ document.s=1.0; // Scale factor... to fit automatically
     }
 }
 function everyHalfSecond() {
-  document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s";
-  if (document.refreshScreenAfter > 0) {
+  document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s (for " + document.refreshNum + ")";
+  if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter <= 0) {
+      document.refreshNum = document.refreshNum - 1;
       screen = document.getElementById("screen");
       screen.src = screen.src.split("#")[0] + "#" + new Date();
     }
