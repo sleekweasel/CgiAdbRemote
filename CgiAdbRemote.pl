@@ -263,6 +263,7 @@ function maybeRotate(image) {
     b = document.getElementById("d"+deg);
     if (b != null) {
         b.style.backgroundColor='red';
+        b.style.foregroundColor='white';
     }
 }
 function everyHalfSecond() {
