@@ -174,7 +174,7 @@ function url(rest) {
     return here.join("/");
 }
 function getScale() {
-  return qParam('scale', '1.0');
+  return document.autoScale;
 }
 function mouseDown(i, e) {
     document.lastDown = e;
@@ -283,12 +283,23 @@ function updateHash(k, v) {
 }
 function maybeRotate(image) {
     image = document.getElementById("screen");
-    s = getScale();
     w = (image.width);
     h = (image.height);
+    deg = qParam('deg', '0');
+    autoScale = qParam("autoScale", "false");
+    document.autoScale = 1;
+    if (autoScale == "true") {
+      hh = window.innerHeight;
+      ww = window.innerWidth;
+      switch (deg) {
+        case '90': case '180':
+          t = hh; hh = ww; ww = t;
+      }
+      document.autoScale = Math.min(ww/w, hh/h);
+    }
+    s = getScale();
     wmh = (w-h);
     hmw = (h-w);
-    deg = qParam('deg', '0');
     switch (deg) {
     case "0":
         transform =
@@ -341,7 +352,7 @@ function everyHalfSecond() {
   else {
     refresh = "Auto refresh: paused until user activity";
   }
-  document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+document.s;
+  document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+getScale();
   if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter <= 0) {
@@ -380,7 +391,7 @@ setInterval(everyHalfSecond, 500);
     <input type="button" value="back" onclick="keyEvent(this, 4)">
     <input type="button" value="power" onclick="keyEvent(this, 26)">
     <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
-    <input type="checkbox" value="autoScale" onclick="updateHash('autoScale', this.checked)">
+    Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))">
   <td rowspan=2>
     <table border=1>
       <tr>
@@ -428,6 +439,7 @@ setInterval(everyHalfSecond, 500);
   src="/screenshot?device=$who">
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
+  document.getElementById("autoScale").checked = (qParam("autoScale", "false") == 'true');
 </script>
 <hr>
 <a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
