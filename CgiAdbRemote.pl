@@ -250,6 +250,7 @@ function onAdb() {
 }
 function maybeRotate(image) {
     image = document.getElementById("screen");
+//document.s=0.5; // Scale factor... to fit automatically
 document.s=1.0; // Scale factor... to fit automatically
     s = document.s;
     w = (image.width);
@@ -302,11 +303,18 @@ document.s=1.0; // Scale factor... to fit automatically
     b = document.getElementById("d"+deg);
     if (b != null) {
         b.style.backgroundColor='red';
-        b.style.foregroundColor='white';
+        b.style.color='white';
     }
 }
 function everyHalfSecond() {
-  document.getElementById('refreshAfter').innerHTML="Auto refresh in: " + (document.refreshScreenAfter/2) + "s (for " + document.refreshNum + ", scale "+document.s+")";
+  if (document.refreshNum != 0) {
+    refresh = "Auto refresh in: " + (document.refreshScreenAfter/2) + "s"
+    + " (" + document.refreshNum + " more)";
+  }
+  else {
+    refresh = "Auto refresh: paused until user activity";
+  }
+  document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+document.s;
   if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter <= 0) {
