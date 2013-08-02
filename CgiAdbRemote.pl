@@ -173,13 +173,16 @@ function url(rest) {
     here.push(rest);
     return here.join("/");
 }
+function getScale() {
+  return qParam('scale', '1.0');
+}
 function mouseDown(i, e) {
     document.lastDown = e;
 
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
 
-    s = document.s;
+    s = getScale();
     x1 = Math.round((e.clientX-xoff)/s);
     y1 = Math.round((e.clientY-yoff)/s);
 
@@ -199,7 +202,7 @@ function mouseUp(i, e) {
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
 
-    s = document.s;
+    s = getScale();
     x1 = Math.round((f.clientX-xoff)/s);
     y1 = Math.round((f.clientY-yoff)/s);
 
@@ -248,18 +251,46 @@ function onAdb() {
     window.frames["stdout"].location=url("adbCmd?device=$who&cmd="+cmd);
     return true;
 }
+function qParam(k, d) {
+  qPairs = window.location.hash.split("#");
+  while (qPairs.length) {
+    pair = qPairs.shift();
+    kv = pair.split("=");
+    if (kv[0] == k) return kv[1];
+  }
+  return d;
+}
+function qHash() {
+  qPairs = window.location.hash.split("#");
+  hash = {};
+  while (qPairs.length) {
+    pair = qPairs.shift();
+    kv = pair.split("=");
+    hash[kv[0]] = kv[1];
+  }
+  return hash;
+}
+function updateHash(k, v) {
+  hash = qHash();
+  hash[k]=v;
+  s = '';
+  for (key in hash) {
+    if (key!==undefined && key != 'undefined' && hash[key]!==undefined && hash[key] != 'undefined' ) {
+      s += '#' + key + '=' + hash[key];
+    }
+  }
+  window.location.hash = s;
+}
 function maybeRotate(image) {
     image = document.getElementById("screen");
-//document.s=0.5; // Scale factor... to fit automatically
-document.s=1.0; // Scale factor... to fit automatically
-    s = document.s;
+    s = getScale();
     w = (image.width);
     h = (image.height);
     wmh = (w-h);
     hmw = (h-w);
-    switch (window.location.hash) {
-    case "#0deg":
-    case "":
+    deg = qParam('deg', '0');
+    switch (deg) {
+    case "0":
         transform =
             ''
             + 'scale(' + s + ') '
@@ -267,7 +298,7 @@ document.s=1.0; // Scale factor... to fit automatically
             + 'translate('+Math.round(w/2)+'px,'+Math.round(h/2)+'px) '
             ;
         break;
-    case "#90deg":
+    case "90":
         transform =
             ''
             + 'rotate(90deg)'
@@ -276,7 +307,7 @@ document.s=1.0; // Scale factor... to fit automatically
             + 'translate('+Math.round(w/2)+'px,'+Math.round(-h/2)+'px) '
             ;
         break;
-    case "#180deg":
+    case "180":
         transform =
             ''
             + 'scale(' + s + ') '
@@ -285,7 +316,7 @@ document.s=1.0; // Scale factor... to fit automatically
             + 'translate('+Math.round(-w/2)+'px,'+Math.round(-h/2)+'px) '
             ;
         break;
-    case "#270deg":
+    case "270":
         transform =
             ''
             + 'scale(' + s + ') '
@@ -296,11 +327,7 @@ document.s=1.0; // Scale factor... to fit automatically
         break;
     }
     image.style.webkitTransform = transform;
-    deg = window.location.hash.split('#').pop();
-    if (deg == '') {
-       deg = '0deg';
-    }
-    b = document.getElementById("d"+deg);
+    b = document.getElementById("d"+deg+'deg');
     if (b != null) {
         b.style.backgroundColor='red';
         b.style.color='white';
@@ -353,24 +380,25 @@ setInterval(everyHalfSecond, 500);
     <input type="button" value="back" onclick="keyEvent(this, 4)">
     <input type="button" value="power" onclick="keyEvent(this, 26)">
     <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
+    <input type="checkbox" value="autoScale" onclick="updateHash('autoScale', this.checked)">
   <td rowspan=2>
     <table border=1>
       <tr>
         <th colspan=2>
-          <input type="button" value="refresh 0deg" id='d0deg' onclick="window.location='$myself#0deg'; window.location.reload()">
+          <input type="button" value="refresh 0deg" id='d0deg' onclick="updateHash('deg',0); window.location.reload()">
         </th>
       </tr>
       <tr>
         <th>
-          <input type="button" value="refresh 270deg" id='d270deg' onclick="window.location='$myself#270deg'; window.location.reload()">
+          <input type="button" value="refresh 270deg" id='d270deg' onclick="updateHash('deg',270); window.location.reload()">
         </th>
         <th>
-          <input type="button" value="refresh 90deg" id='d90deg' onclick="window.location='$myself#90deg'; window.location.reload()">
+          <input type="button" value="refresh 90deg" id='d90deg' onclick="updateHash('deg',90); window.location.reload()">
         </th>
       </tr>
       <tr>
         <th colspan=2>
-          <input type="button" value="refresh 180deg" id='d180deg' onclick="window.location='$myself#180deg'; window.location.reload()">
+          <input type="button" value="refresh 180deg" id='d180deg' onclick="updateHash('deg',180); window.location.reload()">
         </th>
       </tr>
     </table>
