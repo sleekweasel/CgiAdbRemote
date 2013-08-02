@@ -292,7 +292,7 @@ function maybeRotate(image) {
       hh = window.innerHeight;
       ww = window.innerWidth;
       switch (deg) {
-        case '90': case '180':
+        case '90': case '270':
           t = hh; hh = ww; ww = t;
       }
       document.autoScale = Math.min(ww/w, hh/h);
