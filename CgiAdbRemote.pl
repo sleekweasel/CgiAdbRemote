@@ -30,9 +30,21 @@ $touchdelay *= 2; # Interval is 500ms
       '/touch' => \&resp_touch,
       '/setInputMode' => \&resp_setInputMode,
       '/adbCmd' => \&resp_adbCmd,
-      #'/touch' => { status => "204 No content", response => \&resp_touch },
       # ...
   );
+
+  sub logg {
+    my $thing = shift;
+    my $log = localtime() . ": $$: $thing\n";
+    warn $log;
+    print $log;
+  }
+
+  sub logw {
+    my $thing = shift;
+    my $log = localtime() . ": $$: $thing\n";
+    warn $log;
+  }
 
   sub errorRunning {
     my $cmd = shift;
@@ -46,6 +58,7 @@ $touchdelay *= 2; # Interval is 500ms
     
       my $path = $cgi->path_info();
       my $handler = $dispatch{$path};
+      logw $cgi->url(-query=>1, -path_info=>1);
 
       if (ref($handler) eq "CODE") {
           print "HTTP/1.0 200 OK\r\n";
@@ -128,13 +141,6 @@ END
       print $cgi->end_html;
   }
 
-  sub logg {
-    my $thing = shift;
-    my $log = localtime() . ": $$: $thing\n";
-    warn $log;
-    print $log;
-  }
-
   sub runCmd {
     my $cmd = shift;
     logg $cmd;
@@ -186,13 +192,14 @@ function mouseDown(i, e) {
     x1 = Math.round((e.clientX-xoff)/s);
     y1 = Math.round((e.clientY-yoff)/s);
 
+    ih = Math.round(i.height);
+    iw = Math.round(i.width);
+
     touch = "touch?device=$who" +
           "&down=?" + x1 + "," + y1 +
-          "&swipe=?" + x2 + "," + y2;
+        //"&swipe=?" + x2 + "," + y2 +
+          "&img=?" + iw + "," + ih;
     window.frames["stdout"].location=url(touch);
-    window.frames["stdout"].location=url(
-        "touch?device=$who" +
-        "&down=?" + x1 + "," + y1);
     doTouch();
     return true;
 }
@@ -209,9 +216,13 @@ function mouseUp(i, e) {
     x2 = Math.round((e.x-xoff)/s);
     y2 = Math.round((e.y-yoff)/s);
 
+    ih = Math.round(i.height);
+    iw = Math.round(i.width);
+
     touch = "touch?device=$who" +
           "&down=?" + x1 + "," + y1 +
-          "&swipe=?" + x2 + "," + y2;
+          "&swipe=?" + x2 + "," + y2 +
+          "&img=?" + iw + "," + ih;
     window.frames["stdout"].location=url(touch);
 
     doTouch();
@@ -468,6 +479,7 @@ END
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
       my $down = $cgi->param('down');
+      my $img = $cgi->param('img');
       my $text = $cgi->param('text');
       my $key = $cgi->param('key');
 
@@ -493,13 +505,13 @@ END
       }
       # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
       $touch = $TOUCH[$q{inputMode}];
-      if ("$down$up" =~ /^\?(\d+),(\d+)$/) {
-        my $cmd = $touch->{down}($touch, $1, $2);
+      if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
+        my $cmd = $touch->{down}($touch, $1, $2, $3, $4);
         runAdb "$shell \"$cmd\"" if $cmd;
         return;
       }
-      if ("$down$up" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-        my $cmd = $touch->{downup}($touch, $1, $2, $3, $4);
+      if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
+        my $cmd = $touch->{downup}($touch, $3, $4, $1, $2, $5, $6);
         runAdb "$shell \"$cmd\"" if $cmd;
         return;
       }
@@ -514,13 +526,12 @@ END
       # my $self = $_[0];
       my $cmd = ($_[1] == $_[3] and $_[2] == $_[4])
         ? "input tap $_[1] $_[2]"
-        : "input swipe $_[1] $_[2] $_[3] $_[4]";
+        : "input swipe $_[3] $_[4] $_[1] $_[2]";
       return $cmd;
     }
   },
   {
     locate => sub {
-warn "$_[1], $_[2]";
       return " sendevent /dev/input/event2 3 0 $_[1] ;".
              " sendevent /dev/input/event2 3 1 $_[2] ;";
     },
@@ -539,26 +550,50 @@ warn "$_[1], $_[2]";
     }
   },
   {
+## http://ktnr74.blogspot.co.uk/2013/06/emulating-touchscreen-interaction-with.html
+## ABS_MT_POSITION_X (53) - x coordinate of the touch
+## ABS_MT_POSITION_Y (54) - y coordinate of the touch
+## ABS_MT_TOUCH_MAJOR (48) - basically width of your finger tip in pixels
+## ABS_MT_PRESSURE (58) - pressure of the touch
+## SYN_MT_REPORT (2) - end of separate touch data
+## SYN_REPORT (0) - end of report
+#    ABS (0003): ABS_MT_TOUCH_MAJOR    : value 0, min 0, max 30, fuzz 0, flat 0, resolution 0
+#                ABS_MT_POSITION_X     : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
+#                ABS_MT_POSITION_Y     : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
+#                ABS_MT_TRACKING_ID    : value 0, min 0, max 4, fuzz 0, flat 0, resolution 0
+#                ABS_MT_PRESSURE       : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
+#
     locate => sub {
-warn "$_[1], $_[2]";
-      return " sendevent /dev/input/event0 3 53 $_[1] ;".
-             " sendevent /dev/input/event0 3 54 $_[2] ;";
+      return " sendevent /dev/input/event0 3 53 $_[0] ;". # x
+             " sendevent /dev/input/event0 3 54 $_[1] ;"; # y
     },
     push => sub {
-      my $c = $_[0] ? 6 : 8;
-      return " sendevent /dev/input/event0 3 58 59 ;".
-             " sendevent /dev/input/event0 3 48 $c ;". # down=6 up=7 ... 8?
-             " sendevent /dev/input/event0 3 57 0 ;".
-             " sendevent /dev/input/event0 0 2 0 ;".
+      my $c = $_[0] ? 50 : 0;
+      return " sendevent /dev/input/event0 3 58 $c ;". # pressure
+             " sendevent /dev/input/event0 3 48 5 ;". # width
+             " sendevent /dev/input/event0 3 57 0 ;"; # finger id?
+    },
+    end => sub {
+      return " sendevent /dev/input/event0 0 2 0 ;".
              " sendevent /dev/input/event0 0 0 0 ;";
     },
     down => sub {
       my $self = $_[0];
-      return &{$self->{locate}}.&{$self->{push}}(1);
+      my $w = $_[3];
+      my $h = $_[4];
+      my $x = int($_[1]*1024/$w);
+      my $y = int($_[2]*1024/$h);
+      return &{$self->{locate}}($x, $y).&{$self->{push}}(1).&{$self->{end}};
     },
     downup => sub {
       my $self = $_[0];
-      return &{$self->{locate}}.&{$self->{push}}(0);
+      my $w = $_[5];
+      my $h = $_[6];
+      my $x1 = int($_[1]*1024/$w);
+      my $y1 = int($_[2]*1024/$h);
+#      my $x2 = int($_[3]/$w*1024);
+#      my $y2 = int($_[4]/$h*1024);
+      return &{$self->{locate}}($x1,$y1).&{$self->{push}}(1).&{$self->{end}}.&{$self->{end}};
     }
   }
 );

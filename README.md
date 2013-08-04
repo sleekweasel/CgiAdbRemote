@@ -35,7 +35,7 @@ this script (ideally, typing 'adb' on the command-line will work, but you can
 specify a command-line option); the user running it must have permissions to
 invoke adb on the devices.
 
-This script requires Perl and the module HTTP::Server::Simple::CGI
+This script requires Perl and the module HTTP::Server::Simple::CGI (On Ubuntu: apt-get install libhttp-server-simple-perl CPAN elsewhere.)
 
 Due to the implementation details, '1' is a reserved value: to pass the value
 '1' to a command-line option, write it as '01'.
@@ -48,7 +48,6 @@ TODO:
 
 High
 
-0. E. Add a time-out so a forgotten web page eventually stops asking for screen refreshes.
 0. E. Make the 'time til next screenshot' into a bar, not a count.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
@@ -57,15 +56,15 @@ High
 
 Medium
 
-0. M. Experimental... Support for 'input sendevent' for devices with a primitive 'input' command. http://cjix.info/blog/misc/internal-input-event-handling-in-the-linux-kernel-and-the-android-userspace/
+0. M. Experimental... Support for 'input sendevent' for devices with a primitive 'input' command.
 0. M. Experimental... Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
-0. H. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
-0. H. Some means to display whether the phone is in standby ('off') = adb shell dumpsys power ... mPowerState=0/1
+0. H. Make the server multi-threaded, but only per device: serial access is good for typing!
+0. H. See whether it's worth persisting the adb connections per device.
 
 Low
 
-0. H. Make the server multi-threaded, but only per device: serial access is good for typing!
-0. H. See whether it's worth persisting the adb connections per device.
+0. H. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
+0. H. Some means to display whether the phone is in standby ('off') = adb shell dumpsys power ... mPowerState=0/1
 
 License: share and enjoy, but attribute me please.
 
