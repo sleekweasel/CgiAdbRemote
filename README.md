@@ -37,14 +37,12 @@ invoke adb on the devices.
 
 This script requires Perl and the module HTTP::Server::Simple::CGI (On Ubuntu: apt-get install libhttp-server-simple-perl CPAN elsewhere.)
 
-Due to the implementation details, '1' is a reserved value: to pass the value
-'1' to a command-line option, write it as '01'.
+Due to the implementation details, '1' is a reserved value on the command-line:
+to pass the value '1' to a command-line option, write it as '01'.
 
-ISSUES:
+[TODO](https://github.com/sleekweasel/CgiAdbRemote/issues):
 
-[1](https://github.com/sleekweasel/CgiAdbRemote/issues/1). Not all devices implement all the 'input' subcommands used, like 'input swipe'.
-
-TODO:
+0. Move these TODOs into the issues tracker!
 
 High
 
@@ -56,8 +54,7 @@ High
 
 Medium
 
-0. M. Experimental... Support for 'input sendevent' for devices with a primitive 'input' command.
-0. M. Experimental... Try to support a long slow drag: mouse down, long pause with screen updates, mouse up.
+0. M. (Experimental) Adaptive support for 'input sendevent' for devices with a primitive 'input' command: cache/interpret output of 'adb shell getevent -p' and '-lp' for touch events.
 0. H. Make the server multi-threaded, but only per device: serial access is good for typing!
 0. H. See whether it's worth persisting the adb connections per device.
 
@@ -65,6 +62,7 @@ Low
 
 0. H. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
 0. H. Some means to display whether the phone is in standby ('off') = adb shell dumpsys power ... mPowerState=0/1
+0. E. Better options handling.
 
 License: share and enjoy, but attribute me please.
 
