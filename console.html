@@ -30,7 +30,6 @@ function mouseDown(i, e) {
     touch = "touch?device=$who" +
           "&deg=" + qParam("deg", "0") +
           "&down=?" + x1 + "," + y1 +
-        //"&swipe=?" + x2 + "," + y2 +
           "&img=?" + iw + "," + ih;
     window.frames["stdout"].location=url(touch);
     renewAutoScreen();
@@ -75,7 +74,7 @@ function keyPress(i, e) {
     }
     else {
       window.frames["stdout"].location=url(
-        "touch?device=$who&text="+String.fromCharCode(e.charCode));
+        "text?device=$who&text="+String.fromCharCode(e.charCode));
     }
     renewAutoScreen();
     return true;
@@ -86,7 +85,7 @@ function setInputMode(mode) {
     return true;
 }
 function keyEvent(i, e) {
-    window.frames["stdout"].location=url("touch?device=$who&key="+e);
+    window.frames["stdout"].location=url("text?device=$who&key="+e);
     renewAutoScreen();
     return true;
 }

@@ -28,6 +28,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/console' => \&resp_console,
       '/killServer' => \&resp_killServer,
       '/touch' => \&resp_touch,
+      '/text' => \&resp_text,
       '/setInputMode' => \&resp_setInputMode,
       '/adbCmd' => \&resp_adbCmd,
       # ...
@@ -175,9 +176,8 @@ $touchdelay *= 2; # Interval is 500ms
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
       my $down = $cgi->param('down');
+      my $rot = $cgi->param('rot');
       my $img = $cgi->param('img');
-      my $text = $cgi->param('text');
-      my $key = $cgi->param('key');
 
       print $cgi->header,
             $cgi->start_html("$who");
@@ -186,17 +186,6 @@ $touchdelay *= 2; # Interval is 500ms
 
       if ($coords =~ /\?(\d+),(\d+)$/) {
           runAdb "$shell input tap $1 $2";
-          return;
-      }
-      if ($text eq ' ') {
-        $text = undef; $key = 62;
-      }
-      if ($text) {
-          runAdb "$shell input text $text";
-          return;
-      }
-      if ($key) {
-          runAdb "$shell input keyevent $key";
           return;
       }
       # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
@@ -294,6 +283,33 @@ $touchdelay *= 2; # Interval is 500ms
   }
 );
 
+  sub resp_text {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+
+      my $text = $cgi->param('text');
+      my $key = $cgi->param('key');
+
+      print $cgi->header,
+            $cgi->start_html("$who");
+
+      my $shell = "-s $who shell ";
+
+      if ($text eq ' ') {
+        $text = undef; $key = 62;
+      }
+      if ($text) {
+          runAdb "$shell input text $text";
+          return;
+      }
+      if ($key) {
+          runAdb "$shell input keyevent $key";
+          return;
+      }
+  }
+
   sub resp_screenshot {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -321,6 +337,121 @@ $touchdelay *= 2; # Interval is 500ms
       runAdb "kill-server";
   }
 
+  sub readDeviceConfig {
+    my %q;
+    if (-f "$0.devices/$who") {
+      for (qx"cat $0.devices/$who") {
+        chomp;
+        @q = split(/:/,$_,2);
+        $q{$q[0]}=$q[1] if $q[0];
+      }
+    }
+    return %q;
+  }
+
+
+# adb shell getevent -lp
+#  * daemon not running. starting it now on port 5037 *
+#  * daemon started successfully *
+#  add device 1: /dev/input/event6
+#    name:     "compass"
+#    events:
+#      REL (0002): REL_X                 REL_Y                 REL_Z                 REL_RX               
+#                  REL_RY                REL_RZ                REL_HWHEEL            REL_DIAL             
+#                  REL_WHEEL             REL_MISC             
+#    input props:
+#      <none>
+#  add device 2: /dev/input/event5
+#    name:     "cypress-touchkey"
+#    events:
+#      KEY (0001): KEY_HOME              KEY_MENU              KEY_BACK              KEY_SEARCH           
+#    input props:
+#      <none>
+#  add device 3: /dev/input/event4
+#    name:     "lightsensor-level"
+#    events:
+#      ABS (0003): ABS_MISC              : value 48, min 0, max 4095, fuzz 64, flat 0, resolution 0
+#    input props:
+#      <none>
+#  add device 4: /dev/input/event3
+#    name:     "proximity"
+#    events:
+#      ABS (0003): ABS_DISTANCE          : value 1, min 0, max 1, fuzz 0, flat 0, resolution 0
+#    input props:
+#      <none>
+#  add device 5: /dev/input/event2
+#    name:     "herring-keypad"
+#    events:
+#      KEY (0001): KEY_VOLUMEDOWN        KEY_VOLUMEUP          KEY_POWER            
+#    input props:
+#      <none>
+#  add device 6: /dev/input/event1
+#    name:     "gyro"
+#    events:
+#      REL (0002): REL_RX                REL_RY                REL_RZ               
+#    input props:
+#      <none>
+#  add device 7: /dev/input/event0
+#    name:     "mxt224_ts_input"
+#    events:
+#      ABS (0003): ABS_MT_TOUCH_MAJOR    : value 0, min 0, max 30, fuzz 0, flat 0, resolution 0
+#                  ABS_MT_POSITION_X     : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
+#                  ABS_MT_POSITION_Y     : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
+#                  ABS_MT_TRACKING_ID    : value 0, min 0, max 4, fuzz 0, flat 0, resolution 0
+#                  ABS_MT_PRESSURE       : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
+#    input props:
+#      <none>
+#  
+#  
+# adb shell getevent -p
+#  add device 1: /dev/input/event6
+#    name:     "compass"
+#    events:
+#      REL (0002): 0000  0001  0002  0003  0004  0005  0006  0007 
+#                  0008  0009 
+#    input props:
+#      <none>
+#  add device 2: /dev/input/event5
+#    name:     "cypress-touchkey"
+#    events:
+#      KEY (0001): 0066  008b  009e  00d9 
+#    input props:
+#      <none>
+#  add device 3: /dev/input/event4
+#    name:     "lightsensor-level"
+#    events:
+#      ABS (0003): 0028  : value 48, min 0, max 4095, fuzz 64, flat 0, resolution 0
+#    input props:
+#      <none>
+#  add device 4: /dev/input/event3
+#    name:     "proximity"
+#    events:
+#      ABS (0003): 0019  : value 1, min 0, max 1, fuzz 0, flat 0, resolution 0
+#    input props:
+#      <none>
+#  add device 5: /dev/input/event2
+#    name:     "herring-keypad"
+#    events:
+#      KEY (0001): 0072  0073  0074 
+#    input props:
+#      <none>
+#  add device 6: /dev/input/event1
+#    name:     "gyro"
+#    events:
+#      REL (0002): 0003  0004  0005 
+#    input props:
+#      <none>
+#  add device 7: /dev/input/event0
+#    name:     "mxt224_ts_input"
+#    events:
+#      ABS (0003): 0030  : value 0, min 0, max 30, fuzz 0, flat 0, resolution 0
+#                  0035  : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
+#                  0036  : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
+#                  0039  : value 0, min 0, max 4, fuzz 0, flat 0, resolution 0
+#                  003a  : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
+#    input props:
+#      <none>
+#  
   sub resp_setInputMode {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -328,14 +459,7 @@ $touchdelay *= 2; # Interval is 500ms
       my $who = $cgi->param('device');
       my $mode = $cgi->param('mode');
 
-      my %q;
-      if (-f "$0.devices/$who") {
-        for (qx"cat $0.devices/$who") {
-          chomp;
-          @q = split(/:/,$_,2);
-          $q{$q[0]}=$q[1] if $q[0];
-        }
-      }
+      my %q = readDeviceConfig();
 
       $q{inputMode}=$mode;
 
