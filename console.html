@@ -193,7 +193,7 @@ function everyHalfSecond() {
     + " (" + document.refreshNum + " more)";
   }
   else {
-    refresh = "Auto refresh: paused until user activity";
+    refresh = "<span style='color: red'>Auto refresh paused until user activity</span>";
   }
   document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+getScale();
   if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
