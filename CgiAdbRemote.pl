@@ -78,6 +78,13 @@ $touchdelay *= 2; # Interval is 500ms
       }
   }
 
+  sub readFile {
+        my $leafname = shift;
+        my $filename = $0;
+        $filename =~ s/[^\/]*$/$leafname/;
+        return `cat $filename`;
+  }
+
   sub execute {
     # Allow access to ?$ return code:
     local $SIG{'CHLD'} = 'DEFAULT';
@@ -110,33 +117,9 @@ $touchdelay *= 2; # Interval is 500ms
         }
       }
       print $cgi->end_ul();
-      print <<END;
-<script type="text/javascript">
-function url(rest) {
-    here = window.location.href.split("/");
-    here.pop();
-    here.push(rest);
-    return here.join("/");
-}
-function killServer() {
-    if (!confirm("Are you really sure you want to kill ADB?")) {
-      alert("User uncertain. Aborted.");
-    }
-    else {
-      if (confirm("Are any tests running? (OK=YES)")) {
-        alert("Tests were running, Aborted.");
-      }
-      else {
-        window.frames["stdout"].location=url("killServer");
-      }
-    }
-}
-</script>
-<input type='button' value="kill-server" onclick="killServer()">
-<iframe height=50 width=500 id=stdout name=stdout></iframe><br>
-<hr>
-<a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
-END
+      my $killServer = readFile("killserver.html");
+      $killServer=~s/(\$(::)?\w+)/eval $1/ge;
+      print $killServer;
       print " " . localtime();
       print $cgi->end_html;
   }
@@ -165,9 +148,7 @@ END
 
       print $cgi->header,
             $cgi->start_html("$who");
-      my $console = $0;
-      $console =~ s/[^\/]*$/console.html/;
-      $console=`cat $console`; 
+      my $console = readFile("console.html");
       $console=~s/(\$(::)?\w+)/eval $1/ge;
       print $console;
       print $cgi->end_html;
