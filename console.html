@@ -1,10 +1,10 @@
 <script type="text/javascript">
 document.dragstart = function() { return false; }
-function doTouch() {
+function renewAutoScreen() {
     document.refreshScreenAfter = $::touchdelay;
     document.refreshNum = 20;
 }
-doTouch();
+renewAutoScreen();
 function url(rest) {
     here = window.location.href.split("/");
     here.pop();
@@ -28,11 +28,12 @@ function mouseDown(i, e) {
     iw = Math.round(i.width);
 
     touch = "touch?device=$who" +
+          "&deg=" + qParam("deg", "0") +
           "&down=?" + x1 + "," + y1 +
         //"&swipe=?" + x2 + "," + y2 +
           "&img=?" + iw + "," + ih;
     window.frames["stdout"].location=url(touch);
-    doTouch();
+    renewAutoScreen();
     return true;
 }
 function mouseUp(i, e) {
@@ -52,12 +53,13 @@ function mouseUp(i, e) {
     iw = Math.round(i.width);
 
     touch = "touch?device=$who" +
+          "&deg=" + qParam("deg", "0") +
           "&down=?" + x1 + "," + y1 +
           "&swipe=?" + x2 + "," + y2 +
           "&img=?" + iw + "," + ih;
     window.frames["stdout"].location=url(touch);
 
-    doTouch();
+    renewAutoScreen();
     return true;
 }
 function keyPress(i, e) {
@@ -75,17 +77,17 @@ function keyPress(i, e) {
       window.frames["stdout"].location=url(
         "touch?device=$who&text="+String.fromCharCode(e.charCode));
     }
-    doTouch();
+    renewAutoScreen();
     return true;
 }
 function setInputMode(mode) {
     window.frames["stdout"].location=url("setInputMode?device=$who&mode="+mode);
-    doTouch();
+    renewAutoScreen();
     return true;
 }
 function keyEvent(i, e) {
     window.frames["stdout"].location=url("touch?device=$who&key="+e);
-    doTouch();
+    renewAutoScreen();
     return true;
 }
 function onAdb() {
@@ -141,8 +143,6 @@ function maybeRotate(image) {
       document.autoScale = Math.min(ww/w, hh/h);
     }
     s = getScale();
-    wmh = (w-h);
-    hmw = (h-w);
     switch (deg) {
     case "0":
         transform =
@@ -155,8 +155,8 @@ function maybeRotate(image) {
     case "90":
         transform =
             ''
-            + 'rotate(90deg)'
             + 'scale(' + s + ') '
+            + 'rotate(90deg)'
             + 'translate('+Math.round(-h*.5/s)+'px,'+Math.round(w*.5/s)+'px) '
             + 'translate('+Math.round(w/2)+'px,'+Math.round(-h/2)+'px) '
             ;
