@@ -451,7 +451,39 @@ $touchdelay *= 2; # Interval is 500ms
 #                  003a  : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
 #    input props:
 #      <none>
-#  
+
+  sub decodeGetEvent {
+    my @data = qx($_[0]);
+    s/\015//g for @data;
+    while ($_ = shift @data) {
+      next if /^\s+\*/;
+      if (/add device \d+: (/dev/.*)$/) {
+        $device = $1;
+        $name = undef;
+      }
+      elsif (/^\s+name:\s+"(.*)"\s*/) {
+        $name = $1;
+      }
+      elsif (/^\s+events:\s+$/) {
+        $_ = shift;
+        while (s/^\s+(\w+)\s+\((\w+)\)://) {
+          my @values = ();
+          do {
+            if (/:/) {
+              unshift @values, $_;
+            }
+            else {
+              unshift @values, split(" ", $_);
+            }
+            $_ = shift;
+          } while (!/:\s*$/ && !/^\s+\w+\s+\(\w+\):/);
+          $event{"$device:$name"} = \@values;
+        }
+      }
+    }
+    return \%event;
+  }
+
   sub resp_setInputMode {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -466,6 +498,11 @@ $touchdelay *= 2; # Interval is 500ms
       print $cgi->header,
             $cgi->start_html("$who");
       logg "mode=$mode";
+
+      if ($mode) {
+        my $cmdw = decodeGetEvent("adb shell -d $who getevent -lp");
+        my $cmdn = decodeGetEvent("adb shell -d $who getevent -p");
+      }
 
       mkdir("$0.devices");
       if (open FILE, ">$0.devices/$who") {
