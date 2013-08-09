@@ -109,13 +109,17 @@ $touchdelay *= 2; # Interval is 500ms
       my $myself = $cgi->self_url;
       print $cgi->h1("$cmd ");
       print $cgi->start_ul();
+      @real = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
-            print $cgi->li($cgi->a({href=>"/console?device=$1"}, "$_"));
+            unshift @real, $cgi->li($cgi->a({href=>"/console?device=$1"}, "$_"));
         }
         else {
             print $cgi->li($_);
         }
+      }
+      for (sort { lc($a) cmp lc($b) } @real) {
+        print $_;
       }
       print $cgi->end_ul();
       my $killServer = readFile("killserver.html");
