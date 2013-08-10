@@ -471,7 +471,7 @@ $touchdelay *= 2; # Interval is 500ms
     elsif ($ref eq 'HASH') {
       my $o = 0;
       print '{';
-      for my $k (keys %$d) {
+      for my $k (sort keys %$d) {
         print "," if $o;
         print "\n$i . ";
         $o = 1;
@@ -542,18 +542,23 @@ $touchdelay *= 2; # Interval is 500ms
       logg "mode=$mode";
 
       if ($mode) {
-        print "<pre>";
         my $cmdw = decodeGetEvent("adb -s $who shell getevent -lp");
         my $cmdn = decodeGetEvent("adb -s $who shell getevent -p");
         for my $k ( keys %$cmdw ) {
-          my ( $dev, $name ) = split(/:/, $k);
-          print "$k - $dev - $name\n";
+          my ( $dev, $desc ) = split(/:/, $k);
           my $w = $$cmdw{$k};
           my $n = $$cmdn{$k};
           for my $l (0..((scalar @$w)-1)) {
-            print "$dev -- $name - $l $$w[$l]{NAME} $$n[$l]{NAME}\n";
+            my $name = $$w[$l]{NAME};
+            my $h = $$w[$l];
+            $$h{CODE} = $$n[$l]{NAME};
+            $$h{DEV} = $dev;
+            $$h{DESC} = $desc;
+            $event{$name} = $h;
           }
         }
+        print "<pre>";
+        printRef \%event;
         print "</pre>";
       }
 
