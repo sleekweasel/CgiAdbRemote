@@ -467,7 +467,6 @@ $touchdelay *= 2; # Interval is 500ms
       return "[$ret]";
     }
     elsif ($ref eq 'HASH') {
-      my $o = 0;
       my $ret = "";
       for my $k (sort keys %$d) {
         $ret .= "," if $ret;
@@ -477,10 +476,30 @@ $touchdelay *= 2; # Interval is 500ms
       return "{$ret}";
     }
     elsif ($ref eq 'REF') {
-      return "\\ $ref " . Ref($d, "$i$x", $x);
+      return " \\ " . Ref($d, "$i$x", $x);
     }
     else {
       return "'$d'";
+    }
+  }
+
+  sub loadRef {
+    my $ext = shift;
+    my $who = shift;
+    if (open FILE, "$0.devices/$who.$ext") {
+      return eval <FILE>;
+    }
+    return undef;
+  }
+
+  sub saveRef {
+    my $ref = shift;
+    my $ext = shift;
+    my $who = shift;
+    mkdir("$0.devices");
+    if (open FILE, ">$0.devices/$who.$ext") {
+      print FILE Ref($ref);
+      close FILE;
     }
   }
 
@@ -538,6 +557,7 @@ $touchdelay *= 2; # Interval is 500ms
       if ($mode) {
         my $cmdw = decodeGetEvent("adb -s $who shell getevent -lp");
         my $cmdn = decodeGetEvent("adb -s $who shell getevent -p");
+        my %event;
         for my $k ( keys %$cmdw ) {
           my ( $dev, $desc ) = split(/:/, $k);
           my $w = $$cmdw{$k};
@@ -551,18 +571,11 @@ $touchdelay *= 2; # Interval is 500ms
             $event{$name} = $h;
           }
         }
-        print "<pre>";
-        print Ref(\%event, "\n ", ". ");
-        print "</pre>";
+        saveRef(\%event, "getevent", $who);
+        $getevent{$who} = \%event;
       }
 
-      mkdir("$0.devices");
-      if (open FILE, ">$0.devices/$who") {
-        for (sort keys %q) {
-          print FILE "$_:$q{$_}\n";
-        }
-        close FILE;
-      }
+    saveRef($q, "flags", $who);
   }
   sub resp_adbCmd {
       my $cgi  = shift;   # CGI.pm object
