@@ -78,7 +78,7 @@ $touchdelay *= 2; # Interval is 500ms
     if (open FILE, "$0.devices/$who.$ext") {
       return eval <FILE>;
     }
-    return undef;
+    return {};
   }
 
   sub saveRef {
@@ -118,18 +118,6 @@ $touchdelay *= 2; # Interval is 500ms
   sub runAdb {
     my $cmd = shift;
     runCmd "$::adb $cmd";
-  }
-
-  sub readDeviceConfig {
-    my %q;
-    if (-f "$0.devices/$who") {
-      for (qx"cat $0.devices/$who") {
-        chomp;
-        @q = split(/:/,$_,2);
-        $q{$q[0]}=$q[1] if $q[0];
-      }
-    }
-    return %q;
   }
 
 # ####################### SERVER #################
@@ -307,17 +295,6 @@ $touchdelay *= 2; # Interval is 500ms
       
       my $who = $cgi->param('device');
 
-      my %q;
- 
-      if (-f "$0.devices/$who") {
-        for (qx"cat $0.devices/$who") {
-          chomp;
-          @q = split(/:/,$_,2);
-          $q{$q[0]}=$q[1] if $q[0];
-        }
-      }
-      $q{inputMode} ||= 0;
-
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
       my $down = $cgi->param('down');
@@ -334,7 +311,8 @@ $touchdelay *= 2; # Interval is 500ms
           return;
       }
       # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
-      $touch = $TOUCH[$q{inputMode}];
+      $flags{$who}{inputMode} ||= 0;
+      $touch = $TOUCH[$flags{$who}{inputMode}];
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
         my $cmd = $touch->{down}($touch, $1, $2, $3, $4);
         runAdb "$shell \"$cmd\"" if $cmd;
@@ -443,10 +421,6 @@ $touchdelay *= 2; # Interval is 500ms
       my $who = $cgi->param('device');
       my $mode = $cgi->param('mode');
 
-      my %q = readDeviceConfig();
-
-      $q{inputMode}=$mode;
-
       print $cgi->header,
             $cgi->start_html("$who");
 
@@ -473,7 +447,8 @@ $touchdelay *= 2; # Interval is 500ms
         $getevent{$who} = \%event;
       }
 
-    saveRef($q, "flags", $who);
+    $flags{$who}{inputMode}=$mode;
+    saveRef($flags{$who}, "flags", $who);
   }
 
   sub resp_adbCmd {
