@@ -22,18 +22,6 @@ $touchdelay *= 2; # Interval is 500ms
   use HTTP::Server::Simple::CGI;
   use base qw( HTTP::Server::Simple::CGI );
 
-  my %dispatch = (
-      '/' => \&resp_root,
-      '/screenshot' => \&resp_screenshot,
-      '/console' => \&resp_console,
-      '/killServer' => \&resp_killServer,
-      '/touch' => \&resp_touch,
-      '/text' => \&resp_text,
-      '/setInputMode' => \&resp_setInputMode,
-      '/adbCmd' => \&resp_adbCmd,
-      # ...
-  );
-
   sub logg {
     my $thing = shift;
     my $log = localtime() . ": $$: $thing\n";
@@ -52,6 +40,60 @@ $touchdelay *= 2; # Interval is 500ms
     return "Error running '$cmd'; is adb available? "
         .(($::adb eq 'adb')?"which adb='".qx/which adb/."'":"adb=$::adb");
   }
+
+  sub readFile {
+        my $leafname = shift;
+        my $filename = $0;
+        $filename =~ s/[^\/]*$/$leafname/;
+        return `cat $filename`;
+  }
+
+  sub execute {
+    # Allow access to ?$ return code:
+    local $SIG{'CHLD'} = 'DEFAULT';
+    my $cmd = shift;
+    return qx/$cmd/;
+  }
+
+  sub runCmd {
+    my $cmd = shift;
+    logg $cmd;
+    print execute $cmd;
+    if ($? != 0) {
+        print errorRunning($cmd);
+    }
+  }
+
+  sub runAdb {
+    my $cmd = shift;
+    runCmd "$::adb $cmd";
+  }
+
+  sub readDeviceConfig {
+    my %q;
+    if (-f "$0.devices/$who") {
+      for (qx"cat $0.devices/$who") {
+        chomp;
+        @q = split(/:/,$_,2);
+        $q{$q[0]}=$q[1] if $q[0];
+      }
+    }
+    return %q;
+  }
+
+# ####################### SERVER #################
+
+  my %dispatch = (
+      '/' => \&resp_root,
+      '/screenshot' => \&resp_screenshot,
+      '/console' => \&resp_console,
+      '/killServer' => \&resp_killServer,
+      '/touch' => \&resp_touch,
+      '/text' => \&resp_text,
+      '/setInputMode' => \&resp_setInputMode,
+      '/adbCmd' => \&resp_adbCmd,
+      # ...
+  );
 
   sub handle_request {
       my $self = shift;
@@ -77,20 +119,6 @@ $touchdelay *= 2; # Interval is 500ms
                 "The path $path was not found",
                 $cgi->end_html;
       }
-  }
-
-  sub readFile {
-        my $leafname = shift;
-        my $filename = $0;
-        $filename =~ s/[^\/]*$/$leafname/;
-        return `cat $filename`;
-  }
-
-  sub execute {
-    # Allow access to ?$ return code:
-    local $SIG{'CHLD'} = 'DEFAULT';
-    my $cmd = shift;
-    return qx/$cmd/;
   }
 
   sub resp_root {
@@ -125,20 +153,6 @@ $touchdelay *= 2; # Interval is 500ms
       print $cgi->end_html;
   }
 
-  sub runCmd {
-    my $cmd = shift;
-    logg $cmd;
-    print execute $cmd;
-    if ($? != 0) {
-        print errorRunning($cmd);
-    }
-  }
-
-  sub runAdb {
-    my $cmd = shift;
-    runCmd "$::adb $cmd";
-  }
-
   sub resp_console {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -153,53 +167,6 @@ $touchdelay *= 2; # Interval is 500ms
       $console=~s/(\$(::)?\w+)/eval $1/ge;
       print $console;
       print $cgi->end_html;
-  }
-
-
-  sub resp_touch {
-      my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
-      
-      my $who = $cgi->param('device');
-
-      my %q;
- 
-      if (-f "$0.devices/$who") {
-        for (qx"cat $0.devices/$who") {
-          chomp;
-          @q = split(/:/,$_,2);
-          $q{$q[0]}=$q[1] if $q[0];
-        }
-      }
-      $q{inputMode} ||= 0;
-
-      my $coords = $cgi->param('coords');
-      my $up = $cgi->param('swipe');
-      my $down = $cgi->param('down');
-      my $rot = $cgi->param('rot');
-      my $img = $cgi->param('img');
-
-      print $cgi->header,
-            $cgi->start_html("$who");
-
-      my $shell = "-s $who shell ";
-
-      if ($coords =~ /\?(\d+),(\d+)$/) {
-          runAdb "$shell input tap $1 $2";
-          return;
-      }
-      # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
-      $touch = $TOUCH[$q{inputMode}];
-      if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-        my $cmd = $touch->{down}($touch, $1, $2, $3, $4);
-        runAdb "$shell \"$cmd\"" if $cmd;
-        return;
-      }
-      if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-        my $cmd = $touch->{downup}($touch, $3, $4, $1, $2, $5, $6);
-        runAdb "$shell \"$cmd\"" if $cmd;
-        return;
-      }
   }
 
 @TOUCH=(
@@ -283,6 +250,52 @@ $touchdelay *= 2; # Interval is 500ms
   }
 );
 
+  sub resp_touch {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+
+      my %q;
+ 
+      if (-f "$0.devices/$who") {
+        for (qx"cat $0.devices/$who") {
+          chomp;
+          @q = split(/:/,$_,2);
+          $q{$q[0]}=$q[1] if $q[0];
+        }
+      }
+      $q{inputMode} ||= 0;
+
+      my $coords = $cgi->param('coords');
+      my $up = $cgi->param('swipe');
+      my $down = $cgi->param('down');
+      my $rot = $cgi->param('rot');
+      my $img = $cgi->param('img');
+
+      print $cgi->header,
+            $cgi->start_html("$who");
+
+      my $shell = "-s $who shell ";
+
+      if ($coords =~ /\?(\d+),(\d+)$/) {
+          runAdb "$shell input tap $1 $2";
+          return;
+      }
+      # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
+      $touch = $TOUCH[$q{inputMode}];
+      if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
+        my $cmd = $touch->{down}($touch, $1, $2, $3, $4);
+        runAdb "$shell \"$cmd\"" if $cmd;
+        return;
+      }
+      if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
+        my $cmd = $touch->{downup}($touch, $3, $4, $1, $2, $5, $6);
+        runAdb "$shell \"$cmd\"" if $cmd;
+        return;
+      }
+  }
+
   sub resp_text {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -336,121 +349,6 @@ $touchdelay *= 2; # Interval is 500ms
             $cgi->start_html("$who");
       runAdb "kill-server";
   }
-
-  sub readDeviceConfig {
-    my %q;
-    if (-f "$0.devices/$who") {
-      for (qx"cat $0.devices/$who") {
-        chomp;
-        @q = split(/:/,$_,2);
-        $q{$q[0]}=$q[1] if $q[0];
-      }
-    }
-    return %q;
-  }
-
-
-# adb shell getevent -lp
-#  * daemon not running. starting it now on port 5037 *
-#  * daemon started successfully *
-#  add device 1: /dev/input/event6
-#    name:     "compass"
-#    events:
-#      REL (0002): REL_X                 REL_Y                 REL_Z                 REL_RX               
-#                  REL_RY                REL_RZ                REL_HWHEEL            REL_DIAL             
-#                  REL_WHEEL             REL_MISC             
-#    input props:
-#      <none>
-#  add device 2: /dev/input/event5
-#    name:     "cypress-touchkey"
-#    events:
-#      KEY (0001): KEY_HOME              KEY_MENU              KEY_BACK              KEY_SEARCH           
-#    input props:
-#      <none>
-#  add device 3: /dev/input/event4
-#    name:     "lightsensor-level"
-#    events:
-#      ABS (0003): ABS_MISC              : value 48, min 0, max 4095, fuzz 64, flat 0, resolution 0
-#    input props:
-#      <none>
-#  add device 4: /dev/input/event3
-#    name:     "proximity"
-#    events:
-#      ABS (0003): ABS_DISTANCE          : value 1, min 0, max 1, fuzz 0, flat 0, resolution 0
-#    input props:
-#      <none>
-#  add device 5: /dev/input/event2
-#    name:     "herring-keypad"
-#    events:
-#      KEY (0001): KEY_VOLUMEDOWN        KEY_VOLUMEUP          KEY_POWER            
-#    input props:
-#      <none>
-#  add device 6: /dev/input/event1
-#    name:     "gyro"
-#    events:
-#      REL (0002): REL_RX                REL_RY                REL_RZ               
-#    input props:
-#      <none>
-#  add device 7: /dev/input/event0
-#    name:     "mxt224_ts_input"
-#    events:
-#      ABS (0003): ABS_MT_TOUCH_MAJOR    : value 0, min 0, max 30, fuzz 0, flat 0, resolution 0
-#                  ABS_MT_POSITION_X     : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
-#                  ABS_MT_POSITION_Y     : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
-#                  ABS_MT_TRACKING_ID    : value 0, min 0, max 4, fuzz 0, flat 0, resolution 0
-#                  ABS_MT_PRESSURE       : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
-#    input props:
-#      <none>
-#  
-#  
-# adb shell getevent -p
-#  add device 1: /dev/input/event6
-#    name:     "compass"
-#    events:
-#      REL (0002): 0000  0001  0002  0003  0004  0005  0006  0007 
-#                  0008  0009 
-#    input props:
-#      <none>
-#  add device 2: /dev/input/event5
-#    name:     "cypress-touchkey"
-#    events:
-#      KEY (0001): 0066  008b  009e  00d9 
-#    input props:
-#      <none>
-#  add device 3: /dev/input/event4
-#    name:     "lightsensor-level"
-#    events:
-#      ABS (0003): 0028  : value 48, min 0, max 4095, fuzz 64, flat 0, resolution 0
-#    input props:
-#      <none>
-#  add device 4: /dev/input/event3
-#    name:     "proximity"
-#    events:
-#      ABS (0003): 0019  : value 1, min 0, max 1, fuzz 0, flat 0, resolution 0
-#    input props:
-#      <none>
-#  add device 5: /dev/input/event2
-#    name:     "herring-keypad"
-#    events:
-#      KEY (0001): 0072  0073  0074 
-#    input props:
-#      <none>
-#  add device 6: /dev/input/event1
-#    name:     "gyro"
-#    events:
-#      REL (0002): 0003  0004  0005 
-#    input props:
-#      <none>
-#  add device 7: /dev/input/event0
-#    name:     "mxt224_ts_input"
-#    events:
-#      ABS (0003): 0030  : value 0, min 0, max 30, fuzz 0, flat 0, resolution 0
-#                  0035  : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
-#                  0036  : value 0, min 0, max 1023, fuzz 0, flat 0, resolution 0
-#                  0039  : value 0, min 0, max 4, fuzz 0, flat 0, resolution 0
-#                  003a  : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
-#    input props:
-#      <none>
 
   sub Ref {
     my $d = shift;
@@ -577,6 +475,8 @@ $touchdelay *= 2; # Interval is 500ms
 
     saveRef($q, "flags", $who);
   }
+
+
   sub resp_adbCmd {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
