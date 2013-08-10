@@ -64,7 +64,7 @@ $touchdelay *= 2; # Interval is 500ms
       $ret .= "$i" if $ret;
       return "{$ret}";
     }
-    elsif ($ref eq 'REF') {
+    elsif ($ref eq 'SCALAR') {
       return " \\ " . Ref($d, "$i$x", $x);
     }
     else {
