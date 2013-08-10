@@ -41,6 +41,57 @@ $touchdelay *= 2; # Interval is 500ms
         .(($::adb eq 'adb')?"which adb='".qx/which adb/."'":"adb=$::adb");
   }
 
+  sub Ref {
+    my $d = shift;
+    my $i = shift || "";
+    my $x = shift || "";
+    my $ref = ref $d;
+    if ($ref eq 'ARRAY') {
+      my $ret = "";
+      for (@$d) {
+        $ret .= "," if $ret;
+        $ret .= "$i$x". Ref($_, "$i$x", $x);
+      }
+      $ret .= $i if $ret;
+      return "[$ret]";
+    }
+    elsif ($ref eq 'HASH') {
+      my $ret = "";
+      for my $k (sort keys %$d) {
+        $ret .= "," if $ret;
+        $ret .= "$i$x$k => ". Ref($$d{$k}, "$i$x", $x);
+      }
+      $ret .= "$i" if $ret;
+      return "{$ret}";
+    }
+    elsif ($ref eq 'REF') {
+      return " \\ " . Ref($d, "$i$x", $x);
+    }
+    else {
+      return "'$d'";
+    }
+  }
+
+  sub loadRef {
+    my $ext = shift;
+    my $who = shift;
+    if (open FILE, "$0.devices/$who.$ext") {
+      return eval <FILE>;
+    }
+    return undef;
+  }
+
+  sub saveRef {
+    my $ref = shift;
+    my $ext = shift;
+    my $who = shift;
+    mkdir("$0.devices");
+    if (open FILE, ">$0.devices/$who.$ext") {
+      print FILE Ref($ref);
+      close FILE;
+    }
+  }
+
   sub readFile {
         my $leafname = shift;
         my $filename = $0;
@@ -350,57 +401,6 @@ $touchdelay *= 2; # Interval is 500ms
       runAdb "kill-server";
   }
 
-  sub Ref {
-    my $d = shift;
-    my $i = shift || "";
-    my $x = shift || "";
-    my $ref = ref $d;
-    if ($ref eq 'ARRAY') {
-      my $ret = "";
-      for (@$d) {
-        $ret .= "," if $ret;
-        $ret .= "$i$x". Ref($_, "$i$x", $x);
-      }
-      $ret .= $i if $ret;
-      return "[$ret]";
-    }
-    elsif ($ref eq 'HASH') {
-      my $ret = "";
-      for my $k (sort keys %$d) {
-        $ret .= "," if $ret;
-        $ret .= "$i$x$k => ". Ref($$d{$k}, "$i$x", $x);
-      }
-      $ret .= "$i" if $ret;
-      return "{$ret}";
-    }
-    elsif ($ref eq 'REF') {
-      return " \\ " . Ref($d, "$i$x", $x);
-    }
-    else {
-      return "'$d'";
-    }
-  }
-
-  sub loadRef {
-    my $ext = shift;
-    my $who = shift;
-    if (open FILE, "$0.devices/$who.$ext") {
-      return eval <FILE>;
-    }
-    return undef;
-  }
-
-  sub saveRef {
-    my $ref = shift;
-    my $ext = shift;
-    my $who = shift;
-    mkdir("$0.devices");
-    if (open FILE, ">$0.devices/$who.$ext") {
-      print FILE Ref($ref);
-      close FILE;
-    }
-  }
-
   sub decodeGetEvent {
     my @data = qx($_[0]);
     my $event = {};
@@ -476,7 +476,6 @@ $touchdelay *= 2; # Interval is 500ms
     saveRef($q, "flags", $who);
   }
 
-
   sub resp_adbCmd {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -489,6 +488,23 @@ $touchdelay *= 2; # Interval is 500ms
       runAdb "-s $who shell $cmd" if $cmd !~ /^\s*$/;
   }
 }
+
+opendir DIR, "$0.devices";
+for (readdir DIR) {
+  my ( $who, $ext ) = split(/\./);
+  if ( $ext eq 'getevent' ) {
+    $getevent{$who}=loadRef($ext, $who);
+  }
+  elsif ( @ext eq 'flags' ) {
+    $flags{$who}=loadRef($ext, $who);
+  }
+  else {
+    warn "Unknown config file $_\n";
+  }
+}
+closedir DH;
+
+print MyWebServer::Ref($getevent, "\n ", ". "), "\n";
 
 # start the server on $port
 if ($foreground) {
