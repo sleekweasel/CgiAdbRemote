@@ -452,41 +452,35 @@ $touchdelay *= 2; # Interval is 500ms
 #    input props:
 #      <none>
 
-  sub printRef {
+  sub Ref {
     my $d = shift;
-    my $i = shift || "|";
+    my $i = shift || "";
+    my $x = shift || "";
     my $ref = ref $d;
     if ($ref eq 'ARRAY') {
-      my $o = 0;
-      print '[';
+      my $ret = "";
       for (@$d) {
-        print "," if $o;
-        print "\n$i . ";
-        $o = 1;
-        printRef($_, "$i . ");
+        $ret .= "," if $ret;
+        $ret .= "$i$x". Ref($_, "$i$x", $x);
       }
-      print "\n$i" if $o;
-      print ']';
+      $ret .= $i if $ret;
+      return "[$ret]";
     }
     elsif ($ref eq 'HASH') {
       my $o = 0;
-      print '{';
+      my $ret = "";
       for my $k (sort keys %$d) {
-        print "," if $o;
-        print "\n$i . ";
-        $o = 1;
-        print "$k => ";
-        printRef($$d{$k}, "$i . ");
+        $ret .= "," if $ret;
+        $ret .= "$i$x$k => ". Ref($$d{$k}, "$i$x", $x);
       }
-      print "\n$i" if $o;
-      print '}';
+      $ret .= "$i" if $ret;
+      return "{$ret}";
     }
     elsif ($ref eq 'REF') {
-      print "\\ $ref ";
-      printRef($d, "$i . ");
+      return "\\ $ref " . Ref($d, "$i$x", $x);
     }
     else {
-      print "'$d'";
+      return "'$d'";
     }
   }
 
@@ -558,7 +552,7 @@ $touchdelay *= 2; # Interval is 500ms
           }
         }
         print "<pre>";
-        printRef \%event;
+        print Ref(\%event, "\n ", ". ");
         print "</pre>";
       }
 
