@@ -452,12 +452,51 @@ $touchdelay *= 2; # Interval is 500ms
 #    input props:
 #      <none>
 
+  sub printRef {
+    my $d = shift;
+    my $i = shift || "|";
+    my $ref = ref $d;
+    if ($ref eq 'ARRAY') {
+      my $o = 0;
+      print '[';
+      for (@$d) {
+        print "," if $o;
+        print "\n$i . ";
+        $o = 1;
+        printRef($_, "$i . ");
+      }
+      print "\n$i" if $o;
+      print ']';
+    }
+    elsif ($ref eq 'HASH') {
+      my $o = 0;
+      print '{';
+      for my $k (keys %$d) {
+        print "," if $o;
+        print "\n$i . ";
+        $o = 1;
+        print "$k => ";
+        printRef($$d{$k}, "$i . ");
+      }
+      print "\n$i" if $o;
+      print '}';
+    }
+    elsif ($ref eq 'REF') {
+      print "\\ $ref ";
+      printRef($d, "$i . ");
+    }
+    else {
+      print "'$d'";
+    }
+  }
+
   sub decodeGetEvent {
     my @data = qx($_[0]);
+    my $event = {};
     s/\015//g for @data;
     while ($_ = shift @data) {
       next if /^\s+\*/;
-      if (/add device \d+: (/dev/.*)$/) {
+      if (/add device \d+: (\/dev\/.*)$/) {
         $device = $1;
         $name = undef;
       }
@@ -465,23 +504,25 @@ $touchdelay *= 2; # Interval is 500ms
         $name = $1;
       }
       elsif (/^\s+events:\s+$/) {
-        $_ = shift;
+        $_ = shift @data;
         while (s/^\s+(\w+)\s+\((\w+)\)://) {
           my @values = ();
           do {
-            if (/:/) {
-              unshift @values, $_;
+            if (/(\w+)\s+:\s+(.*)/) {
+              my $name = $1;
+              my $pairs = $2;
+              unshift @values, { NAME => $name, split(/,?\s+/, $pairs) };
             }
             else {
-              unshift @values, split(" ", $_);
+              unshift @values, map { { NAME => $_ } } split(" ", $_);
             }
-            $_ = shift;
+            $_ = shift @data;
           } while (!/:\s*$/ && !/^\s+\w+\s+\(\w+\):/);
-          $event{"$device:$name"} = \@values;
+          $$event{"$device:$name"} = \@values;
         }
       }
     }
-    return \%event;
+    return $event;
   }
 
   sub resp_setInputMode {
@@ -497,11 +538,23 @@ $touchdelay *= 2; # Interval is 500ms
 
       print $cgi->header,
             $cgi->start_html("$who");
+
       logg "mode=$mode";
 
       if ($mode) {
-        my $cmdw = decodeGetEvent("adb shell -d $who getevent -lp");
-        my $cmdn = decodeGetEvent("adb shell -d $who getevent -p");
+        print "<pre>";
+        my $cmdw = decodeGetEvent("adb -s $who shell getevent -lp");
+        my $cmdn = decodeGetEvent("adb -s $who shell getevent -p");
+        for my $k ( keys %$cmdw ) {
+          my ( $dev, $name ) = split(/:/, $k);
+          print "$k - $dev - $name\n";
+          my $w = $$cmdw{$k};
+          my $n = $$cmdn{$k};
+          for my $l (0..((scalar @$w)-1)) {
+            print "$dev -- $name - $l $$w[$l]{NAME} $$n[$l]{NAME}\n";
+          }
+        }
+        print "</pre>";
       }
 
       mkdir("$0.devices");
