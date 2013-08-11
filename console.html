@@ -16,7 +16,19 @@ function getScale() {
 }
 function mouseDown(i, e) {
     document.lastDown = e;
-
+    mousePut(i, e);
+    renewAutoScreen();
+    return true;
+}
+function mouseMove(i, e) {
+    if (e.button > 0 && (e.timeStamp - document.lastDown) > 250) {
+      document.lastDown = e.timeStamp;
+      mousePut(i, e);
+    }
+    return true;
+}
+function mousePut(i, e) {
+    document.lastDown = e.timeStamp;
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
 
@@ -32,7 +44,6 @@ function mouseDown(i, e) {
           "&down=?" + x1 + "," + y1 +
           "&img=?" + iw + "," + ih;
     window.frames["stdout"].location=url(touch);
-    renewAutoScreen();
     return true;
 }
 function mouseUp(i, e) {
@@ -276,6 +287,7 @@ setInterval(everyHalfSecond, 500);
 <br>
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"
+  onmousemove="mouseMove(this, event)"
   onmouseup="mouseUp(this,event)"
   onload="onLoadScreen(this)"
   src="/screenshot?device=$who">
