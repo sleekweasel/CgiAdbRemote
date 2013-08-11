@@ -76,7 +76,10 @@ $touchdelay *= 2; # Interval is 500ms
     my $ext = shift;
     my $who = shift;
     if (open FILE, "$0.devices/$who.$ext") {
-      return eval <FILE>;
+      return eval join("", <FILE>);
+    }
+    else {
+      warn "$who.$ext: $!\n";
     }
     return {};
   }
@@ -87,8 +90,11 @@ $touchdelay *= 2; # Interval is 500ms
     my $who = shift;
     mkdir("$0.devices");
     if (open FILE, ">$0.devices/$who.$ext") {
-      print FILE Ref($ref);
+      print FILE Ref($ref, "\n", " ");
       close FILE;
+    }
+    else {
+      warn "$who.$ext: $!\n";
     }
   }
 
@@ -215,16 +221,16 @@ $touchdelay *= 2; # Interval is 500ms
     },
     downup => sub {
       # my $self = $_[0];
-      my $cmd = ($_[1] == $_[3] and $_[2] == $_[4])
-        ? "input tap $_[1] $_[2]"
-        : "input swipe $_[3] $_[4] $_[1] $_[2]";
+      my $cmd = ($_[2] == $_[4] and $_[3] == $_[5])
+        ? "input tap $_[2] $_[3]"
+        : "input swipe $_[4] $_[5] $_[2] $_[3]";
       return $cmd;
     }
   },
   {
     locate => sub {
-      return " sendevent /dev/input/event2 3 0 $_[1] ;".
-             " sendevent /dev/input/event2 3 1 $_[2] ;";
+      return " sendevent /dev/input/event2 3 0 $_[2] ;".
+             " sendevent /dev/input/event2 3 1 $_[3] ;";
     },
     push => sub {
       my $c = $_[0] ? 1 : 0;
@@ -255,36 +261,43 @@ $touchdelay *= 2; # Interval is 500ms
 #                ABS_MT_PRESSURE       : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
 #
     locate => sub {
-      return " sendevent /dev/input/event0 3 53 $_[0] ;". # x
-             " sendevent /dev/input/event0 3 54 $_[1] ;"; # y
+      my $who = $_[0];
+      my $xx = $getevent{$who}{ABS_MT_POSITION_X};
+      my $yy = $getevent{$who}{ABS_MT_POSITION_Y};
+      return " sendevent $$xx{DEV} 3 53 $_[1] ;". # x
+             " sendevent $$yy{DEV} 3 54 $_[2] ;"; # y
     },
     push => sub {
-      my $c = $_[0] ? 50 : 0;
+      my $who = $_[0];
+      my $c = $_[1] ? 50 : 0;
       return " sendevent /dev/input/event0 3 58 $c ;". # pressure
              " sendevent /dev/input/event0 3 48 5 ;". # width
              " sendevent /dev/input/event0 3 57 0 ;"; # finger id?
     },
     end => sub {
+      my $who = $_[1];
       return " sendevent /dev/input/event0 0 2 0 ;".
              " sendevent /dev/input/event0 0 0 0 ;";
     },
     down => sub {
       my $self = $_[0];
-      my $w = $_[3];
-      my $h = $_[4];
-      my $x = int($_[1]*1024/$w);
-      my $y = int($_[2]*1024/$h);
-      return &{$self->{locate}}($x, $y).&{$self->{push}}(1).&{$self->{end}};
+      my $who = $_[1];
+      my $w = $_[4];
+      my $h = $_[5];
+      my $x = int($_[2]*$getevent{$who}{ABS_MT_POSITION_X}{max}/$w);
+      my $y = int($_[3]*$getevent{$who}{ABS_MT_POSITION_Y}{max}/$h);
+      return &{$self->{locate}}($who,$x,$y).&{$self->{push}}($who,1).&{$self->{end}};
     },
     downup => sub {
       my $self = $_[0];
-      my $w = $_[5];
-      my $h = $_[6];
-      my $x1 = int($_[1]*1024/$w);
-      my $y1 = int($_[2]*1024/$h);
-#      my $x2 = int($_[3]/$w*1024);
-#      my $y2 = int($_[4]/$h*1024);
-      return &{$self->{locate}}($x1,$y1).&{$self->{push}}(1).&{$self->{end}}.&{$self->{end}};
+      my $who = $_[1];
+      my $w = $_[6];
+      my $h = $_[7];
+      my $x1 = int($_[2]*$getevent{$who}{ABS_MT_POSITION_X}{max}/$w);
+      my $y1 = int($_[3]*$getevent{$who}{ABS_MT_POSITION_Y}{max}/$h);
+#      my $x2 = int($_[4]/$w*1024);
+#      my $y2 = int($_[5]/$h*1024);
+      return &{$self->{locate}}($who,$x1,$y1).&{$self->{push}}($who, 1).&{$self->{end}}.&{$self->{end}};
     }
   }
 );
@@ -314,12 +327,12 @@ $touchdelay *= 2; # Interval is 500ms
       $flags{$who}{inputMode} ||= 0;
       $touch = $TOUCH[$flags{$who}{inputMode}];
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-        my $cmd = $touch->{down}($touch, $1, $2, $3, $4);
+        my $cmd = $touch->{down}($touch, $who, $1, $2, $3, $4);
         runAdb "$shell \"$cmd\"" if $cmd;
         return;
       }
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
-        my $cmd = $touch->{downup}($touch, $3, $4, $1, $2, $5, $6);
+        my $cmd = $touch->{downup}($touch, $who, $3, $4, $1, $2, $5, $6);
         runAdb "$shell \"$cmd\"" if $cmd;
         return;
       }
@@ -395,15 +408,16 @@ $touchdelay *= 2; # Interval is 500ms
       elsif (/^\s+events:\s+$/) {
         $_ = shift @data;
         while (s/^\s+(\w+)\s+\((\w+)\)://) {
+          my $id = $2;
           my @values = ();
           do {
             if (/(\w+)\s+:\s+(.*)/) {
               my $name = $1;
               my $pairs = $2;
-              unshift @values, { NAME => $name, split(/,?\s+/, $pairs) };
+              unshift @values, { NAME => $name, EVENT => $id, split(/,?\s+/, $pairs) };
             }
             else {
-              unshift @values, map { { NAME => $_ } } split(" ", $_);
+              unshift @values, map { { NAME => $_, EVENT => $id } } split(" ", $_);
             }
             $_ = shift @data;
           } while (!/:\s*$/ && !/^\s+\w+\s+\(\w+\):/);
@@ -464,14 +478,16 @@ $touchdelay *= 2; # Interval is 500ms
   }
 }
 
+$getevent{''}={};
+$flags{''}={};
 opendir DIR, "$0.devices";
 for (readdir DIR) {
   my ( $who, $ext ) = split(/\./);
   if ( $ext eq 'getevent' ) {
-    $getevent{$who}=loadRef($ext, $who);
+    $getevent{$who}=MyWebServer::loadRef($ext, $who);
   }
-  elsif ( @ext eq 'flags' ) {
-    $flags{$who}=loadRef($ext, $who);
+  elsif ( $ext eq 'flags' ) {
+    $flags{$who}=MyWebServer::loadRef($ext, $who);
   }
   else {
     warn "Unknown config file $_\n";
@@ -479,7 +495,8 @@ for (readdir DIR) {
 }
 closedir DH;
 
-print MyWebServer::Ref($getevent, "\n ", ". "), "\n";
+print MyWebServer::Ref(\%getevent, "\n ", ". "), "\n";
+print MyWebServer::Ref(\%flags, "\n ", ". "), "\n";
 
 # start the server on $port
 if ($foreground) {
