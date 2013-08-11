@@ -264,20 +264,24 @@ $touchdelay *= 2; # Interval is 500ms
       my $who = $_[0];
       my $xx = $getevent{$who}{ABS_MT_POSITION_X};
       my $yy = $getevent{$who}{ABS_MT_POSITION_Y};
-      return " sendevent $$xx{DEV} 3 53 $_[1] ;". # x
-             " sendevent $$yy{DEV} 3 54 $_[2] ;"; # y
+      return " sendevent $$xx{DEV} $$xx{EVENT10} $$xx{CODE10} $_[1] ;". # x
+             " sendevent $$yy{DEV} $$yy{EVENT10} $$yy{CODE10} $_[2] ;"; # y
     },
     push => sub {
       my $who = $_[0];
+      my $aa = $getevent{$who}{ABS_MT_TOUCH_MAJOR};
+      my $bb = $getevent{$who}{ABS_MT_PRESSURE};
+      my $cc = $getevent{$who}{ABS_MT_TRACKING_ID};
       my $c = $_[1] ? 50 : 0;
-      return " sendevent /dev/input/event0 3 58 $c ;". # pressure
-             " sendevent /dev/input/event0 3 48 5 ;". # width
-             " sendevent /dev/input/event0 3 57 0 ;"; # finger id?
+      return " sendevent $$bb{DEV} $$bb{EVENT10} $$bb{CODE10} $c ;". # pressure
+             " sendevent $$aa{DEV} $$aa{EVENT10} $$aa{CODE10} 5 ;". # width
+             " sendevent $$cc{DEV} $$cc{EVENT10} $$cc{CODE10} 0 ;"; # finger id?
     },
     end => sub {
       my $who = $_[1];
-      return " sendevent /dev/input/event0 0 2 0 ;".
-             " sendevent /dev/input/event0 0 0 0 ;";
+      my $xx = $getevent{$who}{ABS_MT_POSITION_X};
+      return " sendevent $$xx{DEV} 0 2 0 ;".
+             " sendevent $$xx{DEV} 0 0 0 ;";
     },
     down => sub {
       my $self = $_[0];
@@ -414,10 +418,10 @@ $touchdelay *= 2; # Interval is 500ms
             if (/(\w+)\s+:\s+(.*)/) {
               my $name = $1;
               my $pairs = $2;
-              unshift @values, { NAME => $name, EVENT => $id, split(/,?\s+/, $pairs) };
+              unshift @values, { NAME => $name, EVENT => $id, EVENT10 => hex($id), split(/,?\s+/, $pairs) };
             }
             else {
-              unshift @values, map { { NAME => $_, EVENT => $id } } split(" ", $_);
+              unshift @values, map { { NAME => $_, EVENT => $id, EVENT10 => hex($id) } } split(" ", $_);
             }
             $_ = shift @data;
           } while (!/:\s*$/ && !/^\s+\w+\s+\(\w+\):/);
@@ -452,6 +456,7 @@ $touchdelay *= 2; # Interval is 500ms
             my $name = $$w[$l]{NAME};
             my $h = $$w[$l];
             $$h{CODE} = $$n[$l]{NAME};
+            $$h{CODE10} = hex($$n[$l]{NAME});
             $$h{DEV} = $dev;
             $$h{DESC} = $desc;
             $event{$name} = $h;
