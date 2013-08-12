@@ -21,7 +21,7 @@ function mouseDown(i, e) {
     return true;
 }
 function mouseMove(i, e) {
-    if (e.button > 0 && (e.timeStamp - document.lastStamp) > 250) {
+    if (document.lastStamp > 0 && e.timeStamp > document.lastStamp + 250) {
       mousePut(i, e);
     }
     return true;
@@ -46,6 +46,7 @@ function mousePut(i, e) {
     return true;
 }
 function mouseUp(i, e) {
+    document.lastStamp = 0;
     f=document.lastDown;
 
     xoff = i.x - window.pageXOffset;
@@ -232,7 +233,7 @@ function logResponse(doc) {
 setInterval(everyHalfSecond, 500);
 </script>
 <a href='/'>Adb devices</a>
-<h1 style="color: red">$::banner</h1>
+<h1 id="banner" style="color: red">$::banner</h1>
 <iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
 <iframe height=100 width='100%' id=logger name=logger></iframe><br>
 
@@ -287,6 +288,7 @@ setInterval(everyHalfSecond, 500);
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"
   onmousemove="mouseMove(this, event)"
+  onmouseleave="mouseUp(this, event)"
   onmouseup="mouseUp(this,event)"
   onload="onLoadScreen(this)"
   src="/screenshot?device=$who">

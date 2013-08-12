@@ -269,19 +269,24 @@ $touchdelay *= 2; # Interval is 500ms
     },
     push => sub {
       my $who = $_[0];
-      my $aa = $getevent{$who}{ABS_MT_TOUCH_MAJOR};
-      my $bb = $getevent{$who}{ABS_MT_PRESSURE};
-      my $cc = $getevent{$who}{ABS_MT_TRACKING_ID};
+      my $wi = $getevent{$who}{ABS_MT_TOUCH_MAJOR};
+      my $pr = $getevent{$who}{ABS_MT_PRESSURE};
+      my $tr = $getevent{$who}{ABS_MT_TRACKING_ID};
       my $c = $_[1] ? 50 : 0;
-      return " sendevent $$bb{DEV} $$bb{EVENT10} $$bb{CODE10} $c ;". # pressure
-             " sendevent $$aa{DEV} $$aa{EVENT10} $$aa{CODE10} 5 ;". # width
-             " sendevent $$cc{DEV} $$cc{EVENT10} $$cc{CODE10} 0 ;"; # finger id?
+      return " sendevent $$pr{DEV} $$pr{EVENT10} $$pr{CODE10} $c ;". # pressure
+             " sendevent $$wi{DEV} $$wi{EVENT10} $$wi{CODE10} 5 ;". # width
+             " sendevent $$tr{DEV} $$tr{EVENT10} $$tr{CODE10} 0 ;"; # finger id?
+    },
+    sync => sub {
+      my $who = $_[1];
+      my $tr = $getevent{$who}{ABS_MT_TRACKING_ID};
+      return " sendevent $$tr{DEV} 0 0 0 ;";
     },
     end => sub {
       my $who = $_[1];
-      my $xx = $getevent{$who}{ABS_MT_POSITION_X};
-      return " sendevent $$xx{DEV} 0 2 0 ;".
-             " sendevent $$xx{DEV} 0 0 0 ;";
+      my $tr = $getevent{$who}{ABS_MT_TRACKING_ID};
+      return " sendevent $$tr{DEV} $$tr{EVENT10} $$tr{CODE10} ".0xffffffff." ;"
+            ." sendevent $$tr{DEV} 0 0 0 ;";
     },
     down => sub {
       my $self = $_[0];
@@ -290,7 +295,9 @@ $touchdelay *= 2; # Interval is 500ms
       my $h = $_[5];
       my $x = int($_[2]*$getevent{$who}{ABS_MT_POSITION_X}{max}/$w);
       my $y = int($_[3]*$getevent{$who}{ABS_MT_POSITION_Y}{max}/$h);
-      return &{$self->{locate}}($who,$x,$y).&{$self->{push}}($who,1).&{$self->{end}};
+      return &{$self->{locate}}($who,$x,$y)
+            .&{$self->{push}}($who,1)
+            .&{$self->{sync}};
     },
     downup => sub {
       my $self = $_[0];
@@ -299,9 +306,12 @@ $touchdelay *= 2; # Interval is 500ms
       my $h = $_[7];
       my $x1 = int($_[2]*$getevent{$who}{ABS_MT_POSITION_X}{max}/$w);
       my $y1 = int($_[3]*$getevent{$who}{ABS_MT_POSITION_Y}{max}/$h);
-#      my $x2 = int($_[4]/$w*1024);
-#      my $y2 = int($_[5]/$h*1024);
-      return &{$self->{locate}}($who,$x1,$y1).&{$self->{push}}($who, 1).&{$self->{end}}.&{$self->{end}};
+      my $x2 = int($_[4]/$w*1024);
+      my $y2 = int($_[5]/$h*1024);
+      return &{$self->{locate}}($who,$x1,$y1)
+            .&{$self->{push}}($who, 1)
+            .&{$self->{sync}}
+            .&{$self->{end}};
     }
   }
 );
@@ -323,11 +333,7 @@ $touchdelay *= 2; # Interval is 500ms
 
       my $shell = "-s $who shell ";
 
-      if ($coords =~ /\?(\d+),(\d+)$/) {
-          runAdb "$shell input tap $1 $2";
-          return;
-      }
-      # http://blog.softteco.com/2011/03/android-low-level-shell-click-on-screen.html
+    warn "touch mode = " . $flags{$who}{inputMode};
       $flags{$who}{inputMode} ||= 0;
       $touch = $TOUCH[$flags{$who}{inputMode}];
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
@@ -483,16 +489,16 @@ $touchdelay *= 2; # Interval is 500ms
   }
 }
 
-$getevent{''}={};
-$flags{''}={};
+$MyWebServer::getevent{''}={};
+$MyWebServer::flags{''}={};
 opendir DIR, "$0.devices";
 for (readdir DIR) {
   my ( $who, $ext ) = split(/\./);
   if ( $ext eq 'getevent' ) {
-    $getevent{$who}=MyWebServer::loadRef($ext, $who);
+    $MyWebServer::getevent{$who}=MyWebServer::loadRef($ext, $who);
   }
   elsif ( $ext eq 'flags' ) {
-    $flags{$who}=MyWebServer::loadRef($ext, $who);
+    $MyWebServer::flags{$who}=MyWebServer::loadRef($ext, $who);
   }
   else {
     warn "Unknown config file $_\n";
@@ -500,8 +506,8 @@ for (readdir DIR) {
 }
 closedir DH;
 
-print MyWebServer::Ref(\%getevent, "\n ", ". "), "\n";
-print MyWebServer::Ref(\%flags, "\n ", ". "), "\n";
+print MyWebServer::Ref(\%MyWebServer::getevent, "\n ", ". "), "\n";
+print MyWebServer::Ref(\%MyWebServer::flags, "\n ", ". "), "\n";
 
 # start the server on $port
 if ($foreground) {
