@@ -21,14 +21,13 @@ function mouseDown(i, e) {
     return true;
 }
 function mouseMove(i, e) {
-    if (e.button > 0 && (e.timeStamp - document.lastDown) > 250) {
-      document.lastDown = e.timeStamp;
+    if (e.button > 0 && (e.timeStamp - document.lastStamp) > 250) {
       mousePut(i, e);
     }
     return true;
 }
 function mousePut(i, e) {
-    document.lastDown = e.timeStamp;
+    document.lastStamp = e.timeStamp;
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
 
