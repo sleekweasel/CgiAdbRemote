@@ -253,6 +253,8 @@ $touchdelay *= 2; # Interval is 500ms
     }
   },
   {
+## https://www.kernel.org/doc/Documentation/input/multi-touch-protocol.txt
+
 ## http://ktnr74.blogspot.co.uk/2013/06/emulating-touchscreen-interaction-with.html
 ## ABS_MT_POSITION_X (53) - x coordinate of the touch
 ## ABS_MT_POSITION_Y (54) - y coordinate of the touch
