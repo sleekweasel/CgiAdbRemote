@@ -25,17 +25,17 @@ that supports mouse clicks and mouse drags, together with hard buttons
 representing `POWER`, `HOME`, `BACK`, and `MENU`, a text entry box for sending
 key events to the device, and buttons to rotate the display.
 
+The screen updates automatically every seven seconds, or one second after the
+last interaction unless a new interaction resets the timer. (This is to allow
+typing and sequential drag/click operations to be performed rapidly without the
+screen update getting in the way.)
+
 Since some devices don't support the `input tap/swipe` command, the
 experimental `multitouch` and `older devices` buttons are provided: these are
 incomplete, but available in case they're better than nothing. The `Keyboard`
 button works once `multitouch` has been engaged, but can in principle operate
 with `input` mode too. `Keyboard` buttons don't currently cause a screen
 refresh.
-
-The screen updates automatically every seven seconds, or one second after the
-last interaction unless a new interaction resets the timer. (This is to allow
-typing and sequential drag/click operations to be performed rapidly without the
-screen update getting in the way.)
 
 [Adb](http://developer.android.com/tools/help/adb.html) must be available to
 this script (ideally, typing 'adb' on the command-line will work, but you can
