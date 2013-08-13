@@ -56,6 +56,8 @@ High
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Passwords for view-only and view-and-interact operations
 0. M. Some sort of username thing to see who is/was playing with a device and how recently.
+0. M. Handle type A and B MT devices per https://www.kernel.org/doc/Documentation/input/multi-touch-protocol.txt
+0. M. Find ST (single touch) documentation and implement.
 
 Medium
 
