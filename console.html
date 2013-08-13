@@ -158,8 +158,9 @@ function maybeRotate(image) {
     autoScale = qParam("autoScale", "false");
     document.autoScale = 1;
     if (autoScale == "true") {
-      hh = window.innerHeight;
-      ww = window.innerWidth;
+      br = document.getElementById("bottomright");
+      hh = br.offsetTop;
+      ww = br.offsetLeft;
       switch (deg) {
         case '90': case '270':
           t = hh; hh = ww; ww = t;
@@ -304,6 +305,7 @@ setInterval(everyHalfSecond, 500);
   </tr>
 </table>
 <br>
+<div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
 <img id="screen" style="border:5px dotted grey" draggable="false"
   onmousedown="mouseDown(this, event)"
   onmousemove="mouseMove(this, event)"
