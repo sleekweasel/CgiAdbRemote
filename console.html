@@ -15,14 +15,16 @@ function getScale() {
   return document.autoScale;
 }
 function mouseDown(i, e) {
-    document.lastDown = e;
-    mousePut(i, e);
-    renewAutoScreen();
+    document.firstDown = e;
+    document.lastStamp = e.timeStamp;
+    //mousePut(i, e);
+    //renewAutoScreen();
     return true;
 }
 function mouseMove(i, e) {
     if (document.lastStamp > 0 && e.timeStamp > document.lastStamp + 250) {
       mousePut(i, e);
+      renewAutoScreen();
     }
     return true;
 }
@@ -47,7 +49,7 @@ function mousePut(i, e) {
 }
 function mouseUp(i, e) {
     document.lastStamp = 0;
-    f=document.lastDown;
+    f=document.firstDown;
 
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
@@ -289,6 +291,7 @@ setInterval(everyHalfSecond, 500);
   onmousedown="mouseDown(this, event)"
   onmousemove="mouseMove(this, event)"
   onmouseleave="mouseUp(this, event)"
+  onmouseout="mouseUp(this, event)"
   onmouseup="mouseUp(this,event)"
   onload="onLoadScreen(this)"
   src="/screenshot?device=$who">
