@@ -134,6 +134,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/console' => \&resp_console,
       '/killServer' => \&resp_killServer,
       '/touch' => \&resp_touch,
+      '/keyboard' => \&resp_keyboard,
       '/text' => \&resp_text,
       '/setInputMode' => \&resp_setInputMode,
       '/adbCmd' => \&resp_adbCmd,
@@ -349,6 +350,34 @@ $touchdelay *= 2; # Interval is 500ms
         my $cmd = $touch->{downup}($touch, $who, $3, $4, $1, $2, $5, $6);
         runAdb "$shell \"$cmd\"" if $cmd;
         return;
+      }
+  }
+
+  sub resp_keyboard {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+
+      my $key = $cgi->param('key');
+      my $down = $cgi->param('down');
+
+      print $cgi->header,
+            $cgi->start_html("$who");
+
+      if ($key) {
+        my $shell = "-s $who shell ";
+        my $k = $getevent{$who}{$key};
+        runAdb "$shell sendevent $$k{DEV} $$k{EVENT10} $$k{CODE10} $down";
+        return;
+      }
+      else {
+        print "<iframe height=20 width='100%' id=stdout></iframe><br>";
+        print "Slide off key to hold<br>";
+        for $k (sort { length $a <=> length $b || $a cmp $b } keys %{$getevent{$who}}) {
+          my $name = $k; $name =~ s/KEY_//;
+          print "<input type='button' value='$name' onmousedown=\"window.frames['stdout'].location='/keyboard?device=$who&key=$k'\" onmouseup=\"window.frames['stdout'].location='/keyboard?device=$who&key=$k'\">";
+        }
       }
   }
 

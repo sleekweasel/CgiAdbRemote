@@ -46,7 +46,6 @@ to pass the value '1' to a command-line option, write it as '01'.
 
 High
 
-0. E. Make the 'time til next screenshot' into a bar, not a count.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
 0. M. Passwords for view-only and view-and-interact operations
@@ -54,7 +53,10 @@ High
 
 Medium
 
-0. M. (Experimental) Adaptive support for 'input sendevent' for devices with a primitive 'input' command: cache/interpret output of 'adb shell getevent -p' and '-lp' for touch events.
+0. E. Rename 'new sendevent' to 'multitouch'
+0. E. Check sendevent's orientation handling.
+0. E. Test sendevent on old non-multitouch devices.
+0. M. On-screen keyboard for `KEY_` events once known, sorted by length then alpha, with power, menu, back, home specially handled, on a separate floating window.
 0. H. Make the server multi-threaded, but only per device: serial access is good for typing!
 0. H. See whether it's worth persisting the adb connections per device.
 
