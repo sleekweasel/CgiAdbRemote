@@ -135,6 +135,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/killServer' => \&resp_killServer,
       '/touch' => \&resp_touch,
       '/keyboard' => \&resp_keyboard,
+      '/settings' => \&resp_settings,
       '/text' => \&resp_text,
       '/setInputMode' => \&resp_setInputMode,
       '/adbCmd' => \&resp_adbCmd,
@@ -351,6 +352,22 @@ $touchdelay *= 2; # Interval is 500ms
         runAdb "$shell \"$cmd\"" if $cmd;
         return;
       }
+  }
+
+  sub resp_settings {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+
+      print $cgi->header,
+            $cgi->start_html("$who")
+            ."Flags...<pre>"
+            .Ref($flags{$who}, "\n ", ". ")
+            ."</pre>"
+            ."getevent...<pre>"
+            .Ref($getevent{$who}, "\n ", ". ")
+            ."</pre>";
   }
 
   sub resp_keyboard {
