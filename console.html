@@ -93,9 +93,21 @@ function keyPress(i, e) {
     return true;
 }
 function setInputMode(mode) {
+    updateHash('mode', mode);
+    colourInputMode();
     window.frames["stdout"].location=url("setInputMode?device=$who&mode="+mode);
     renewAutoScreen();
     return true;
+}
+function colourInputMode() {
+  for (mode in [0,1,2]) {
+    b = document.getElementById('mode'+mode);
+    b.style.backgroundColor='white';
+    b.style.color='black';
+  }
+    b = document.getElementById('mode'+qParam('mode', 0));
+    b.style.backgroundColor='red';
+    b.style.color='white';
 }
 function keyEvent(i, e) {
     window.frames["stdout"].location=url("text?device=$who&key="+e);
@@ -201,8 +213,12 @@ function maybeRotate(image) {
 }
 function everyHalfSecond() {
   if (document.refreshNum != 0) {
-    refresh = "Auto refresh in: " + (document.refreshScreenAfter/2) + "s"
-    + " (" + document.refreshNum + " more)";
+    bar = '';
+    for (i=0; i<document.refreshScreenAfter; i++) {
+      bar += '*';
+    }
+    refresh = "Auto refresh in: " + bar + " (" + document.refreshNum + " more)";
+    document.title=refresh;
   }
   else {
     refresh = "<span style='color: red'>Auto refresh paused until user activity</span>";
@@ -219,6 +235,7 @@ function everyHalfSecond() {
 }
 function onLoadScreen(image) {
   maybeRotate(image);
+  colourInputMode();
   document.refreshScreenAfter = $::autodelay;
 }
 function logResponse(doc) {
@@ -270,9 +287,9 @@ setInterval(everyHalfSecond, 500);
     </table>
   <td rowspan=2>
     <table border=1>
-     <tr><td><input type="button" value="TapSwipe" onclick="setInputMode(0)">
-     <tr><td>Experimental: <input type="button" value="Older sendevent" onclick="setInputMode(1)">
-     <tr><td>Experimental: <input type="button" value="Newer sendevent" onclick="setInputMode(2)">
+     <tr><td><input type="button" id='mode0' value="TapSwipe" onclick="setInputMode(0)">
+     <tr><td>Experimental: <input type="button" id='mode1' value="Older sendevent" onclick="setInputMode(1)">
+     <tr><td>Experimental: <input type="button" id='mode2' value="Newer sendevent" onclick="setInputMode(2)">
     </table>
   </tr>
   <tr>

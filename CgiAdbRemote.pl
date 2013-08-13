@@ -184,7 +184,7 @@ $touchdelay *= 2; # Interval is 500ms
       print $cgi->start_ul();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
-            print $cgi->li($cgi->a({href=>"/console?device=$1"}, "$_"));
+            print $cgi->li($cgi->a({href=>"/console?device=$1#mode=".$flags{$1}{inputMode}}, "$_"));
         }
         else {
             print $cgi->li($_);
