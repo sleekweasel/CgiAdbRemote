@@ -25,8 +25,15 @@ that supports mouse clicks and mouse drags, together with hard buttons
 representing `POWER`, `HOME`, `BACK`, and `MENU`, a text entry box for sending
 key events to the device, and buttons to rotate the display.
 
+Since some devices don't support the `input tap/swipe` command, the
+experimental `multitouch` and `older devices` buttons are provided: these are
+incomplete, but available in case they're better than nothing. The `Keyboard`
+button works once `multitouch` has been engaged, but can in principle operate
+with `input` mode too. `Keyboard` buttons don't currently cause a screen
+refresh.
+
 The screen updates automatically every seven seconds, or one second after the
-last operation unless a new operation resets the timer. (This is to allow
+last interaction unless a new interaction resets the timer. (This is to allow
 typing and sequential drag/click operations to be performed rapidly without the
 screen update getting in the way.)
 
@@ -47,21 +54,21 @@ to pass the value '1' to a command-line option, write it as '01'.
 High
 
 0. M. Restructure, refactor, tidy, and comment properly.
-0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
 0. M. Passwords for view-only and view-and-interact operations
-0. M. Some sort of username thing to see who was playing with a device and how recently.
+0. M. Some sort of username thing to see who is/was playing with a device and how recently.
 
 Medium
 
-0. E. Rename 'new sendevent' to 'multitouch'
 0. E. Check sendevent's orientation handling.
 0. E. Test sendevent on old non-multitouch devices.
-0. M. On-screen keyboard for `KEY_` events once known, sorted by length then alpha, with power, menu, back, home specially handled, on a separate floating window.
+0. E. Persist rotation and possibly scaling per device.
+0. M. Make `Keyboard` cause the screen to refresh.
 0. H. Make the server multi-threaded, but only per device: serial access is good for typing!
 0. H. See whether it's worth persisting the adb connections per device.
 
 Low
 
+0. M. Prevent the type-in field ever losing focus (or otherwise grab all keys)
 0. H. Something to read the keymap files from the device(s), to present 'fancy keys' buttons.
 0. H. Some means to display whether the phone is in standby ('off') = adb shell dumpsys power ... mPowerState=0/1
 0. E. Better options handling.
