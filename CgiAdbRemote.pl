@@ -374,7 +374,7 @@ $touchdelay *= 2; # Interval is 500ms
       else {
         print "<iframe height=20 width='100%' id=stdout></iframe><br>";
         print "Slide off key to hold<br>";
-        for $k (sort { length $a <=> length $b || $a cmp $b } keys %{$getevent{$who}}) {
+        for $k (sort { length $a <=> length $b || $a cmp $b } grep { /KEY_/ } keys %{$getevent{$who}}) {
           my $name = $k; $name =~ s/KEY_//;
           print "<input type='button' value='$name' onmousedown=\"window.frames['stdout'].location='/keyboard?device=$who&key=$k'\" onmouseup=\"window.frames['stdout'].location='/keyboard?device=$who&key=$k'\">";
         }
