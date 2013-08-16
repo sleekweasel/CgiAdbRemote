@@ -184,17 +184,31 @@ $touchdelay *= 2; # Interval is 500ms
       my $myself = $cgi->self_url;
       print $cgi->h1("$cmd ");
       print $cgi->start_ul();
-      @real = ();
+      @serial = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
-            unshift @real, $cgi->li($cgi->a({href=>"/console?device=$1#mode=".$flags{$1}{inputMode}}, "$_"));
+            unshift @serial, $1;
         }
         else {
             print $cgi->li($_);
         }
       }
-      for (sort { lc($a) cmp lc($b) } @real) {
-        print $_;
+      for my $who (sort { lc($a) cmp lc($b) } @serial) {
+        unless ($product{$who}) {
+          my $summary = "";
+          my @props = execute "adb -s $who shell cat /system/build.prop";
+          for (@props) {
+            s/\s+$//;
+            my @p = split("=", $_);
+            $product{$who}{$p[0]}=$p[1];
+            if ($p[0] =~ /ro.product/) {
+              $summary .= " $p[1]" unless $summary =~ /$p[1]/;
+            }
+          }
+          $product{$who}{SUMMARY} = $summary;
+          saveRef($product{$who}, "product", $who);
+        }
+        print $cgi->li($cgi->a({href=>"/console?device=$who#mode=".$flags{$who}{inputMode}}, "[$who]"). " $product{$who}{ro.product.brand} $product{$who}{ro.product.model} $product{$who}{ro.product.manufacturer} ($product{$who}{SUMMARY})");
       }
       print $cgi->end_ul();
       my $killServer = readFile("killserver.html");
@@ -570,6 +584,7 @@ END
 
 $MyWebServer::getevent{''}={};
 $MyWebServer::flags{''}={};
+$MyWebServer::product{''}={};
 opendir DIR, "$0.devices";
 for (readdir DIR) {
   my ( $who, $ext ) = split(/\./);
@@ -579,6 +594,9 @@ for (readdir DIR) {
   elsif ( $ext eq 'flags' ) {
     $MyWebServer::flags{$who}=MyWebServer::loadRef($ext, $who);
   }
+  elsif ( $ext eq 'product' ) {
+    $MyWebServer::product{$who}=MyWebServer::loadRef($ext, $who);
+  }
   else {
     warn "Unknown config file $_\n";
   }
@@ -587,6 +605,7 @@ closedir DH;
 
 print MyWebServer::Ref(\%MyWebServer::getevent, "\n ", ". "), "\n";
 print MyWebServer::Ref(\%MyWebServer::flags, "\n ", ". "), "\n";
+print MyWebServer::Ref(\%MyWebServer::product, "\n ", ". "), "\n";
 
 # start the server on $port
 if ($foreground) {
