@@ -183,14 +183,18 @@ $touchdelay *= 2; # Interval is 500ms
             $cgi->start_html("Devices");
       my $myself = $cgi->self_url;
       print $cgi->h1("$cmd ");
-      print $cgi->start_ul();
+      print "<style><!--"
+            ." table { border: solid 1px; border-collapse: collapse }"
+            ." td { border:1px solid black }"
+            ." --></style>";
+      print "<table>";
       @serial = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
             unshift @serial, $1;
         }
         else {
-            print $cgi->li($_);
+            print "<tr><td colspan=3>$_</tr>\n" if $_ =~ /\S/;
         }
       }
       for my $who (sort { lc($a) cmp lc($b) } @serial) {
@@ -198,6 +202,7 @@ $touchdelay *= 2; # Interval is 500ms
           my $summary = "";
           my @props = execute "adb -s $who shell cat /system/build.prop";
           for (@props) {
+            next if /^\s*#/;
             s/\s+$//;
             my @p = split("=", $_);
             $product{$who}{$p[0]}=$p[1] if $p[0] =~ /\S/;
@@ -208,9 +213,14 @@ $touchdelay *= 2; # Interval is 500ms
           $product{$who}{SUMMARY} = $summary;
           saveRef($product{$who}, "product", $who);
         }
-        print $cgi->li($cgi->a({href=>"/console?device=$who#mode=".$flags{$who}{inputMode}}, "[$who]"). " $product{$who}{'ro.product.brand'} $product{$who}{'ro.product.model'} $product{$who}{'ro.product.manufacturer'} ($product{$who}{SUMMARY})");
+        my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
+        print "<tr><td><a href='$href'>[$who]</a></td>"
+            ."<td>$product{$who}{'ro.product.brand'}"
+            ." $product{$who}{'ro.product.model'}"
+            ." $product{$who}{'ro.product.manufacturer'}</td>"
+            ."<td>($product{$who}{SUMMARY})</td>";
       }
-      print $cgi->end_ul();
+      print "</table>";
       my $killServer = readFile("killserver.html");
       $killServer=~s/(\$(::)?\w+)/eval $1/ge;
       print $killServer;
