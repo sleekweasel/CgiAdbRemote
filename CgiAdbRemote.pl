@@ -59,7 +59,7 @@ $touchdelay *= 2; # Interval is 500ms
       my $ret = "";
       for my $k (sort keys %$d) {
         $ret .= "," if $ret;
-        $ret .= "$i$x$k => ". Ref($$d{$k}, "$i$x", $x);
+        $ret .= "$i$x'$k' => ". Ref($$d{$k}, "$i$x", $x);
       }
       $ret .= "$i" if $ret;
       return "{$ret}";
@@ -200,7 +200,7 @@ $touchdelay *= 2; # Interval is 500ms
           for (@props) {
             s/\s+$//;
             my @p = split("=", $_);
-            $product{$who}{$p[0]}=$p[1];
+            $product{$who}{$p[0]}=$p[1] if $p[0] =~ /\S/;
             if ($p[0] =~ /ro.product/) {
               $summary .= " $p[1]" unless $summary =~ /$p[1]/;
             }
@@ -208,7 +208,7 @@ $touchdelay *= 2; # Interval is 500ms
           $product{$who}{SUMMARY} = $summary;
           saveRef($product{$who}, "product", $who);
         }
-        print $cgi->li($cgi->a({href=>"/console?device=$who#mode=".$flags{$who}{inputMode}}, "[$who]"). " $product{$who}{ro.product.brand} $product{$who}{ro.product.model} $product{$who}{ro.product.manufacturer} ($product{$who}{SUMMARY})");
+        print $cgi->li($cgi->a({href=>"/console?device=$who#mode=".$flags{$who}{inputMode}}, "[$who]"). " $product{$who}{'ro.product.brand'} $product{$who}{'ro.product.model'} $product{$who}{'ro.product.manufacturer'} ($product{$who}{SUMMARY})");
       }
       print $cgi->end_ul();
       my $killServer = readFile("killserver.html");
