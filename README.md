@@ -54,6 +54,7 @@ to pass the value '1' to a command-line option, write it as '01'.
 High
 
 0. M. Time-out very slow requests or commands which don't terminate, e.g. vs a 2.2 emulator.
+0. M. Add an option to use the monkeyrunner screen capture solution of http://stackoverflow.com/questions/2807070/screenshot-of-the-nexus-one-from-adb on devices not supporting screengrab.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Passwords for view-only and view-and-interact operations
 0. M. Some sort of username thing to see who is/was playing with a device and how recently.
@@ -62,6 +63,7 @@ High
 
 Medium
 
+0. Use DDMLIB for screenshots; perhaps migrate from Perl to Java.
 0. E. Check sendevent's orientation handling.
 0. E. Test sendevent on old non-multitouch devices.
 0. E. Persist rotation and possibly scaling per device.
