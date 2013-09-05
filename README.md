@@ -62,6 +62,7 @@ High
 
 Medium
 
+0. Use DDMLIB for screenshots; perhaps migrate from Perl to Java.
 0. E. Check sendevent's orientation handling.
 0. E. Test sendevent on old non-multitouch devices.
 0. E. Persist rotation and possibly scaling per device.
