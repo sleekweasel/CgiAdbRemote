@@ -115,21 +115,7 @@ $touchdelay *= 2; # Interval is 500ms
   sub runCmd {
     my $cmd = shift;
     logg $cmd;
-    my $data;
-#    $data = execute $cmd;
-#    if ($data =~ /^screencap: permission denied$/)
-    {
-      open MONKEY, ">$who.monkey";
-      print MONKEY <<END;
-from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
-device = MonkeyRunner.waitForConnection(10, '$who')
-result = device.takeSnapshot()
-result.writeToFile('$who.png','png')
-END
-      close MONKEY;
-      execute "monkeyrunner $who.monkey";
-      $data = qx(cat $who.png);
-    }
+    my $data = execute $cmd;
     if ($? != 0) {
         $data = errorRunning($cmd);
     }
@@ -502,7 +488,23 @@ END
       my $cmd = "$::adb -s $who  shell screencap -p";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
-      if ($? != 0) {
+      if ($? != 0 || $image =~ /^screencap: permission denied/) {
+        if (1) {
+          # Experimental... monkeyrunner as fallback.
+          warn localtime().": $$: trying MONKEY $who\n";
+          open MONKEY, ">$who.monkey";
+          print MONKEY <<END;
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
+device = MonkeyRunner.waitForConnection(10, '$who')
+result = device.takeSnapshot()
+result.writeToFile('$who.png','png')
+END
+          close MONKEY;
+          execute "monkeyrunner $who.monkey";
+          $image = qx(cat $who.png);
+          print $cgi->header( -type => 'image/png' ), $image;
+          return;
+        }
         print $cgi->header, errorRunning($cmd);
         return;
       }
@@ -525,6 +527,7 @@ END
     my $event = {};
     s/\015//g for @data;
     while ($_ = shift @data) {
+      logg "decode $_";
       next if /^\s+\*/;
       if (/add device \d+: (\/dev\/.*)$/) {
         $device = $1;
@@ -535,6 +538,7 @@ END
       }
       elsif (/^\s+events:\s+$/) {
         $_ = shift @data;
+        logg "decode $_";
         while (s/^\s+(\w+)\s+\((\w+)\)://) {
           my $id = $2;
           my @values = ();
@@ -548,7 +552,8 @@ END
               unshift @values, map { { NAME => $_, EVENT => $id, EVENT10 => hex($id) } } split(" ", $_);
             }
             $_ = shift @data;
-          } while (!/:\s*$/ && !/^\s+\w+\s+\(\w+\):/);
+            logg "decode $_";
+          } while (!/:\s*$/ && !/^\s+\w+\s+\(\w+\):/ && $_);
           $$event{"$device:$name"} = \@values;
         }
       }
