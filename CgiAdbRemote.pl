@@ -115,10 +115,25 @@ $touchdelay *= 2; # Interval is 500ms
   sub runCmd {
     my $cmd = shift;
     logg $cmd;
-    print execute $cmd;
-    if ($? != 0) {
-        print errorRunning($cmd);
+    my $data;
+#    $data = execute $cmd;
+#    if ($data =~ /^screencap: permission denied$/)
+    {
+      open MONKEY, ">$who.monkey";
+      print MONKEY <<END;
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
+device = MonkeyRunner.waitForConnection(10, '$who')
+result = device.takeSnapshot()
+result.writeToFile('$who.png','png')
+END
+      close MONKEY;
+      execute "monkeyrunner $who.monkey";
+      $data = qx(cat $who.png);
     }
+    if ($? != 0) {
+        $data = errorRunning($cmd);
+    }
+    print $data;
   }
 
   sub runAdb {
@@ -185,7 +200,7 @@ $touchdelay *= 2; # Interval is 500ms
       print $cgi->h1("$cmd ");
       print "<style><!--"
             ." table { border: solid 1px; border-collapse: collapse }"
-            ." td { border:1px solid black }"
+            ." td { border:1px solid }"
             ." --></style>";
       print "<table>";
       @serial = ();
