@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ddmlib">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/lib/android-sdk-linux/tools/lib/ddmlib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jmock:jmock:1.2.0" type="repository">
+    <properties maven-id="jmock:jmock:1.2.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jmock-1.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-3.8.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
