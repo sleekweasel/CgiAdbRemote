@@ -348,7 +348,27 @@ $touchdelay *= 2; # Interval is 500ms
             .&{$self->{sync}}
             .&{$self->{end}};
     }
-  }
+  },
+  {
+    down => sub {
+      return '';
+    },
+    downup => sub {
+      # my $self = $_[0];
+      my $who = $_[1];
+      my $cmd = ($_[2] == $_[4] and $_[3] == $_[5])
+        ? "device.touch($_[2],$_[3],MonkeyDevice.DOWN_AND_UP)"
+        : "device.drag(($_[4],$_[5]), ($_[2],$_[3]))";
+          open MONKEY, ">$who.touch.monkey";
+          print MONKEY <<END;
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
+device = MonkeyRunner.waitForConnection(10, '$who')
+result = $cmd
+END
+          close MONKEY;
+      return "monkeyrunner $who.touch.monkey";
+    }
+  },
 );
 
   sub resp_touch {
@@ -378,7 +398,13 @@ $touchdelay *= 2; # Interval is 500ms
       }
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
         my $cmd = $touch->{downup}($touch, $who, $3, $4, $1, $2, $5, $6);
-        runAdb "$shell \"$cmd\"" if $cmd;
+        if ($cmd) {
+          if ($cmd !~ /monkeyrunner/) {
+            runAdb "$shell \"$cmd\"";
+          } else {
+            runCmd "$cmd";
+          }
+        }
         return;
       }
   }

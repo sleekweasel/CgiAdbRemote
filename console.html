@@ -105,7 +105,7 @@ function setInputMode(mode) {
     return true;
 }
 function colourInputMode() {
-  for (mode in [0,1,2]) {
+  for (mode in [0,1,2,3]) {
     b = document.getElementById('mode'+mode);
     b.style.backgroundColor='white';
     b.style.color='black';
@@ -295,6 +295,7 @@ setInterval(everyHalfSecond, 500);
     <table border=1>
      <tr><td><input type="button" id='mode0' value="TapSwipe" onclick="setInputMode(0)">
      <tr><td>Experimental: <input type="button" id='mode2' value="Multitouch" onclick="setInputMode(2)">
+     <tr><td>Experimental: <input type="button" id='mode3' value="Monkeyrunner" onclick="setInputMode(3)">
      <tr><td>Experimental: <input type="button" id='mode1' value="Old devices" onclick="setInputMode(1)">
      <tr><td>Experimental: <input type="button" value="Keyboard" onclick='window.open("/keyboard?device=$who", "Keyboard", "height=200,width="+Math.floor(window.innerWidth/2)+",alwaysRaised=yes")'>
      <tr><td><input type="button" value="Settings" onclick='window.open("/settings?device=$who", "Settings", "height=200,width="+Math.floor(window.innerWidth/2)+",alwaysRaised=yes")'>
