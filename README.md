@@ -54,6 +54,7 @@ to pass the value '1' to a command-line option, write it as '01'.
 High
 
 0. M. Time-out very slow requests or commands which don't terminate, e.g. vs a 2.2 emulator.
+0. M. Button to flush queue of pending requests and give a dozy device a good shake.
 0. M. Restructure, refactor, tidy, and comment properly.
 0. M. Passwords for view-only and view-and-interact operations
 0. M. Some sort of username thing to see who is/was playing with a device and how recently.
