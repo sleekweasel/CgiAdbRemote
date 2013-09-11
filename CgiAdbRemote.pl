@@ -138,6 +138,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/keyboard' => \&resp_keyboard,
       '/settings' => \&resp_settings,
       '/text' => \&resp_text,
+      '/reboot' => \&resp_reboot,
       '/setInputMode' => \&resp_setInputMode,
       '/adbCmd' => \&resp_adbCmd,
       # ...
@@ -215,7 +216,7 @@ $touchdelay *= 2; # Interval is 500ms
           saveRef($product{$who}, "product", $who);
         }
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
-        print "<tr><td><a href='$href'>[$who]</a></td>"
+        print "<tr><td><a href='$href'>$who</a> device</td>"
             ."<td>$product{$who}{'ro.product.brand'}"
             ." $product{$who}{'ro.product.model'}"
             ." $product{$who}{'ro.product.manufacturer'}</td>"
@@ -240,6 +241,7 @@ $touchdelay *= 2; # Interval is 500ms
       print $cgi->header,
             $cgi->start_html("$who");
       my $console = readFile("console.html");
+      $::product = $product{$who}{SUMMARY} || "unknown";
       $console=~s/(\$(::)?\w+)/eval $1/ge;
       print $console;
       print $cgi->end_html;
@@ -450,6 +452,19 @@ END
           }
         }
       }
+  }
+
+  sub resp_reboot {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+
+      print $cgi->header,
+            $cgi->start_html("$who");
+
+      my $shell = "-s $who";
+      runAdb "$shell reboot";
   }
 
   sub resp_text {
