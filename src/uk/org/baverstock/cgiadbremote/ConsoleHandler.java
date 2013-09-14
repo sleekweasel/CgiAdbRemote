@@ -7,11 +7,9 @@ import fi.iki.elonen.NanoHTTPD;
  */
 
 public class ConsoleHandler implements PathHandler {
-    public ConsoleHandler() {}
-
     @Override
     public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
-        String serial = session.getParms().get("device");
-        return new NanoHTTPD.Response("<img src='/screen?device=" + serial + "' />");
+        String serial = session.getParms().get(CgiAdbRemote.PARAM_SERIAL);
+        return new NanoHTTPD.Response("<img src='" + CgiAdbRemote.SCREEN_PATH + "?" + CgiAdbRemote.PARAM_SERIAL + "=" + serial + "' />");
     }
 }
