@@ -1,41 +1,51 @@
 package uk.org.baverstock.cgiadbremote;
 
+import com.android.ddmlib.IDevice;
 import fi.iki.elonen.NanoHTTPD;
+
+import java.io.*;
 
 /**
  * Replies with screen
  */
 
 public class ScreenHandler implements PathHandler {
-    private AndroidDebugBridgeWrapper bridge;
+    private final DeviceToInputStream screenshotToInputStream;
+    private final AndroidDebugBridgeWrapper bridge;
 
-    public ScreenHandler(AndroidDebugBridgeWrapper bridge) {
+    public ScreenHandler(AndroidDebugBridgeWrapper bridge, DeviceToInputStream screenshotToInputStream) {
         this.bridge = bridge;
+        this.screenshotToInputStream = screenshotToInputStream;
     }
 
     @Override
     public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
+        try {
+            IDevice device = getDevice(session);
+            return new NanoHTTPD.Response(
+                    NanoHTTPD.Response.Status.OK,
+                    "image/png",
+                    screenshotToInputStream.convert(device)
+            );
+        } catch (Exception e) {
+            return getResponseForExcaption(e);
+        }
+    }
 
-        /*
-                // convert raw data to an Image
-        BufferedImage image = new BufferedImage(rawImage.width, rawImage.height,
-                BufferedImage.TYPE_INT_ARGB);
- 
-        int index = 0;
-        int IndexInc = rawImage.bpp >> 3;
-        for (int y = 0 ; y < rawImage.height ; y++) {
-            for (int x = 0 ; x < rawImage.width ; x++) {
-                int value = rawImage.getARGB(index);
-                index += IndexInc;
-                image.setRGB(x, y, value);
-            }
-        }
- 
-        if (!ImageIO.write(image, "png", new File(filepath))) {
-            throw new IOException("Failed to find png writer");
-        }/
-         */
+    private IDevice getDevice(NanoHTTPD.HTTPSession session) {
+        String serial = session.getParms().get(CgiAdbRemote.PARAM_SERIAL);
+        for (IDevice iDevice : bridge.getDevices()) {
+            if(iDevice.getSerialNumber().equals(serial)) {
+                return iDevice;
+            }
+        }
+        throw new RuntimeException("No device connected with serial number '" + serial + "'");
+    }
 
-        throw new RuntimeException("unimplemented");
+    private NanoHTTPD.Response getResponseForExcaption(Exception e) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        e.printStackTrace(new PrintStream(out));
+        InputStream stackTrace = new ByteArrayInputStream(out.toByteArray());
+        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.INTERNAL_ERROR, "text/plain", stackTrace);
     }
 }

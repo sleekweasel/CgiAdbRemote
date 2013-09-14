@@ -6,6 +6,13 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../nanohttpd/webserver/target/nanohttpd-webserver-2.0.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../nanohttpd/webserver/target/nanohttpd-webserver-2.0.3-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/../nanohttpd/webserver/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../nanohttpd/webserver/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../nanohttpd/webserver/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../nanohttpd/webserver/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../nanohttpd/webserver/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../nanohttpd/core/src/main/java" />
     </SOURCES>
   </library>
 </component>

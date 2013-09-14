@@ -14,6 +14,7 @@ public class CgiAdbRemote extends NanoHTTPD {
     public static final String ROOT_PATH = "/";
     public static final String CONSOLE_PATH = "/console";
     public static final String SCREEN_PATH = "/screendump";
+    public static final String PARAM_SERIAL = "device";
 
     private final Map<String, PathHandler> pathHandlerMap;
 
@@ -41,7 +42,7 @@ public class CgiAdbRemote extends NanoHTTPD {
         AndroidDebugBridgeWrapper.Real bridge = new AndroidDebugBridgeWrapper.Real();
         pathHandlers.put(ROOT_PATH, new ServerListHandler(bridge));
         pathHandlers.put(CONSOLE_PATH, new ConsoleHandler());
-        pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge));
+        pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
 
         return pathHandlers;
     }
