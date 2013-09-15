@@ -34,8 +34,8 @@ public class ConsoleHandler implements PathHandler {
         IDevice device = MiscUtils.getDevice(session, bridge);
         Writer writer = new StringWriter();
 
-        Mustache devicelist = mustacheFactory.compile(reader, "device");
-        devicelist.execute(writer, device);
+        Mustache deviceList = mustacheFactory.compile(reader, "device");
+        deviceList.execute(writer, device);
         return new NanoHTTPD.Response(writer.toString());
     }
 }

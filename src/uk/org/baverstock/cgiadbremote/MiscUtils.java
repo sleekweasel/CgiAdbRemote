@@ -23,7 +23,7 @@ public class MiscUtils {
         return deviceFromSerial(serial, bridge);
     }
 
-    public static NanoHTTPD.Response getResponseForExcaption(Exception e) {
+    public static NanoHTTPD.Response getResponseForException(Exception e) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(out));
         InputStream stackTrace = new ByteArrayInputStream(out.toByteArray());

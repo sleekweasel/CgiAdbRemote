@@ -21,19 +21,16 @@ import static uk.org.baverstock.cgiadbremote.FakeIDevice.anIDevice;
 
 public class ScreenHandlerTest {
 
-    public static final String YOUR_PNG_FILE = "Your PNG file";
     private final DeviceToInputStream screenshotToInputStream = new DeviceToInputStream() {
         @Override
         public InputStream convert(
                 IDevice device
         ) throws AdbCommandRejectedException, IOException, TimeoutException
         {
-            return new ByteArrayInputStream(YOUR_PNG_FILE.getBytes());
+            return new ByteArrayInputStream(device.getScreenshot().data);
         }
     };
-    private final IDevice device = anIDevice().withName("device1").withSerialNumber("serial1").build();
-    private final AndroidDebugBridgeWrapper bridge = bridgeWithDevices(device);
-    private final ScreenHandler handler = new ScreenHandler(bridge, screenshotToInputStream);
+    private final ScreenHandler handler = new ScreenHandler(TestBeans.BRIDGE, screenshotToInputStream);
 
     @Test
     public void returnsDeviceRawImageAsPng() {
@@ -48,7 +45,7 @@ public class ScreenHandlerTest {
 
         NanoHTTPD.Response response = handler.handle(session);
 
-        assertThat(response.getData(), StatusMatchers.holdsString(equalTo(YOUR_PNG_FILE)));
+        assertThat(response.getData(), StatusMatchers.holdsString(equalTo("screenshot1")));
         assertThat(response.getMimeType(), equalTo("image/png"));
     }
 

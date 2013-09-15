@@ -26,7 +26,7 @@ public class ScreenHandler implements PathHandler {
                     screenshotToInputStream.convert(device)
             );
         } catch (Exception e) {
-            return MiscUtils.getResponseForExcaption(e);
+            return MiscUtils.getResponseForException(e);
         }
     }
 }

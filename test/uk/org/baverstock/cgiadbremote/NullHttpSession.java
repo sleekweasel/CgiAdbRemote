@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-class NullHttpSession implements NanoHTTPD.HTTPSession {
+public class NullHttpSession implements NanoHTTPD.HTTPSession {
     @Override
     public void execute() throws IOException {}
 

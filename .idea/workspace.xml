@@ -2,20 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae299819-c76e-4877-a5f6-8d5c4f64b645" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/FakeIDevice.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/TestBeans.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CgiAdbRemote.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379174035774" ignored="false" />
+    <file path="/Dummy.txt" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205042780" ignored="false" />
     <file path="/CgiAdbRemote.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379203108821" ignored="false" />
-    <file path="/fragment.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379203196585" ignored="false" />
+    <file path="/fragment.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205629995" ignored="false" />
     <file path="/CgiAdbRemoteTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378594264561" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/HTTPSession.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378584310497" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/test/java/fi/iki/elonen/HttpServerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379188756829" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/test/java/fi/iki/elonen/integration/CookieIntegrationTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379188756829" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/test/java/fi/iki/elonen/integration/PutStreamIntegrationTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379188756829" ignored="false" />
     <file path="/a.dummy" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379183606502" ignored="false" />
-    <file path="/NullHttpSession.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378588660285" ignored="false" />
+    <file path="/NullHttpSession.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205256931" ignored="false" />
     <file path="/NanoHTTPD.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379184016500" ignored="false" />
     <file path="/PathHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378592010032" ignored="false" />
     <file path="/ServerListHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379200203732" ignored="false" />
@@ -24,10 +32,10 @@
     <file path="/AndroidDebugBridgeSingleton.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378625116921" ignored="false" />
     <file path="/AndroidDebugBridgeWrapper.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378604839086" ignored="false" />
     <file path="/ConsoleHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379201918068" ignored="false" />
-    <file path="/ConsoleHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379202574546" ignored="false" />
-    <file path="/FakeIDevice.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379199668245" ignored="false" />
+    <file path="/ConsoleHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205168327" ignored="false" />
+    <file path="/FakeIDevice.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379206027789" ignored="false" />
     <file path="/ScreenHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379201776518" ignored="false" />
-    <file path="/ScreenHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379116351951" ignored="false" />
+    <file path="/ScreenHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205908494" ignored="false" />
     <file path="$USER_HOME$/IdeaProjects/MultiProject/BarcampVote/src/uk/org/baverstock/barcampvote/BarCampVote.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379098354629" ignored="false" />
     <file path="/BarCampVote.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379098354629" ignored="false" />
     <file path="/ScreenshotToInputStream.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379164040007" ignored="false" />
@@ -39,7 +47,8 @@
     <file path="/HttpChunkedResponseTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379181092274" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379188756829" ignored="false" />
     <file path="/DeviceListHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379202436793" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379204514136" ignored="false" />
+    <file path="/MiscUtils.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205329683" ignored="false" />
+    <file path="/TestBeans.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205971620" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,66 +101,6 @@
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/StatusMatchers.java" line="56" class="uk.org.baverstock.cgiadbremote.StatusMatchers$2" package="uk.org.baverstock.cgiadbremote">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java" line="19" class="uk.org.baverstock.cgiadbremote.ScreenshotToInputStream" package="uk.org.baverstock.cgiadbremote">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java" line="36" class="uk.org.baverstock.cgiadbremote.ScreenshotToInputStream$2" package="uk.org.baverstock.cgiadbremote">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java" line="39" class="uk.org.baverstock.cgiadbremote.ScreenshotToInputStream$2" package="uk.org.baverstock.cgiadbremote">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="jar://$USER_HOME$/lib/jdk1.7.0_07/src.zip!/java/io/PipedInputStream.java" line="444" class="java.io.PipedInputStream" package="java.io">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -177,43 +126,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CgiAdbRemote.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
+      <file leaf-file-name="ScreenshotToInputStream.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="59" selection-start="784" selection-end="784" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1933#1954#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MiscUtils.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+            <state line="14" column="6" selection-start="388" selection-end="388" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScreenHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="614" selection-end="681" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeviceListHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -221,7 +138,7 @@
       <file leaf-file-name="CgiAdbRemoteTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="50" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.0">
+            <state line="40" column="16" selection-start="1187" selection-end="1187" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -230,25 +147,66 @@
       <file leaf-file-name="DeviceListHandlerTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="36" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
+            <state line="17" column="0" selection-start="561" selection-end="561" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestBeans.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/TestBeans.java">
+      <file leaf-file-name="TestBeans.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="13" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="16" column="50" selection-start="770" selection-end="770" vertical-scroll-proportion="0.31548756">
+              <folding>
+                <element signature="e#966#982#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="FakeIDevice.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/FakeIDevice.java">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="285" column="9" selection-start="7925" selection-end="7925" vertical-scroll-proportion="0.0">
+            <state line="278" column="39" selection-start="7761" selection-end="7761" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RawImage.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/lib/android-sdk-linux/tools/lib/ddmlib.jar!/com/android/ddmlib/RawImage.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="11" selection-start="550" selection-end="550" vertical-scroll-proportion="-6.96">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NullHttpSession.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="7" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScreenHandlerTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="0" selection-start="985" selection-end="985" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#786#1074#0" expanded="true" />
+                <element signature="e#1067#1068#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StatusMatchers.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/StatusMatchers.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="13" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -257,18 +215,7 @@
       <file leaf-file-name="ConsoleHandlerTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="48" selection-start="627" selection-end="627" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConsoleHandler.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="62" selection-start="1162" selection-end="1162" vertical-scroll-proportion="0.59195405">
+            <state line="14" column="57" selection-start="506" selection-end="506" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -295,22 +242,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java" />
-        <option value="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java" />
-        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ThreadSafeJUnitRuleMockery.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/FakeIDevice.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ServerListHandlerTest.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ServerListHandler.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/TestBeans.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java" />
-        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
+        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
+        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeWrapper.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
+        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java" />
+        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java" />
+        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java" />
       </list>
     </option>
   </component>
@@ -363,8 +310,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -376,36 +323,6 @@
               <option name="myItemId" value="External Libraries" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanohttpd-webserver-2.0.3-jar-with-dependencies" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanohttpd-webserver-2.0.3-jar-with-dependencies.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanohttpd-webserver-2.0.3-jar-with-dependencies" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nanohttpd-webserver-2.0.3-jar-with-dependencies.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="elonen" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -445,376 +362,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="ddmlib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javax" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javax" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="imageio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="util" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lang" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="io" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="internal" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="imageio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="imageio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="imageio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="png" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; 1.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rt.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -863,116 +410,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler-0.8.9.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler-0.8.9.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler-0.8.9.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mustachejava" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler-0.8.9.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mustachejava" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="codes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -994,33 +431,33 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="Repository.Attach.Sources" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="uk.org.baverstock.cgiadbremote" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="uk.org.baverstock.cgiadbremote" />
     </key>
+    <key name="IntroduceConstantDialog.RECENTS_KEY">
+      <recent name="uk.org.baverstock.cgiadbremote.ConsoleHandler" />
+    </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
-      <recent name="uk.org.baverstock.cgiadbremote.MiscUtils" />
       <recent name="uk.org.baverstock.cgiadbremote.TestBeans" />
+      <recent name="uk.org.baverstock.cgiadbremote.MiscUtils" />
       <recent name="uk.org.baverstock.cgiadbremote.CgiAdbRemote" />
       <recent name="uk.org.baverstock.cgiadbremote.AndroidDebugBridgeWrapper" />
       <recent name="uk.org.baverstock.cgiadbremote.StatusMatchers" />
-    </key>
-    <key name="IntroduceConstantDialog.RECENTS_KEY">
-      <recent name="uk.org.baverstock.cgiadbremote.ConsoleHandler" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="uk.org.baverstock.cgiadbremote" />
@@ -1029,29 +466,7 @@
       <recent name="uk.org.baverstock.cgiadbremote" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CgiAdbRemote">
-    <configuration default="false" name="ConsoleHandlerTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="CgiAdbRemote" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="uk.org.baverstock.cgiadbremote" />
-      <option name="MAIN_CLASS_NAME" value="uk.org.baverstock.cgiadbremote.ConsoleHandlerTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.ScreenHandlerTest">
     <configuration default="false" name="ScreenHandlerTest.returnsDeviceRawImageAsPng" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="CgiAdbRemote" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1140,6 +555,28 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
+    <configuration default="false" name="ScreenHandlerTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="CgiAdbRemote" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="uk.org.baverstock.cgiadbremote" />
+      <option name="MAIN_CLASS_NAME" value="uk.org.baverstock.cgiadbremote.ScreenHandlerTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -1152,6 +589,19 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -1179,19 +629,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1254,19 +691,19 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Application.CgiAdbRemote" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.ConsoleHandlerTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returnsDeviceRawImageAsPng" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returns404OnError" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returnsDeviceRawImageAsPng" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returns404OnError" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returns404OnError" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returnsDeviceRawImageAsPng" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ConsoleHandlerTest" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returns404OnError" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returnsDeviceRawImageAsPng" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1311,7 +748,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="378" y="0" width="1541" height="999" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1321,18 +758,18 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32902467" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975152" sideWeight="0.6702002" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24983211" sideWeight="0.6702002" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24983211" sideWeight="0.6007067" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32979977" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24983211" sideWeight="0.6713781" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24983211" sideWeight="0.6007067" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1403,91 +840,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/lib/jdk1.7.0_07/src.zip!/java/io/PipedInputStream.java">
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="444" column="0" selection-start="15001" selection-end="15001" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#15101#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="860" selection-end="860" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#804#1872#0" expanded="true" />
-            <element signature="e#1861#1862#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="586" column="76" selection-start="20927" selection-end="20927" vertical-scroll-proportion="0.5268595">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ThreadSafeJUnitRuleMockery.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="5" selection-start="0" selection-end="900" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/compiler-0.8.9.jar!/com/github/mustachejava/codes/DefaultCode.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1415" selection-end="1415" vertical-scroll-proportion="0.25619835">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/compiler-0.8.9.jar!/com/github/mustachejava/Mustache.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="19" selection-start="378" selection-end="378" vertical-scroll-proportion="0.3501006">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/FakeIDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="285" column="9" selection-start="7925" selection-end="7925" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="50" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="614" selection-end="681" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/TestBeans.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="36" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="48" selection-start="627" selection-end="627" vertical-scroll-proportion="0.0">
+        <state line="38" column="0" selection-start="1325" selection-end="1325" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1496,35 +851,112 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="28" column="0" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceToInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="17" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+        <state line="31" column="0" selection-start="1246" selection-end="1246" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/PathHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="59" selection-start="784" selection-end="784" vertical-scroll-proportion="0.0">
+        <state line="7" column="17" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="6" selection-start="388" selection-end="388" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="16" selection-start="1187" selection-end="1187" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="57" selection-start="506" selection-end="506" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1933#1954#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="62" selection-start="1162" selection-end="1162" vertical-scroll-proportion="0.59195405">
+        <state line="17" column="0" selection-start="561" selection-end="561" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/lib/android-sdk-linux/tools/lib/ddmlib.jar!/com/android/ddmlib/RawImage.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="11" selection-start="550" selection-end="550" vertical-scroll-proportion="-6.96">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="278" column="39" selection-start="7761" selection-end="7761" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="7" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="985" selection-end="985" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#786#1074#0" expanded="true" />
+            <element signature="e#1067#1068#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/StatusMatchers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="50" selection-start="770" selection-end="770" vertical-scroll-proportion="0.31548756">
+          <folding>
+            <element signature="e#966#982#0" expanded="true" />
           </folding>
         </state>
       </provider>

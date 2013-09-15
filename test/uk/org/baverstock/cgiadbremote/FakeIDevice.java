@@ -275,8 +275,9 @@ public class FakeIDevice implements IDevice {
             return this;
         }
 
-        public Builder withScreenshot(RawImage screenshot) {
-            this.screenshot = screenshot;
+        public Builder withScreenshot(String screenshot) {
+            this.screenshot = new RawImage();
+            this.screenshot.data = screenshot.getBytes();
             return this;
         }
 
