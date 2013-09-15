@@ -2,26 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae299819-c76e-4877-a5f6-8d5c4f64b645" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/TestBeans.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_builder_0_6_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_codegen_0_8_9.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/jmock_jmock_1_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/org_jmock_jmock_junit4_2_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/org_jmock_jmock_legacy_2_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ServerListHandler.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ServerListHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CgiAdbRemote.iml" afterPath="$PROJECT_DIR$/CgiAdbRemote.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/FakeIDevice.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/FakeIDevice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenshotToInputStream.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ThreadSafeJUnitRuleMockery.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ThreadSafeJUnitRuleMockery.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CgiAdbRemote.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,6 +39,7 @@
     <file path="/HttpChunkedResponseTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379181092274" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379188756829" ignored="false" />
     <file path="/DeviceListHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379202436793" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379204514136" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,10 +177,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CgiAdbRemote.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CgiAdbRemote.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="295" selection-end="295" vertical-scroll-proportion="0.028680688">
+            <state line="26" column="59" selection-start="784" selection-end="784" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1933#1954#0" expanded="true" />
@@ -283,10 +265,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConsoleHandler.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ConsoleHandler.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0">
+            <state line="33" column="62" selection-start="1162" selection-end="1162" vertical-scroll-proportion="0.59195405">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -325,10 +307,10 @@
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/TestBeans.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
       </list>
     </option>
   </component>
@@ -1047,7 +1029,7 @@
       <recent name="uk.org.baverstock.cgiadbremote" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in CgiAdbRemote">
+  <component name="RunManager" selected="Application.CgiAdbRemote">
     <configuration default="false" name="ConsoleHandlerTest" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="CgiAdbRemote" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1331,7 +1313,7 @@
     <frame x="378" y="0" width="1541" height="999" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1344,9 +1326,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975152" sideWeight="0.6702002" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24983211" sideWeight="0.6713781" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24983211" sideWeight="0.6702002" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24983211" sideWeight="0.6007067" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32979977" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1512,15 +1494,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
@@ -1539,10 +1512,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="295" selection-end="295" vertical-scroll-proportion="0.028680688">
+        <state line="26" column="59" selection-start="784" selection-end="784" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1933#1954#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="62" selection-start="1162" selection-end="1162" vertical-scroll-proportion="0.59195405">
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

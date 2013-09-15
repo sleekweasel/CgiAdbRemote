@@ -26,7 +26,7 @@ public class ConsoleHandler implements PathHandler {
         DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
         Reader reader = new StringReader(
                 "<h1>Device {{getName}}</h1>" +
-                        "<br>" +
+                        "<a href='/'>Devices</a><br>" +
                         "<a href='/console?device={{getSerialNumber}}&coords='>" +
                         "<img src='/screendump?device={{getSerialNumber}}' ismap />" +
                         "</a>" +
