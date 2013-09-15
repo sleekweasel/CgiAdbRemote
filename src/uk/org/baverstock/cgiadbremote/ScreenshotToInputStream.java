@@ -16,6 +16,7 @@ class ScreenshotToInputStream implements DeviceToInputStream {
     @Override
     public InputStream convert(final IDevice device) throws AdbCommandRejectedException, IOException, TimeoutException {
         final PipedInputStream inputStream = new PipedInputStream();
+        final OutputStream outputStream = new PipedOutputStream(inputStream);
         final RawImage rawImage = device.getScreenshot();
         new Thread(new Runnable() {
             @Override
@@ -32,7 +33,6 @@ class ScreenshotToInputStream implements DeviceToInputStream {
                     }
                 }
                 try {
-                    OutputStream outputStream = new PipedOutputStream(inputStream);
                     try {
                         ImageIO.write(image, "png", outputStream);
                     }
@@ -40,7 +40,9 @@ class ScreenshotToInputStream implements DeviceToInputStream {
                         outputStream.close();
                     }
                 } catch (IOException e) {
-                    // Not sure what to do here. Close inputstream?
+                    e.printStackTrace();
+                    System.err.println("Failed: " + e);
+                    System.err.flush();
                 }
             }
         }).start();

@@ -14,15 +14,12 @@ public class ConsoleHandlerTest {
 
     @Test
     public void consoleIncludesScreenshot() {
-//        IDevice iDevice = anIDevice().withName("device1").withSerialNumber("serial1").build();
-//        AndroidDebugBridgeWrapper bridge = bridgeWithDevices(iDevice);
-
-        ConsoleHandler handler = new ConsoleHandler();
+        ConsoleHandler handler = new ConsoleHandler(TestBeans.BRIDGE);
         NanoHTTPD.HTTPSession session = sessionWithParams("device", "serial1");
 
         NanoHTTPD.Response response = handler.handle(session);
 
-        assertThat(response.getData(), holdsString(containsString("<img src='" + CgiAdbRemote.SCREEN_PATH + "?device=serial1' />")));
+        assertThat(response.getData(), holdsString(containsString("<img src='" + CgiAdbRemote.SCREEN_PATH + "?device=serial1'")));
     }
 
     private NullHttpSession sessionWithParams(final String... data) {

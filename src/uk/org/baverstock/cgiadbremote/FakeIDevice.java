@@ -10,11 +10,13 @@ public class FakeIDevice implements IDevice {
     private final RawImage screenshot;
     private String serialNumber;
     private String name;
+    private String avdName;
 
     public FakeIDevice(Builder builder) {
         serialNumber = builder.serialNumber;
         name = builder.name;
         screenshot = builder.screenshot;
+        avdName = builder.avdName;
     }
 
     public static FakeIDevice.Builder anIDevice() {
@@ -28,7 +30,7 @@ public class FakeIDevice implements IDevice {
 
     @Override
     public String getAvdName() {
-        throw new RuntimeException("unimplemented");
+        return avdName;
     }
 
     @Override
@@ -261,6 +263,7 @@ public class FakeIDevice implements IDevice {
         public String serialNumber;
         public String name;
         private RawImage screenshot;
+        private String avdName;
 
         public Builder withName(String name) {
             this.name = name;
@@ -274,6 +277,11 @@ public class FakeIDevice implements IDevice {
 
         public Builder withScreenshot(RawImage screenshot) {
             this.screenshot = screenshot;
+            return this;
+        }
+
+        public Builder withAvdName(String avdName) {
+            this.avdName = avdName;
             return this;
         }
 

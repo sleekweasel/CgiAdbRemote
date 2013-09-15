@@ -1,6 +1,5 @@
 package uk.org.baverstock.cgiadbremote;
 
-import com.android.ddmlib.IDevice;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import fi.iki.elonen.NanoHTTPD;
@@ -11,13 +10,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Returns the main device console page.
+ * Returns a list of console links to the currently connected devices.
  */
 
-public class ConsoleHandler implements PathHandler {
+public class DeviceListHandler implements PathHandler {
     private AndroidDebugBridgeWrapper bridge;
 
-    public ConsoleHandler(AndroidDebugBridgeWrapper bridge) {
+    public DeviceListHandler(AndroidDebugBridgeWrapper bridge) {
         this.bridge = bridge;
     }
 
@@ -25,17 +24,17 @@ public class ConsoleHandler implements PathHandler {
     public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
         DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
         Reader reader = new StringReader(
-                "<h1>Device {{getName}}</h1>" +
-                        "<br>" +
-                        "<a href='/console?device={{getSerialNumber}}&coords='>" +
-                        "<img src='/screendump?device={{getSerialNumber}}' ismap />" +
-                        "</a>" +
-                        "");
-        IDevice device = MiscUtils.getDevice(session, bridge);
+                "<h1>ADB devices</h1>" +
+                        "<ul>" +
+                        "{{#getDevices}}" +
+                        "<li><a href='/console?device={{getSerialNumber}}'>{{getSerialNumber}}</a> {{getName}} {{getAvdName}}" +
+                        "{{/getDevices}}" +
+                        "</ul>");
         Writer writer = new StringWriter();
 
-        Mustache devicelist = mustacheFactory.compile(reader, "device");
-        devicelist.execute(writer, device);
+        Mustache devicelist = mustacheFactory.compile(reader, "devicelist");
+        devicelist.execute(writer, bridge);
+
         return new NanoHTTPD.Response(writer.toString());
     }
 }

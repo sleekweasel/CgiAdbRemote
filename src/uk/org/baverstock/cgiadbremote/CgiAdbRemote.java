@@ -3,6 +3,7 @@ package uk.org.baverstock.cgiadbremote;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.ServerRunner;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,20 @@ public class CgiAdbRemote extends NanoHTTPD {
         pathHandlerMap = PathHandlerMap;
     }
 
+    private String hashAsParms(Map<String, String> parms) {
+        StringBuilder sb = new StringBuilder();
+        if (parms != null) {
+            for (Map.Entry<String, String> entry : parms.entrySet()) {
+                sb.append(sb.length() > 0 ? " & " : "? ");
+                sb.append(entry.getKey()).append("=").append(entry.getValue());
+            }
+        }
+        return sb.toString();
+    }
+
     public Response serve(HTTPSession session) {
+        System.err.println(String.format("%s: %s %s%s", new Date(), session.getMethod(), session.getPath(),
+                hashAsParms(session.getParms())));
         PathHandler pathHandler = pathHandlerMap.get(session.getPath());
         if (pathHandler != null) {
             return pathHandler.handle(session);
@@ -40,8 +54,8 @@ public class CgiAdbRemote extends NanoHTTPD {
         HashMap<String, PathHandler> pathHandlers = new HashMap<String, PathHandler>();
 
         AndroidDebugBridgeWrapper.Real bridge = new AndroidDebugBridgeWrapper.Real();
-        pathHandlers.put(ROOT_PATH, new ServerListHandler(bridge));
-        pathHandlers.put(CONSOLE_PATH, new ConsoleHandler());
+        pathHandlers.put(ROOT_PATH, new DeviceListHandler(bridge));
+        pathHandlers.put(CONSOLE_PATH, new ConsoleHandler(bridge));
         pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
 
         return pathHandlers;

@@ -11,9 +11,9 @@ import static uk.org.baverstock.cgiadbremote.StatusMatchers.hasStatus;
 
 public class CgiAdbRemoteTest {
 
-    public static final String UNKNOWN_PATH = "unknown";
+    public static final String UNKNOWN_PATH = "unknown_path";
 
-    public static final String KNOWN_PATH = "/something";
+    public static final String KNOWN_PATH = "/some_thing";
     public static final String KNOWN_RESPONSE = "known response";
 
     private final HashMap<String,PathHandler> testMap = new HashMap<String, PathHandler>();
