@@ -202,7 +202,7 @@ $touchdelay *= 2; # Interval is 500ms
       for my $who (sort { lc($a) cmp lc($b) } @serial) {
         unless ($product{$who}) {
           my $summary = "";
-          my @props = execute "adb -s $who shell cat /system/build.prop";
+          my @props = execute "adb -s $who shell cat /system/build.prop /sdcard/asset";
           for (@props) {
             next if /^\s*#/;
             s/\s+$//;
@@ -213,10 +213,23 @@ $touchdelay *= 2; # Interval is 500ms
             }
           }
           $product{$who}{SUMMARY} = $summary;
+          $product{$who}{'sdcard.asset'} ||= "/sdcard/asset";
           saveRef($product{$who}, "product", $who);
         }
+        unless ($product{$who}{'sdcard.asset'} !~ /sdcard/) {
+          my @props = execute "adb -s $who shell cat /sdcard/asset";
+          for (@props) {
+            next if /^\s*#/;
+            s/\s+$//;
+            my @p = split("=", $_);
+            $product{$who}{$p[0]}=$p[1] if $p[0] =~ /\S/;
+          }
+          saveRef($product{$who}, "product", $who);
+        }
+        $product{$who}{'sdcard.asset'} ||= "sdcard.asset";
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td><a href='$href'>$who</a> device</td>"
+            ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ." $product{$who}{'ro.product.model'}"
             ." $product{$who}{'ro.product.manufacturer'}</td>"
