@@ -196,7 +196,7 @@ $touchdelay *= 2; # Interval is 500ms
             unshift @serial, $1;
         }
         else {
-            print "<tr><td colspan=3>$_</tr>\n" if $_ =~ /\S/;
+            print "<tr><td colspan=4>$_</tr>\n" if $_ =~ /\S/;
         }
       }
       for my $who (sort { lc($a) cmp lc($b) } @serial) {
