@@ -50,6 +50,10 @@ function mousePut(i, e) {
 function mouseUp(i, e) {
     document.lastStamp = 0;
     f=document.firstDown;
+    document.firstDown = null;
+    if (typeof f === 'undefined' || f === null) {
+      return;
+    }
 
     xoff = i.x - window.pageXOffset;
     yoff = i.y - window.pageYOffset;
@@ -110,9 +114,11 @@ function colourInputMode() {
     b.style.backgroundColor='white';
     b.style.color='black';
   }
-    b = document.getElementById('mode'+qParam('mode', 0));
+  b = document.getElementById('mode'+qParam('mode', 0));
+  if (typeof b !== "undefined" && b !== null) {
     b.style.backgroundColor='red';
     b.style.color='white';
+  }
 }
 function keyEvent(i, e) {
     window.frames["stdout"].location=url("text?device=$who&key="+e);
@@ -149,7 +155,7 @@ function updateHash(k, v) {
   hash[k]=v;
   s = '';
   for (key in hash) {
-    if (key!==undefined && key != 'undefined' && hash[key]!==undefined && hash[key] != 'undefined' ) {
+    if (typeof key !== 'undefined' && typeof hash[key]!=='undefined') {
       s += '#' + key + '=' + hash[key];
     }
   }
@@ -235,6 +241,7 @@ function everyHalfSecond() {
     if (document.refreshScreenAfter <= 0) {
       document.refreshNum = document.refreshNum - 1;
       screen = document.getElementById("screen");
+      screen.style.border="5px dotted red";
       screen.src = screen.src.split("#")[0] + "#" + new Date();
     }
   }
@@ -243,6 +250,7 @@ function onLoadScreen(image) {
   maybeRotate(image);
   colourInputMode();
   document.refreshScreenAfter = $::autodelay;
+  image.style.border="5px dotted grey";
 }
 function logResponse(doc) {
     if (doc.logger != null) {
@@ -316,7 +324,7 @@ setInterval(everyHalfSecond, 500);
 </table>
 <br>
 <div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
-<img id="screen" style="border:5px dotted grey" draggable="false"
+<img id="screen" style="border:5px dotted blue" draggable="false"
   onmousedown="mouseDown(this, event)"
   onmousemove="mouseMove(this, event)"
   onmouseleave="mouseUp(this, event)"
