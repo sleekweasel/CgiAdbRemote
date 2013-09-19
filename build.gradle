@@ -1,0 +1,52 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+version = '1.0'
+mainClassName = 'uk.org.baverstock.cgiadbremote.CgiAdbRemote'
+
+jar {
+    manifest {
+        attributes(
+            'Implementation-Title' : 'Gradle Quickstart',
+            'Implementation-Version' : version,
+            'Main-Class' : mainClassName,
+        )
+    }
+}
+
+
+sourceSets {
+    main {
+        java { srcDirs( '../nanohttpd/core/src/main/java', 'src' ) }
+        resources { srcDirs = [ 'resources' ] }
+    }
+    test {
+        java { srcDir = [ 'test' ] }
+    }
+}
+
+dependencies {
+    compile 'com.github.spullara.mustache.java:core:0.6.3'
+    compile 'com.github.spullara.mustache.java:builder:0.6.3'
+    compile 'com.github.spullara.mustache.java:codegen:0.8.9'
+    compile 'com.android.ddmlib:ddmlib:r16'
+    // nanohttp-webserver-2.0.3
+
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'junit:junit:4.11'
+}
+
+
+//uploadArchives {
+//    repositories {
+//       flatDir {
+//           dirs 'repos'
+//       }
+//    }
+//}
+
