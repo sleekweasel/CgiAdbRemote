@@ -13,7 +13,7 @@ public class DeviceListHandlerTest {
     @Test
     public void returnsPageListingCurrentDevices() {
         DeviceListHandler handler = new DeviceListHandler(TestBeans.BRIDGE);
-        NanoHTTPD.HTTPSession session = new NullHttpSession();
+        NanoHTTPD.IHTTPSession session = new NullHttpSession();
 
         NanoHTTPD.Response response = handler.handle(session);
 

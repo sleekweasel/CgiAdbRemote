@@ -17,7 +17,7 @@ public class ScreenHandler implements PathHandler {
     }
 
     @Override
-    public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
+    public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
         try {
             IDevice device = MiscUtils.getDevice(session, bridge);
             NanoHTTPD.Response response = new NanoHTTPD.Response(

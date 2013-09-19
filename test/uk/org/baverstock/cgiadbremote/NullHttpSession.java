@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class NullHttpSession implements NanoHTTPD.HTTPSession {
+public class NullHttpSession implements NanoHTTPD.IHTTPSession {
     @Override
     public void execute() throws IOException {}
 
@@ -25,8 +25,10 @@ public class NullHttpSession implements NanoHTTPD.HTTPSession {
         return null;
     }
 
+    @Deprecated
     @Override
     public String getUri() {
+        // Deprecated - not used by nanohttp, but supported for legacy.
         return getPath();
     }
 

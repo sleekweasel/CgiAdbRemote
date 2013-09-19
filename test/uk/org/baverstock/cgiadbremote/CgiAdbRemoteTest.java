@@ -20,7 +20,7 @@ public class CgiAdbRemoteTest {
     {
         testMap.put(KNOWN_PATH, new PathHandler() {
             @Override
-            public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
+            public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
                 return new NanoHTTPD.Response(KNOWN_RESPONSE);
             }
         });

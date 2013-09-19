@@ -34,7 +34,7 @@ public class ScreenHandlerTest {
 
     @Test
     public void returnsDeviceRawImageAsPng() {
-        NanoHTTPD.HTTPSession session = new NullHttpSession() {
+        NanoHTTPD.IHTTPSession session = new NullHttpSession() {
             @Override
             public Map<String, String> getParms() {
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -51,7 +51,7 @@ public class ScreenHandlerTest {
 
     @Test
     public void returns404OnError() {
-        NanoHTTPD.HTTPSession session = new NullHttpSession() {
+        NanoHTTPD.IHTTPSession session = new NullHttpSession() {
             @Override
             public Map<String, String> getParms() {
                 return new HashMap<String, String>();

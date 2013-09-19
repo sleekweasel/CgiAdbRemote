@@ -18,7 +18,7 @@ public class MiscUtils {
         throw new RuntimeException("No device connected with serial number '" + serial + "'");
     }
 
-    public static IDevice getDevice(NanoHTTPD.HTTPSession session, AndroidDebugBridgeWrapper bridge) {
+    public static IDevice getDevice(NanoHTTPD.IHTTPSession session, AndroidDebugBridgeWrapper bridge) {
         String serial = session.getParms().get(CgiAdbRemote.PARAM_SERIAL);
         return deviceFromSerial(serial, bridge);
     }

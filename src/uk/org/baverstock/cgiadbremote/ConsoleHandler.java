@@ -22,7 +22,7 @@ public class ConsoleHandler implements PathHandler {
     }
 
     @Override
-    public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
+    public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
         DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
         Reader reader = new StringReader(
                 "<h1>Device {{getName}}</h1>" +

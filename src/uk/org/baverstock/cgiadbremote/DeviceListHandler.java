@@ -21,7 +21,7 @@ public class DeviceListHandler implements PathHandler {
     }
 
     @Override
-    public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
+    public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
         DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
         Reader reader = new StringReader(
                 "<h1>ADB devices</h1>" +

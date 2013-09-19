@@ -12,7 +12,7 @@ public class ConsoleHandlerTest {
     @Test
     public void consoleIncludesScreenshot() {
         ConsoleHandler handler = new ConsoleHandler(TestBeans.BRIDGE);
-        NanoHTTPD.HTTPSession session = TestBeans.sessionWithParams("device", "serial1");
+        NanoHTTPD.IHTTPSession session = TestBeans.sessionWithParams("device", "serial1");
 
         NanoHTTPD.Response response = handler.handle(session);
 
