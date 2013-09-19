@@ -234,7 +234,7 @@ public class FakeIDevice implements IDevice {
 
     @Override
     public Integer getBatteryLevel() throws TimeoutException, AdbCommandRejectedException, IOException, ShellCommandUnresponsiveException {
-        throw new RuntimeException("unimplemented");
+        return 3141;
     }
 
     @Override
