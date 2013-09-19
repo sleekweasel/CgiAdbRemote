@@ -5,23 +5,25 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="ddmlib" level="project" />
-    <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-all:1.3" level="project" />
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.10.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="com.github.spullara.mustache.java:core:0.6.3" level="project" />
-    <orderEntry type="library" name="com.github.spullara.mustache.java:builder:0.6.3" level="project" />
-    <orderEntry type="library" name="com.github.spullara.mustache.java:codegen:0.8.9" level="project" />
+    <orderEntry type="library" exported="" name="asm-tree-4.0" level="project" />
+    <orderEntry type="library" exported="" name="core-0.6.3" level="project" />
+    <orderEntry type="library" exported="" name="compiler-0.8.9" level="project" />
+    <orderEntry type="library" exported="" name="asm-util-4.0" level="project" />
+    <orderEntry type="library" exported="" name="asm-commons-4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="hamcrest-all-1.3" level="project" />
+    <orderEntry type="library" exported="" name="builder-0.6.3" level="project" />
+    <orderEntry type="library" exported="" name="asm-4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit-4.11" level="project" />
+    <orderEntry type="library" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="codegen-0.8.9" level="project" />
+    <orderEntry type="library" exported="" name="common-22.0.1" level="project" />
+    <orderEntry type="library" exported="" name="guava-13.0.1" level="project" />
+    <orderEntry type="library" exported="" name="kxml2-2.3.0" level="project" />
+    <orderEntry type="library" exported="" name="ddmlib-22.0.1" level="project" />
   </component>
 </module>
 

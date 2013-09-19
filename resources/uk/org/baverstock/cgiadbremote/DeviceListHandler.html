@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ADB Devices</title>
+</head>
+<body>
+<h1>ADB devices</h1>
+<ul>
+    {{#getDevices}}
+    <li><a href='/console?device={{getSerialNumber}}'>{{getSerialNumber}}</a> {{getName}} {{getAvdName}}</li>
+    {{/getDevices}}
+</ul>
+</body>
+</html>

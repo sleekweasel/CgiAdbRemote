@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device: {{getName}}</title>
+</head>
+<body>
+<h1>Device: {{getName}}</h1>
+<a href='/'>Devices</a>
+getSerialNumber={{getSerialNumber}}
+getName={{getName}}
+getAvdName={{getAvdName}}
+getBatteryLevel={{getBatteryLevel}}
+<br/>
+<a href='/console?device={{getSerialNumber}}&coords='>
+    <img src='/screendump?device={{getSerialNumber}}' ismap />
+</a>
+</body>
+</html>

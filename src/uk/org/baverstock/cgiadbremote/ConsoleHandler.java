@@ -5,10 +5,7 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import fi.iki.elonen.NanoHTTPD;
 
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 
 /**
  * Returns the main device console page.
@@ -24,18 +21,12 @@ public class ConsoleHandler implements PathHandler {
     @Override
     public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
         DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
-        Reader reader = new StringReader(
-                "<h1>Device {{getName}}</h1>" +
-                        "<a href='/'>Devices</a><br>" +
-                        "<a href='/console?device={{getSerialNumber}}&coords='>" +
-                        "<img src='/screendump?device={{getSerialNumber}}' ismap />" +
-                        "</a>" +
-                        "");
+        InputStream resourceAsStream = ConsoleHandler.class.getResourceAsStream("ConsoleHandler.html");
+        Reader reader = new InputStreamReader(resourceAsStream);
         IDevice device = MiscUtils.getDevice(session, bridge);
+        Mustache console = mustacheFactory.compile(reader, "device");
         Writer writer = new StringWriter();
-
-        Mustache deviceList = mustacheFactory.compile(reader, "device");
-        deviceList.execute(writer, device);
+        console.execute(writer, device);
         return new NanoHTTPD.Response(writer.toString());
     }
 }

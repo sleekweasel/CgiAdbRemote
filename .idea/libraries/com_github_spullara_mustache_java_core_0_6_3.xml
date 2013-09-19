@@ -1,10 +1,7 @@
 <component name="libraryTable">
   <library name="com.github.spullara.mustache.java:core:0.6.3" type="repository">
     <properties maven-id="com.github.spullara.mustache.java:core:0.6.3" />
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/core-0.6.3.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/guava-r09.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>

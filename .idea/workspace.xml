@@ -2,13 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae299819-c76e-4877-a5f6-8d5c4f64b645" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/ConsoleHandler.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/DeviceListHandler.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/asm_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/asm_commons_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/asm_tree_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/asm_util_4_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/builder_0_6_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/codegen_0_8_9.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/common_22_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/compiler_0_8_9.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/core_0_6_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/ddmlib_22_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/ddmlib_r16.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/guava_12_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/guava_13_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_all_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jsr305_1_3_9.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/junit_4_11.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/kxml2_2_3_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CgiAdbRemote.iml" afterPath="$PROJECT_DIR$/CgiAdbRemote.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_builder_0_6_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_builder_0_6_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_codegen_0_8_9.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_codegen_0_8_9.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_core_0_6_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_github_spullara_mustache_java_core_0_6_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/ddmlib.xml" afterPath="$PROJECT_DIR$/.idea/libraries/ddmlib.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/nanohttpd_webserver_2_0_3_jar_with_dependencies.xml" afterPath="$PROJECT_DIR$/.idea/libraries/nanohttpd_webserver_2_0_3_jar_with_dependencies.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/org_hamcrest_hamcrest_all_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/org_hamcrest_hamcrest_all_1_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CgiAdbRemote.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379619828659" ignored="false" />
-    <file path="/CgiAdbRemote.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379622963995" ignored="false" />
+    <file path="/CgiAdbRemote.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379627704785" ignored="false" />
     <file path="/fragment.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379205629995" ignored="false" />
     <file path="/CgiAdbRemoteTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379621943187" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/HTTPSession.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378584310497" ignored="false" />
@@ -24,7 +54,7 @@
     <file path="/StatusMatchers.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378601668965" ignored="false" />
     <file path="/AndroidDebugBridgeSingleton.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378625116921" ignored="false" />
     <file path="/AndroidDebugBridgeWrapper.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1378604839086" ignored="false" />
-    <file path="/ConsoleHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379621590388" ignored="false" />
+    <file path="/ConsoleHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379629224898" ignored="false" />
     <file path="/ConsoleHandlerTest.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379621648943" ignored="false" />
     <file path="/FakeIDevice.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379206027789" ignored="false" />
     <file path="/ScreenHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379621606252" ignored="false" />
@@ -44,7 +74,11 @@
     <file path="$USER_HOME$/IdeaProjects/ShareToSD/ShareToSD/src/main/java/uk/org/baverstock/sharetosd/EventListFragment.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379285862582" ignored="false" />
     <file path="$USER_HOME$/IdeaProjects/ShareToSD/.idea/workspace.xml" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379286219239" ignored="false" />
     <file path="$PROJECT_DIR$/../nanohttpd/webserver/src/main/java/fi/iki/elonen/SimpleWebServer.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379621135056" ignored="false" />
-    <file path="/DeviceListHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379621562617" ignored="false" />
+    <file path="/DeviceListHandler.java" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379628491894" ignored="false" />
+    <file path="/DeviceList.ms" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379627418070" ignored="false" />
+    <file path="/ConsoleHandler.html" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379629657170" ignored="false" />
+    <file path="/DeviceListHandler.html" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379628590413" ignored="false" />
+    <file path="/build.gradle" changelist="ae299819-c76e-4877-a5f6-8d5c4f64b645" time="1379630350055" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,99 +186,82 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NullHttpSession.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java">
+      <file leaf-file-name="ConsoleHandler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="339" selection-end="339" vertical-scroll-proportion="-5.84">
+            <state line="25" column="12" selection-start="818" selection-end="818" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeviceListHandlerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java">
+      <file leaf-file-name="IDevice.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/com.android.ddmlib/ddmlib/r16/source/8fbf1d32851f9fad261993e227f938779f345492/ddmlib-r16-sources.jar!/com/android/ddmlib/IDevice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="19" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CgiAdbRemoteTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java">
+      <file leaf-file-name="MANIFEST.MF" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/lib/android-sdk-linux/tools/lib/ddmlib.jar!/META-INF/MANIFEST.MF">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="56" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#640#847#0" expanded="true" />
-                <element signature="e#836#837#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NanoHTTPD.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/fi/iki/elonen/NanoHTTPD.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="242" column="0" selection-start="8943" selection-end="8943" vertical-scroll-proportion="-21.84">
-              <folding>
-                <element signature="e#8407#8423#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScreenHandlerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="5" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CgiAdbRemote.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="20" selection-start="316" selection-end="316" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidDebugBridgeSingleton.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="71" selection-start="856" selection-end="876" vertical-scroll-proportion="0.43021032">
+            <state line="58" column="34" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScreenHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
+      <file leaf-file-name="StatusMatchers.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/StatusMatchers.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="55" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0">
+            <state line="56" column="42" selection-start="2082" selection-end="2082" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConsoleHandlerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java">
+      <file leaf-file-name="Description.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.hamcrest/hamcrest-all/1.3/source/47e033b7ab18c5dbd5fe29fc1bd5a40afe028818/hamcrest-all-1.3-sources.jar!/org/hamcrest/Description.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="19" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MiscUtils.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java">
+      <file leaf-file-name="ConsoleHandler.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/ConsoleHandler.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="37" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
+            <state line="9" column="13" selection-start="186" selection-end="186" vertical-scroll-proportion="-5.625">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FakeIDevice.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="162" column="29" selection-start="4215" selection-end="4215" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeviceListHandler.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/DeviceListHandler.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="20" selection-start="96" selection-end="96" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -266,15 +283,142 @@
       <MyDateState />
     </option>
   </component>
+  <component name="GradleLocalSettings">
+    <option name="availableTasks">
+      <set>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles the outputs of this project." />
+          <option name="name" value="assemble" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles and tests this project." />
+          <option name="name" value="build" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles and tests this project and all projects that depend on it." />
+          <option name="name" value="buildDependents" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles and tests this project and all projects it depends on." />
+          <option name="name" value="buildNeeded" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Runs all checks." />
+          <option name="name" value="check" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles classes 'main'." />
+          <option name="name" value="classes" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Deletes the build directory." />
+          <option name="name" value="clean" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Compiles the main Groovy source." />
+          <option name="name" value="compileGroovy" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Compiles source set 'main:java'." />
+          <option name="name" value="compileJava" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Compiles the test Groovy source." />
+          <option name="name" value="compileTestGroovy" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Compiles source set 'test:java'." />
+          <option name="name" value="compileTestJava" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Copies signed libraries to a specified output folder for later packaging." />
+          <option name="name" value="copySignedLibs" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Bundles the project as a JVM application with libs and OS specific scripts." />
+          <option name="name" value="distTar" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Bundles the project as a JVM application with libs and OS specific scripts." />
+          <option name="name" value="distZip" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Generates Groovydoc API documentation for the main source code." />
+          <option name="name" value="groovydoc" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Installs the project as a JVM application along with libs and OS specific scripts." />
+          <option name="name" value="installApp" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles a jar archive containing the main classes." />
+          <option name="name" value="jar" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Generates Javadoc API documentation for the main source code." />
+          <option name="name" value="javadoc" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Do you know who knows?" />
+          <option name="name" value="knows" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Processes source set 'main:resources'." />
+          <option name="name" value="processResources" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Processes source set 'test:resources'." />
+          <option name="name" value="processTestResources" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Runs this project as a JVM application" />
+          <option name="name" value="run" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Combines all classpath resources into a single jar." />
+          <option name="name" value="shadow" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Creates OS specific scripts to run the project as a JVM application." />
+          <option name="name" value="startScripts" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Runs the unit tests." />
+          <option name="name" value="test" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="description" value="Assembles classes 'test'." />
+          <option name="name" value="testClasses" />
+        </GradleTaskDescriptor>
+      </set>
+    </option>
+    <option name="expandStates">
+      <map>
+        <entry key="CgiAdbRemote" value="true" />
+      </map>
+    </option>
+    <option name="recentTasks">
+      <list>
+        <GradleTaskDescriptor>
+          <option name="executorId" value="Run" />
+          <option name="name" value="test" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="executorId" value="Run" />
+          <option name="name" value="" />
+        </GradleTaskDescriptor>
+      </list>
+    </option>
+    <option name="userProjectChanges">
+      <GradleRemoveLibraryDependencyUserChange>
+        <option name="dependencyName" value="junit-4.10" />
+        <option name="moduleName" value="CgiAdbRemote" />
+      </GradleRemoveLibraryDependencyUserChange>
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java" />
-        <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java" />
-        <option value="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/PathHandler.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
@@ -283,8 +427,14 @@
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java" />
         <option value="$PROJECT_DIR$/src/fi/iki/elonen/NanoHTTPD.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" />
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceList.ms" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
+        <option value="$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/DeviceListHandler.html" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
+        <option value="$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/ConsoleHandler.html" />
+        <option value="$PROJECT_DIR$/build.gradle" />
       </list>
     </option>
   </component>
@@ -356,6 +506,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hamcrest-all-1.3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hamcrest-all-1.3.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CgiAdbRemote" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hamcrest-all-1.3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hamcrest-all-1.3.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hamcrest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CgiAdbRemote" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="CgiAdbRemote" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -378,38 +568,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cgiadbremote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CgiAdbRemote" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -426,7 +584,8 @@
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="MavenSettings" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../nanohttpd/core/src/main/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/build.gradle" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -434,6 +593,7 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="gradle.tool.window.active" value="Tasks" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
     <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
@@ -441,17 +601,14 @@
     <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="uk.org.baverstock.cgiadbremote" />
-    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
-    <key name="ExtractSuperBase.RECENT_KEYS">
+    <key name="CreateTestDialog.RecentsKey">
       <recent name="uk.org.baverstock.cgiadbremote" />
     </key>
-    <key name="IntroduceConstantDialog.RECENTS_KEY">
-      <recent name="uk.org.baverstock.cgiadbremote.ConsoleHandler" />
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="uk.org.baverstock.cgiadbremote" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="uk.org.baverstock.cgiadbremote.TestBeans" />
@@ -460,36 +617,21 @@
       <recent name="uk.org.baverstock.cgiadbremote.AndroidDebugBridgeWrapper" />
       <recent name="uk.org.baverstock.cgiadbremote.StatusMatchers" />
     </key>
+    <key name="IntroduceConstantDialog.RECENTS_KEY">
+      <recent name="uk.org.baverstock.cgiadbremote.ConsoleHandler" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="uk.org.baverstock.cgiadbremote" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote" />
+      <recent name="$USER_HOME$/resources/CgiAdbRemote/src/uk/org/baverstock/cgiadbremote" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="uk.org.baverstock.cgiadbremote" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in CgiAdbRemote">
-    <configuration default="false" name="ScreenHandlerTest.returns404OnError" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="CgiAdbRemote" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="uk.org.baverstock.cgiadbremote" />
-      <option name="MAIN_CLASS_NAME" value="uk.org.baverstock.cgiadbremote.ScreenHandlerTest" />
-      <option name="METHOD_NAME" value="returns404OnError" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.CgiAdbRemote">
     <configuration default="false" name="All in CgiAdbRemote" type="JUnit" factoryName="JUnit" temporary="true">
       <module name="CgiAdbRemote" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -582,6 +724,28 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="gradle:test" type="GroovyScriptRunConfiguration" factoryName="Groovy" temporary="true">
+      <module name="CgiAdbRemote" />
+      <setting name="path" value="file://$PROJECT_DIR$/build.gradle" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="test" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -696,21 +860,35 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="6">
+    <configuration default="false" name="build" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="CgiAdbRemote" />
+      <setting name="path" value="file://$PROJECT_DIR$/build.gradle" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="true" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" enabled="false" />
+      </method>
+    </configuration>
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Application.CgiAdbRemote" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returns404OnError" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest.returnsResponseOfPathHandler" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest.returnsResponseOfPathHandler" />
+      <item index="5" class="java.lang.String" itemvalue="Groovy.build" />
+      <item index="6" class="java.lang.String" itemvalue="Groovy.gradle:test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest.returnsResponseOfPathHandler" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest.returns404OnError" />
+        <item index="0" class="java.lang.String" itemvalue="Groovy.gradle:test" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.All in CgiAdbRemote" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest.returnsResponseOfPathHandler" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.ScreenHandlerTest" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.CgiAdbRemoteTest" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -755,11 +933,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="370" y="0" width="1541" height="999" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32975152" sideWeight="0.6713781" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39929327" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -768,13 +947,12 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975152" sideWeight="0.6702002" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975152" sideWeight="0.6713781" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24983211" sideWeight="0.6713781" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24983211" sideWeight="0.6007067" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -847,99 +1025,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="743" column="13" selection-start="25486" selection-end="25486" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../nanohttpd/webserver/target/nanohttpd-webserver-2.0.3-sources.jar!/fi/iki/elonen/ServerRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="30" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fi/iki/elonen/ServerRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="13" selection-start="66" selection-end="78" vertical-scroll-proportion="0.07481297">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/PathHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="17" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="47" selection-start="402" selection-end="402" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="48" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="37" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="55" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="19" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="19" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="5" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="339" selection-end="339" vertical-scroll-proportion="-5.84">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fi/iki/elonen/NanoHTTPD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="242" column="0" selection-start="8943" selection-end="8943" vertical-scroll-proportion="-21.84">
-          <folding>
-            <element signature="e#8407#8423#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="56" selection-start="913" selection-end="913" vertical-scroll-proportion="0.0">
@@ -951,18 +1036,109 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="71" selection-start="856" selection-end="876" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="20" selection-start="316" selection-end="316" vertical-scroll-proportion="0.0">
+        <state line="47" column="0" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java">
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="71" selection-start="856" selection-end="876" vertical-scroll-proportion="0.43021032">
+        <state line="28" column="0" selection-start="936" selection-end="936" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="55" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/DeviceListHandler.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="20" selection-start="96" selection-end="96" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="12" selection-start="818" selection-end="818" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/uk/org/baverstock/cgiadbremote/ConsoleHandler.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="186" selection-end="186" vertical-scroll-proportion="-5.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/lib/android-sdk-linux/tools/lib/ddmlib.jar!/com/android/ddmlib/IDevice.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="16" selection-start="5746" selection-end="5746" vertical-scroll-proportion="-6.44">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/lib/android-sdk-linux/tools/lib/ddmlib.jar!/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/com.android.ddmlib/ddmlib/r16/source/8fbf1d32851f9fad261993e227f938779f345492/ddmlib-r16-sources.jar!/com/android/ddmlib/IDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="162" column="29" selection-start="4215" selection-end="4215" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="34" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/StatusMatchers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="42" selection-start="2082" selection-end="2082" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/junit-4.10.jar!/org/hamcrest/Description.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="159" selection-end="159" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.hamcrest/hamcrest-all/1.3/source/47e033b7ab18c5dbd5fe29fc1bd5a40afe028818/hamcrest-all-1.3-sources.jar!/org/hamcrest/Description.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
