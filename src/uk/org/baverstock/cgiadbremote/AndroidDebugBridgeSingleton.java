@@ -19,7 +19,7 @@ public class AndroidDebugBridgeSingleton {
                 }
             });
             String adbExec = System.getProperty("cgiadbremote.adbexec");
-            System.err.println(String.format("With adb=%s", adbExec));
+            System.err.println(String.format("With cgiadbremote.adbexec=%s", adbExec));
             bridge = adbExec != null
                     ? AndroidDebugBridge.createBridge(adbExec, false)
                     : AndroidDebugBridge.createBridge();

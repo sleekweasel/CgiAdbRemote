@@ -1,6 +1,25 @@
+// $ java -Dcgiadbremote.adbexec=/home/tim/lib/android-sdk-linux/platform-tools/adb  -jar build/libs/CgiAdbRemote-1.0-shadow.jar 
+
+
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'application'
+apply plugin: 'groovy'
+apply plugin: 'shadow'
+
+buildscript {
+    repositories {
+//
+//  Boo hiss, Ubuntu 12.04: Gradle 1.0-milestone-3 is decrepit.
+//
+        maven {
+            name 'Gradle Shadow'
+            url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
+        }
+    }
+    dependencies {
+        classpath 'org.gradle.plugins:shadow:0.7.4'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -22,7 +41,7 @@ jar {
 
 sourceSets {
     main {
-        java { srcDirs( '../nanohttpd/core/src/main/java', 'src' ) }
+        java { srcDirs( 'src' ) }
         resources { srcDirs = [ 'resources' ] }
     }
     test {
@@ -35,7 +54,6 @@ dependencies {
     compile 'com.github.spullara.mustache.java:builder:0.6.3'
     compile 'com.github.spullara.mustache.java:codegen:0.8.9'
     compile 'com.android.ddmlib:ddmlib:r16'
-    // nanohttp-webserver-2.0.3
 
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'junit:junit:4.11'

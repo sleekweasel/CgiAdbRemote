@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae299819-c76e-4877-a5f6-8d5c4f64b645" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CgiAdbRemote.iml" afterPath="$PROJECT_DIR$/CgiAdbRemote.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/CgiAdbRemoteTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ConsoleHandlerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/DeviceListHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/DeviceListHandlerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/MiscUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/PathHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/PathHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/ScreenHandlerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java" afterPath="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
     </list>
     <ignored path="CgiAdbRemote.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -214,13 +203,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CgiAdbRemote.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CgiAdbRemote.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="13" selection-start="1146" selection-end="1146" vertical-scroll-proportion="1.0611855">
+            <state line="14" column="20" selection-start="316" selection-end="316" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidDebugBridgeSingleton.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="71" selection-start="856" selection-end="876" vertical-scroll-proportion="0.43021032">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -229,15 +227,6 @@
         <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ScreenHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="15" column="55" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConsoleHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/ConsoleHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="48" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -280,7 +269,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeWrapper.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/FakeIDevice.java" />
         <option value="$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java" />
@@ -296,6 +284,7 @@
         <option value="$PROJECT_DIR$/src/fi/iki/elonen/NanoHTTPD.java" />
         <option value="$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/NullHttpSession.java" />
         <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java" />
+        <option value="$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java" />
       </list>
     </option>
   </component>
@@ -418,10 +407,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="elonen" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -770,7 +755,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="370" y="0" width="1541" height="999" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -786,7 +771,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975152" sideWeight="0.6702002" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24983211" sideWeight="0.6713781" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286219" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -862,13 +847,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/uk/org/baverstock/cgiadbremote/TestBeans.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="1169" selection-end="1169" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../nanohttpd/core/src/main/java/fi/iki/elonen/NanoHTTPD.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="743" column="13" selection-start="25486" selection-end="25486" vertical-scroll-proportion="0.0">
@@ -975,10 +953,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/CgiAdbRemote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="13" selection-start="1146" selection-end="1146" vertical-scroll-proportion="1.0611855">
+        <state line="14" column="20" selection-start="316" selection-end="316" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/org/baverstock/cgiadbremote/AndroidDebugBridgeSingleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="71" selection-start="856" selection-end="876" vertical-scroll-proportion="0.43021032">
+          <folding />
         </state>
       </provider>
     </entry>
