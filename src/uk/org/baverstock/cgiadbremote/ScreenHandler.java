@@ -20,11 +20,13 @@ public class ScreenHandler implements PathHandler {
     public NanoHTTPD.Response handle(NanoHTTPD.HTTPSession session) {
         try {
             IDevice device = MiscUtils.getDevice(session, bridge);
-            return new NanoHTTPD.Response(
+            NanoHTTPD.Response response = new NanoHTTPD.Response(
                     NanoHTTPD.Response.Status.OK,
                     "image/png",
                     screenshotToInputStream.convert(device)
             );
+            response.setChunkedTransfer(true);
+            return response;
         } catch (Exception e) {
             return MiscUtils.getResponseForException(e);
         }

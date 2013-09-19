@@ -35,6 +35,7 @@ public class CgiAdbRemote extends NanoHTTPD {
         return sb.toString();
     }
 
+    @Override
     public Response serve(HTTPSession session) {
         System.err.println(String.format("%s: %s %s%s", new Date(), session.getMethod(), session.getPath(),
                 hashAsParms(session.getParms())));
