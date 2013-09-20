@@ -23,6 +23,7 @@ buildscript {
 
 repositories {
     mavenCentral()
+    flatDir { dirs 'local-gradle-repository' }
 }
 
 version = '1.0'
@@ -54,6 +55,11 @@ dependencies {
     compile 'com.github.spullara.mustache.java:core:0.6.3'
     compile 'com.github.spullara.mustache.java:builder:0.6.3'
     compile 'com.github.spullara.mustache.java:codegen:0.8.9'
+    compile ':chimpchat'
+    compile ':jython'
+    compile ':guava:13.0.1'
+    compile ':jython:2.5.3'
+    compile ':monkeyrunner'
 
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'junit:junit-dep:4.11'

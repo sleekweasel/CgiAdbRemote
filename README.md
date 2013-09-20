@@ -5,6 +5,19 @@ CgiAdbRemote
 
 Copyright 2013 Tim Baverstock.
 
+*Under conversion* to Java, with gradle 1.7 (perhaps earlier)
+
+- Currently, only displays device list and screenshots
+- Imports properly to IntelliJ - hurrah
+
+To build:
+$ gradle shadow
+
+To execute:
+$ java -Dcgiadbremote.adbexec=/home/tim/lib/android-sdk-linux/platform-tools/adb  -jar build/libs/CgiAdbRemote-1.0-shadow.jar 
+
+
+
 Example Usage:  
 >./CgiAdbRemote.pl -port=8181
 
