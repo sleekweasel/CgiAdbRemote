@@ -16,12 +16,10 @@ public class CgiAdbRemote extends NanoHTTPD {
     public static final String ROOT_PATH = "/";
     public static final String CONSOLE_PATH = "/console";
     public static final String SCREEN_PATH = "/screendump";
-    public static final String TAP_PATH = "/tap";
+    public static final String TOUCH_PATH = "/touch";
     public static final String PARAM_SERIAL = "device";
-    public static final String PARAM_COORDS = "coords";
 
     private final Map<String, PathHandler> pathHandlerMap;
-    public static Options options;
 
     public CgiAdbRemote(int port, Map<String, PathHandler> PathHandlerMap) {
         super(port);
@@ -56,41 +54,18 @@ public class CgiAdbRemote extends NanoHTTPD {
         new ChimpChatWrapper.Real().getChimpChat().shutdown();
     }
 
-    static class Options {
-        Map<String, String> opts = new HashMap<String, String>();
-
-        public Options(String[] args) {
-            for (String arg : args) {
-                if (arg.startsWith("--")) {
-                    String[] split = arg.substring(2).split("=", 2);
-                    opts.put(split[0], split[1]);
-                } else {
-                    String words = opts.get("");
-                    if (words == null) {
-                        words = arg;
-                    } else {
-                        words += " " + arg;
-                    }
-                    opts.put("", words);
-                }
-            }
-        }
-
-        public int getInt(String key, int defaultInt) {
-            try {
-                return Integer.parseInt(key);
-            }
-            catch (NumberFormatException e) {
-                e.printStackTrace();
-                return defaultInt;
-            }
+    static public int getInt(String key, int defaultInt) {
+        try {
+            String value = System.getProperty(key, "" + defaultInt);
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return defaultInt;
         }
     }
 
     public static void main(String[] args) {
-        options = new Options(args);
-
-        int port = options.getInt("port", 8080);
+        int port = getInt("port", 8080);
         CgiAdbRemote cgiAdbRemote = new CgiAdbRemote(port, getPathHandlers(
                 new CachingListingDeviceConnectionMap(new ChimpChatWrapper.Real())));
         ServerRunner.executeInstance(cgiAdbRemote);
@@ -103,7 +78,7 @@ public class CgiAdbRemote extends NanoHTTPD {
         AndroidDebugBridge.addDeviceChangeListener(deviceConnectionMap);
         pathHandlers.put(ROOT_PATH, new DeviceListHandler(bridge));
         pathHandlers.put(CONSOLE_PATH, new ConsoleHandler(bridge));
-        pathHandlers.put(TAP_PATH, new TapHandler(deviceConnectionMap));
+        pathHandlers.put(TOUCH_PATH, new TouchHandler(deviceConnectionMap));
         pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
 
         return pathHandlers;

@@ -13,7 +13,7 @@ import static fi.iki.elonen.NanoHTTPD.Response.Status.NO_CONTENT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class TapHandlerTest {
+public class TouchHandlerTest {
     private static final String SERIAL = "22344";
 
     @Rule
@@ -25,13 +25,13 @@ public class TapHandlerTest {
     public void tapFromConsoleTapsOnCorrectMonkey() {
         mockery.checking(new Expectations(){{
             allowing(deviceConnectionMap).getDeviceBySerial(SERIAL); will(returnValue(device));
-            oneOf(device).touch(10, 50, TouchPressType.DOWN_AND_UP);
+            oneOf(device).touch(10, 50, TouchPressType.UP);
         }});
 
-        PathHandler handler = new TapHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(deviceConnectionMap);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
-                CgiAdbRemote.PARAM_COORDS, "?10,50",
+                "up", "?10,50",
                 CgiAdbRemote.PARAM_SERIAL, SERIAL
         ));
 
@@ -44,7 +44,7 @@ public class TapHandlerTest {
             allowing(deviceConnectionMap).getDeviceBySerial(SERIAL); will(returnValue(device));
         }});
 
-        PathHandler handler = new TapHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(deviceConnectionMap);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
 //                CgiAdbRemote.PARAM_COORDS, "?10,50",
@@ -60,10 +60,10 @@ public class TapHandlerTest {
             allowing(deviceConnectionMap).getDeviceBySerial(SERIAL); will(returnValue(null));
         }});
 
-        PathHandler handler = new TapHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(deviceConnectionMap);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
-                CgiAdbRemote.PARAM_COORDS, "?10,50",
+                "down", "?10,50",
                 CgiAdbRemote.PARAM_SERIAL, SERIAL
         ));
 
@@ -72,10 +72,10 @@ public class TapHandlerTest {
 
     @Test
     public void tapFromConsoleWithoutSerialExplodes() {
-        PathHandler handler = new TapHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(deviceConnectionMap);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
-                CgiAdbRemote.PARAM_COORDS, "?10,50"
+                "move", "?10,50"
         ));
 
         assertThat(response.getStatus(), equalTo(CONFLICT));
