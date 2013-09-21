@@ -180,7 +180,7 @@ function maybeRotate(image) {
             case '90': case '270':
             t = hh; hh = ww; ww = t;
         }
-        document.autoScale = Math.min(ww/w, hh/h);
+        document.autoScale = Math.min(ww/w, hh/h) * 0.9;
     }
     s = getScale();
     switch (deg) {
@@ -252,7 +252,7 @@ function everyHalfSecond() {
 function onLoadScreen(image) {
     maybeRotate(image);
     colourInputMode();
-    document.refreshScreenAfter = 19;//$::autodelay;
+    document.refreshScreenAfter = 10;//$::autodelay;
 }
 function logResponse(doc) {
     if (doc.logger != null) {

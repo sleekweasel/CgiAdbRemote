@@ -17,6 +17,8 @@ public class CgiAdbRemote extends NanoHTTPD {
     public static final String CONSOLE_PATH = "/console";
     public static final String SCREEN_PATH = "/screendump";
     public static final String TOUCH_PATH = "/touch";
+    public static final String TEXT_PATH = "/text";
+    public static final String ADBCMD_PATH = "/adbCmd";
     public static final String PARAM_SERIAL = "device";
 
     private final Map<String, PathHandler> pathHandlerMap;
@@ -79,6 +81,8 @@ public class CgiAdbRemote extends NanoHTTPD {
         pathHandlers.put(ROOT_PATH, new DeviceListHandler(bridge));
         pathHandlers.put(CONSOLE_PATH, new ConsoleHandler(bridge));
         pathHandlers.put(TOUCH_PATH, new TouchHandler(deviceConnectionMap));
+        pathHandlers.put(TEXT_PATH, new TextHandler(deviceConnectionMap));
+        pathHandlers.put(ADBCMD_PATH, new adbCmdHandler(deviceConnectionMap));
         pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
 
         return pathHandlers;
