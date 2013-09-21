@@ -8,4 +8,6 @@ import com.android.chimpchat.core.IChimpDevice;
 
 public interface DeviceConnectionMap {
     IChimpDevice getDeviceBySerial(String serial);
+
+    void resetDeviceOfSerial(String serial);
 }

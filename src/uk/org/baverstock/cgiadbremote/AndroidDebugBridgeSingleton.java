@@ -27,6 +27,7 @@ public class AndroidDebugBridgeSingleton {
 
     private static void init() {
         if (bridge == null) {
+            AndroidDebugBridge.disconnectBridge();
             AndroidDebugBridge.init(false);
             AndroidDebugBridge.addDebugBridgeChangeListener(new AndroidDebugBridge.IDebugBridgeChangeListener() {
                 @Override

@@ -23,10 +23,24 @@ public class ConsoleHandler implements PathHandler {
         DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
         InputStream resourceAsStream = ConsoleHandler.class.getResourceAsStream("ConsoleHandler.html");
         Reader reader = new InputStreamReader(resourceAsStream);
+        Extras extras = new Extras();
         IDevice device = MiscUtils.getDevice(session, bridge);
         Mustache console = mustacheFactory.compile(reader, "device");
         Writer writer = new StringWriter();
-        console.execute(writer, device);
+        console.execute(writer, new Object[] { device, extras });
         return new NanoHTTPD.Response(writer.toString());
+    }
+
+    private class Extras {
+        String getBanner;
+        String touchDelay;
+        String refreshNum;
+        String idledelay;
+        {
+            getBanner = System.getProperty("cgiadbremote.banner", "Tests may be running");
+            touchDelay = System.getProperty("cgiadbremote.touchdelay", "2");
+            idledelay = System.getProperty("cgiadbremote.idledelay", "4");
+            refreshNum = System.getProperty("cgiadbremote.refreshes", "10");
+        }
     }
 }

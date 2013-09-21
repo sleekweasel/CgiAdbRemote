@@ -3,10 +3,7 @@ package uk.org.baverstock.cgiadbremote;
 import com.android.ddmlib.IDevice;
 import fi.iki.elonen.NanoHTTPD;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 public class MiscUtils {
     public static IDevice deviceFromSerial(String serial, AndroidDebugBridgeWrapper bridge) {
@@ -23,10 +20,9 @@ public class MiscUtils {
         return deviceFromSerial(serial, bridge);
     }
 
-    public static NanoHTTPD.Response getResponseForException(Exception e) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        e.printStackTrace(new PrintStream(out));
-        InputStream stackTrace = new ByteArrayInputStream(out.toByteArray());
-        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.INTERNAL_ERROR, "text/plain", stackTrace);
+    public static NanoHTTPD.Response getResponseForThrowable(Throwable t) {
+        StringWriter out = new StringWriter();
+        t.printStackTrace(new PrintWriter(out));
+        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.INTERNAL_ERROR, "text/plain", out.toString());
     }
 }

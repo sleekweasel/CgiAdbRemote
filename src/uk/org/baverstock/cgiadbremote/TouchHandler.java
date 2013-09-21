@@ -4,6 +4,8 @@ import com.android.chimpchat.core.IChimpDevice;
 import com.android.chimpchat.core.TouchPressType;
 import fi.iki.elonen.NanoHTTPD;
 
+import java.net.SocketException;
+
 /**
  * Sends taps to the phone, via ChimpChat
  */
@@ -27,11 +29,26 @@ public class TouchHandler implements PathHandler {
             touch = type[i];
         }
         String serial = session.getParms().get(CgiAdbRemote.PARAM_SERIAL);
-        IChimpDevice iChimpDevice = serial == null ? null : deviceConnectionMap.getDeviceBySerial(serial);
-        if (coord == null || iChimpDevice == null) {
-            return new NanoHTTPD.Response(NanoHTTPD.Response.Status.CONFLICT, null, "");
+        Throwable lastChance = null;
+        for (int retry = 3; retry > 0; --retry) {
+            IChimpDevice iChimpDevice = serial == null ? null : deviceConnectionMap.getDeviceBySerial(serial);
+            if (coord == null || iChimpDevice == null) {
+                return new NanoHTTPD.Response(NanoHTTPD.Response.Status.CONFLICT, null, "");
+            }
+            try {
+                synchronized (iChimpDevice) {
+                    iChimpDevice.touch(coord.x, coord.y, touch);
+                }
+                return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NO_CONTENT, null, "");
+            }
+            catch (Exception e) {
+                System.err.println(String.format("Retry %d for %s", retry, e.toString()));
+                lastChance = e;
+            }
+            finally {
+                deviceConnectionMap.resetDeviceOfSerial(serial);
+            }
         }
-        iChimpDevice.touch(coord.x, coord.y, touch);
-        return new NanoHTTPD.Response(NanoHTTPD.Response.Status.NO_CONTENT, null, "");
+        return MiscUtils.getResponseForThrowable(lastChance);
     }
 }

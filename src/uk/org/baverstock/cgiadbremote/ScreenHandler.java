@@ -1,7 +1,11 @@
 package uk.org.baverstock.cgiadbremote;
 
+import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.IDevice;
+import com.android.ddmlib.TimeoutException;
 import fi.iki.elonen.NanoHTTPD;
+
+import java.io.IOException;
 
 /**
  * Replies with screen
@@ -27,8 +31,12 @@ public class ScreenHandler implements PathHandler {
             );
             response.setChunkedTransfer(true);
             return response;
-        } catch (Exception e) {
-            return MiscUtils.getResponseForException(e);
+        } catch (TimeoutException e) {
+            return MiscUtils.getResponseForThrowable(e);
+        } catch (AdbCommandRejectedException e) {
+            return MiscUtils.getResponseForThrowable(e);
+        } catch (IOException e) {
+            return MiscUtils.getResponseForThrowable(e);
         }
     }
 }

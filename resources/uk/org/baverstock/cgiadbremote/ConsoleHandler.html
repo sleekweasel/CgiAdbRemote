@@ -4,21 +4,21 @@
     <title>Device: {{getName}}</title>
 </head>
 <body>
-<h1 id="banner" style="color: red">$::banner</h1>
+<h1 id="banner" style="color: red">{{getBanner}}</h1>
 <a href='/'>Devices</a>
 serial: {{getSerialNumber}}
 name: {{getName}}
 AvdName: {{getAvdName}}
 BatteryLevel: {{getBatteryLevel}}
 <br>
-document.param_touchdelay = 3;//{{touchDelay}};
-document.param_refreshNum = 20;
-document.param_idledelay = 10;
+document.param_touchdelay = {{touchDelay}};
+document.param_refreshNum = {{refreshNum}};
+document.param_idledelay = {{idledelay}};
 document.param_serialNumber = "{{getSerialNumber}}";
 <script type="text/javascript">
-    document.param_touchdelay = 3;//{{touchDelay}}; // 3;
-    document.param_refreshNum = 20;
-    document.param_idledelay = 10;
+    document.param_touchdelay = {{touchDelay}};
+    document.param_refreshNum = {{refreshNum}};
+    document.param_idledelay = {{idledelay}};
     document.param_serialNumber = "{{getSerialNumber}}";
 </script>
 <script type="text/javascript" src="/resource?name=ConsoleHandler.js"></script>

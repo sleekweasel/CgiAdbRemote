@@ -49,6 +49,7 @@ function mousePut(i, e, what) {
 function mouseUp(i, e) {
     document.lastStamp = 0;
     f=document.firstDown;
+    delete document.firstDown;
     if (typeof f === 'undefined') {
         return;
     }

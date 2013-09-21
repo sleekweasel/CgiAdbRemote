@@ -31,6 +31,12 @@ class CachingListingDeviceConnectionMap implements DeviceConnectionMap, AndroidD
     }
 
     @Override
+    public synchronized void resetDeviceOfSerial(String serial) {
+//        IChimpDevice iChimpDevice = cache.get(serial);
+//        iChimpDevice.getManager().
+    }
+
+    @Override
     public void deviceConnected(IDevice device) {
         String serialNumber = device.getSerialNumber();
         System.err.println(format("deviceConnected: %s %s", serialNumber, device));
@@ -41,10 +47,10 @@ class CachingListingDeviceConnectionMap implements DeviceConnectionMap, AndroidD
         String serialNumber = device.getSerialNumber();
         IChimpDevice disconnected = cache.get(serialNumber);
         System.err.println(format("deviceDisconnected: %s %s=%s", serialNumber, device, disconnected));
-        if (disconnected != null) {
-            disconnected.dispose();
-        }
-        cache.remove(serialNumber);
+//        if (disconnected != null) {
+//            disconnected.dispose();
+//        }
+//        cache.remove(serialNumber);
     }
 
     @Override

@@ -4,8 +4,6 @@ import com.android.ddmlib.AndroidDebugBridge;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.ServerRunner;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +18,7 @@ public class CgiAdbRemote extends NanoHTTPD {
     public static final String SCREEN_PATH = "/screendump";
     public static final String TOUCH_PATH = "/touch";
     public static final String TEXT_PATH = "/text";
+    public static final String ADBKILL_PATH = "/killServer";
     public static final String RESOURCE_PATH = "/resource";
     public static final String ADBCMD_PATH = "/adbCmd";
     public static final String PARAM_SERIAL = "device";
@@ -52,9 +51,7 @@ public class CgiAdbRemote extends NanoHTTPD {
                 return pathHandler.handle(session);
             } catch (Throwable t) {
                 t.printStackTrace();
-                StringWriter out = new StringWriter();
-                t.printStackTrace(new PrintWriter(out));
-                return new NanoHTTPD.Response(NanoHTTPD.Response.Status.INTERNAL_ERROR, "text/plain", out.toString());
+                return MiscUtils.getResponseForThrowable(t);
             }
         }
         return new Response(Response.Status.NOT_FOUND, "text/plain", "Not found: " + session.getPath());
@@ -92,10 +89,12 @@ public class CgiAdbRemote extends NanoHTTPD {
         pathHandlers.put(CONSOLE_PATH, new ConsoleHandler(bridge));
         pathHandlers.put(TOUCH_PATH, new TouchHandler(deviceConnectionMap));
         pathHandlers.put(TEXT_PATH, new TextHandler(deviceConnectionMap));
+        pathHandlers.put(ADBKILL_PATH, new AdbKillHandler());
         pathHandlers.put(RESOURCE_PATH, new ResourceHandler());
-        pathHandlers.put(ADBCMD_PATH, new adbCmdHandler(deviceConnectionMap));
+        pathHandlers.put(ADBCMD_PATH, new AdbCmdHandler(deviceConnectionMap));
         pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
 
         return pathHandlers;
     }
+
 }
