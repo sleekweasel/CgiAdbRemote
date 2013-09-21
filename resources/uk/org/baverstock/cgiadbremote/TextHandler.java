@@ -34,6 +34,9 @@ public class TextHandler implements PathHandler {
             case 26:
                 device.wake();
                 break;
+            case -1:
+                device.reboot(null);
+                break;
         }
 
         return new NanoHTTPD.Response("");

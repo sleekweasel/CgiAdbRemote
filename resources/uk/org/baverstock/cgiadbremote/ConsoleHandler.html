@@ -37,7 +37,8 @@ screen is probably powered off.
           <input type="button" value="home" onclick="keyEvent(this, 3)">
           <input type="button" value="menu" onclick="keyEvent(this, 82)">
           <input type="button" value="back" onclick="keyEvent(this, 4)">
-          <input type="button" value="power" onclick="keyEvent(this, 26)">
+          <input type="button" value="waken" onclick="keyEvent(this, 26)">
+          <input type="button" value="reboot" onclick="keyEvent(this, -1)">
           <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
           Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))">
           <span id="showscale"></span>
