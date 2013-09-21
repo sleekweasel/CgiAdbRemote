@@ -202,7 +202,7 @@ function everyHalfSecond() {
         for (i=0; i<document.refreshScreenAfter; i++) {
             bar += '*';
         }
-        refresh = "Auto refresh in: " + bar + " (" + document.refreshNum + " more)";
+        refresh = "Screen refresh (" + document.refreshNum + ") in: " + bar;
         document.title=refresh;
     }
     else {
@@ -215,13 +215,15 @@ function everyHalfSecond() {
         if (document.refreshScreenAfter <= 0) {
             document.refreshNum = document.refreshNum - 1;
             screen = document.getElementById("screen");
+            screen.style.borderColor='red';
             screen.src = screen.src.split("#")[0] + "#" + new Date();
         }
     }
 }
 function onLoadScreen(image) {
+    image.style.borderColor='grey';
     maybeRotate(image);
-    document.refreshScreenAfter = document.param__autodelay;
+    document.refreshScreenAfter = document.param_idledelay;
 }
 function logResponse(doc) {
     if (doc.logger != null) {
