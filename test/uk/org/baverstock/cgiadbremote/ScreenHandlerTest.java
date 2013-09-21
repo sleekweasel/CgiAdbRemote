@@ -16,8 +16,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static uk.org.baverstock.cgiadbremote.AndroidDebugBridgeWrapper.Noop.bridgeWithDevices;
-import static uk.org.baverstock.cgiadbremote.FakeIDevice.anIDevice;
+import static uk.org.baverstock.cgiadbremote.StatusMatchers.holdsString;
 
 public class ScreenHandlerTest {
 
@@ -45,7 +44,7 @@ public class ScreenHandlerTest {
 
         NanoHTTPD.Response response = handler.handle(session);
 
-        assertThat(response.getData(), StatusMatchers.holdsString(equalTo("screenshot1")));
+        assertThat(response.getData(), holdsString(equalTo("screenshot1")));
         assertThat(response.getMimeType(), equalTo("image/png"));
     }
 
@@ -61,6 +60,6 @@ public class ScreenHandlerTest {
         NanoHTTPD.Response response = handler.handle(session);
 
         assertThat(response.getMimeType(), equalTo("text/plain"));
-        assertThat(response.getData(), StatusMatchers.holdsString(containsString("No device connected with serial number 'null'")));
+        assertThat(response.getData(), holdsString(containsString("No device connected with serial number 'null'")));
     }
 }

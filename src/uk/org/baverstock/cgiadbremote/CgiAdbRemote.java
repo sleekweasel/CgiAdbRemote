@@ -1,5 +1,6 @@
 package uk.org.baverstock.cgiadbremote;
 
+import com.android.ddmlib.AndroidDebugBridge;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.ServerRunner;
 
@@ -15,9 +16,12 @@ public class CgiAdbRemote extends NanoHTTPD {
     public static final String ROOT_PATH = "/";
     public static final String CONSOLE_PATH = "/console";
     public static final String SCREEN_PATH = "/screendump";
+    public static final String TAP_PATH = "/tap";
     public static final String PARAM_SERIAL = "device";
+    public static final String PARAM_COORDS = "coords";
 
     private final Map<String, PathHandler> pathHandlerMap;
+    public static Options options;
 
     public CgiAdbRemote(int port, Map<String, PathHandler> PathHandlerMap) {
         super(port);
@@ -46,17 +50,60 @@ public class CgiAdbRemote extends NanoHTTPD {
         return new Response(Response.Status.NOT_FOUND, "text/plain", "Not found: " + session.getPath());
     }
 
+    @Override
+    public void stop() {
+        super.stop();
+        new ChimpChatWrapper.Real().getChimpChat().shutdown();
+    }
+
+    static class Options {
+        Map<String, String> opts = new HashMap<String, String>();
+
+        public Options(String[] args) {
+            for (String arg : args) {
+                if (arg.startsWith("--")) {
+                    String[] split = arg.substring(2).split("=", 2);
+                    opts.put(split[0], split[1]);
+                } else {
+                    String words = opts.get("");
+                    if (words == null) {
+                        words = arg;
+                    } else {
+                        words += " " + arg;
+                    }
+                    opts.put("", words);
+                }
+            }
+        }
+
+        public int getInt(String key, int defaultInt) {
+            try {
+                return Integer.parseInt(key);
+            }
+            catch (NumberFormatException e) {
+                e.printStackTrace();
+                return defaultInt;
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        CgiAdbRemote cgiAdbRemote = new CgiAdbRemote(8080, getPathHandlers());
+        options = new Options(args);
+
+        int port = options.getInt("port", 8080);
+        CgiAdbRemote cgiAdbRemote = new CgiAdbRemote(port, getPathHandlers(
+                new CachingListingDeviceConnectionMap(new ChimpChatWrapper.Real())));
         ServerRunner.executeInstance(cgiAdbRemote);
     }
 
-    private static HashMap<String, PathHandler> getPathHandlers() {
+    private static HashMap<String, PathHandler> getPathHandlers(CachingListingDeviceConnectionMap deviceConnectionMap) {
         HashMap<String, PathHandler> pathHandlers = new HashMap<String, PathHandler>();
 
         AndroidDebugBridgeWrapper.Real bridge = new AndroidDebugBridgeWrapper.Real();
+        AndroidDebugBridge.addDeviceChangeListener(deviceConnectionMap);
         pathHandlers.put(ROOT_PATH, new DeviceListHandler(bridge));
         pathHandlers.put(CONSOLE_PATH, new ConsoleHandler(bridge));
+        pathHandlers.put(TAP_PATH, new TapHandler(deviceConnectionMap));
         pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
 
         return pathHandlers;

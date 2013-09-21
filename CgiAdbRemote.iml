@@ -17,21 +17,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="asm-util-4.0" level="project" />
-    <orderEntry type="library" exported="" name="builder-0.6.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="hamcrest-all-1.3" level="project" />
-    <orderEntry type="library" exported="" name="core-0.6.3" level="project" />
-    <orderEntry type="library" exported="" name="guava-13.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit-4.11" level="project" />
+    <orderEntry type="library" exported="" name="common-22.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="asm-4.0" level="project" />
     <orderEntry type="library" exported="" name="compiler-0.8.9" level="project" />
+    <orderEntry type="library" exported="" name="asm-util-4.0" level="project" />
+    <orderEntry type="library" exported="" name="core-0.6.3" level="project" />
+    <orderEntry type="library" exported="" name="ddmlib-22.0.1" level="project" />
     <orderEntry type="library" exported="" name="asm-tree-4.0" level="project" />
     <orderEntry type="library" exported="" name="codegen-0.8.9" level="project" />
     <orderEntry type="library" exported="" name="kxml2-2.3.0" level="project" />
-    <orderEntry type="library" exported="" name="common-22.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit-4.11" level="project" />
     <orderEntry type="library" exported="" name="asm-commons-4.0" level="project" />
-    <orderEntry type="library" exported="" name="asm-4.0" level="project" />
-    <orderEntry type="library" exported="" name="ddmlib-22.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="hamcrest-all-1.3" level="project" />
+    <orderEntry type="library" exported="" name="chimpchat" level="project" />
+    <orderEntry type="library" exported="" name="builder-0.6.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="hamcrest-library-1.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="jmock-junit4-2.6.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="jmock-2.6.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-13.0.1" level="project" />
   </component>
 </module>
 
