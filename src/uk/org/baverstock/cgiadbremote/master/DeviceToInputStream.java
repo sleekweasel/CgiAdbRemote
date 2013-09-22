@@ -1,4 +1,4 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.IDevice;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Does...
+ * Bridge-style device returns a stream - e.g. screenshot.
  */
 
 public interface DeviceToInputStream {

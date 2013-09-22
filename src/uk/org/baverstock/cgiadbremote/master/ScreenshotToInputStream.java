@@ -1,4 +1,4 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.IDevice;
@@ -12,7 +12,7 @@ import java.io.*;
 /**
 * Gets a screenshot from the device and squirts the PNG of it to the stream.
 */
-class ScreenshotToInputStream implements DeviceToInputStream {
+public class ScreenshotToInputStream implements DeviceToInputStream {
     @Override
     public InputStream convert(final IDevice device) throws AdbCommandRejectedException, IOException, TimeoutException {
         final PipedInputStream inputStream = new PipedInputStream();

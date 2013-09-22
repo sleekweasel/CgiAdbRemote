@@ -16,7 +16,7 @@ public class CgiAdbRemoteTest {
     public static final String KNOWN_PATH = "/some_thing";
     public static final String KNOWN_RESPONSE = "known response";
 
-    private final HashMap<String,PathHandler> testMap = new HashMap<String, PathHandler>();
+    private final PathHandlers testMap = new PathHandlers();
     {
         testMap.put(KNOWN_PATH, new PathHandler() {
             @Override

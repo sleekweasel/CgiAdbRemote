@@ -7,6 +7,7 @@ import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
+import uk.org.baverstock.cgiadbremote.slave.TouchHandler;
 
 import static fi.iki.elonen.NanoHTTPD.Response.Status.CONFLICT;
 import static fi.iki.elonen.NanoHTTPD.Response.Status.NO_CONTENT;
@@ -18,17 +19,15 @@ public class TouchHandlerTest {
 
     @Rule
     public JUnitRuleMockery mockery = new JUnitRuleMockery();
-    private final DeviceConnectionMap deviceConnectionMap = mockery.mock(DeviceConnectionMap.class);
     private final IChimpDevice device = mockery.mock(IChimpDevice.class);
 
     @Test
     public void tapFromConsoleTapsOnCorrectMonkey() {
         mockery.checking(new Expectations(){{
-            allowing(deviceConnectionMap).getDeviceBySerial(SERIAL); will(returnValue(device));
             oneOf(device).touch(10, 50, TouchPressType.UP);
         }});
 
-        PathHandler handler = new TouchHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(device, SERIAL);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
                 "up", "?10,50",
@@ -40,14 +39,9 @@ public class TouchHandlerTest {
 
     @Test
     public void tapFromConsoleWithoutCoordsExplodes() {
-        mockery.checking(new Expectations(){{
-            allowing(deviceConnectionMap).getDeviceBySerial(SERIAL); will(returnValue(device));
-        }});
-
-        PathHandler handler = new TouchHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(device, SERIAL);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
-//                CgiAdbRemote.PARAM_COORDS, "?10,50",
                 CgiAdbRemote.PARAM_SERIAL, SERIAL
         ));
 
@@ -55,12 +49,8 @@ public class TouchHandlerTest {
     }
 
     @Test
-    public void tapFromConsoleWithoutMappedMonkeyExplodes() {
-        mockery.checking(new Expectations(){{
-            allowing(deviceConnectionMap).getDeviceBySerial(SERIAL); will(returnValue(null));
-        }});
-
-        PathHandler handler = new TouchHandler(deviceConnectionMap);
+    public void tapFromConsoleWithWrongMonkeyExplodes() {
+        PathHandler handler = new TouchHandler(device, "qwert");
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
                 "down", "?10,50",
@@ -72,7 +62,7 @@ public class TouchHandlerTest {
 
     @Test
     public void tapFromConsoleWithoutSerialExplodes() {
-        PathHandler handler = new TouchHandler(deviceConnectionMap);
+        PathHandler handler = new TouchHandler(device, SERIAL);
 
         NanoHTTPD.Response response = handler.handle(TestBeans.sessionWithParams(
                 "move", "?10,50"

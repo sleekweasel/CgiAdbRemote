@@ -1,4 +1,4 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import com.android.chimpchat.ChimpChat;
 import com.android.chimpchat.adb.AdbBackend;
@@ -13,19 +13,12 @@ import java.util.Map;
 
 public class AndroidDebugBridgeSingleton {
     private static AndroidDebugBridge bridge;
-    private static ChimpChat chimpChat;
 
     public static synchronized AndroidDebugBridge getAndroidDebugBridge() {
-        init();
-        return bridge;
+        return singleton();
     }
 
-    public static synchronized ChimpChat getChimpChat() {
-        init();
-        return chimpChat;
-    }
-
-    private static void init() {
+    private static AndroidDebugBridge singleton() {
         if (bridge == null) {
             AndroidDebugBridge.disconnectBridge();
             AndroidDebugBridge.init(false);
@@ -39,11 +32,6 @@ public class AndroidDebugBridgeSingleton {
             String adbExec = System.getProperty("cgiadbremote.adbexec");
             System.err.println(String.format("With cgiadbremote.adbexec=%s", adbExec));
             boolean forceNewBridge = false;
-            Map<String, String> chimpy = new HashMap<String, String>();
-            chimpy.put("adbLocation", adbExec);
-            chimpy.put("noInitAdb", "true");
-            chimpy.put("backend", "adb");
-            chimpChat = ChimpChat.getInstance(chimpy);
             bridge = AndroidDebugBridge.createBridge(adbExec, forceNewBridge);
         }
         while (!bridge.isConnected() && !bridge.hasInitialDeviceList()) {
@@ -54,5 +42,6 @@ public class AndroidDebugBridgeSingleton {
                 throw new RuntimeException(e);
             }
         }
+        return bridge;
     }
 }

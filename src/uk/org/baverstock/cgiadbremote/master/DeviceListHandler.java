@@ -1,8 +1,9 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import fi.iki.elonen.NanoHTTPD;
+import uk.org.baverstock.cgiadbremote.PathHandler;
 
 import java.io.*;
 

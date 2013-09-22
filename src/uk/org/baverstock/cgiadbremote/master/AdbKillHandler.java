@@ -1,25 +1,19 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import fi.iki.elonen.NanoHTTPD;
+import uk.org.baverstock.cgiadbremote.MiscUtils;
+import uk.org.baverstock.cgiadbremote.PathHandler;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
-* Does...
+* Runs adb kill-server to reset everything!
 */
 public class AdbKillHandler implements PathHandler {
     @Override
     public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
-        File adbcmd = new File(System.getProperty("cgiadbremote.adbexec", "adb"));
-        for (String path : System.getenv("PATH").split(":")) {
-            File cmd = new File(new File(path), "adb");
-            System.out.println("Trying " + cmd + " can " + cmd.canExecute() + cmd.canRead());
-            if (cmd.canRead() && adbcmd.canExecute()) {
-                adbcmd = cmd;
-                break;
-            }
-        }
+        File adbcmd = MiscUtils.getAdbCmd();
         ProcessBuilder adb = new ProcessBuilder(adbcmd.getAbsolutePath(), "kill-server");
         adb.redirectErrorStream(true);
         try {

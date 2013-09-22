@@ -1,28 +1,36 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.slave;
 
 import com.android.chimpchat.core.IChimpDevice;
 import com.android.chimpchat.core.PhysicalButton;
 import com.android.chimpchat.core.TouchPressType;
 import fi.iki.elonen.NanoHTTPD;
+import uk.org.baverstock.cgiadbremote.CgiAdbRemote;
+import uk.org.baverstock.cgiadbremote.PathHandler;
 
 /**
  * Hack this - bored.
  */
 
 public class TextHandler implements PathHandler {
-    private DeviceConnectionMap deviceConnectionMap;
+    private IChimpDevice iChimpDevice;
+    private String serial;
 
-    public TextHandler(DeviceConnectionMap deviceConnectionMap) {
-        this.deviceConnectionMap = deviceConnectionMap;
+    public TextHandler(IChimpDevice iChimpDevice, String serial) {
+        this.iChimpDevice = iChimpDevice;
+        this.serial = serial;
     }
 
     @Override
     public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
-        IChimpDevice iChimpDevice = deviceConnectionMap.getDeviceBySerial(
-                session.getParms().get(CgiAdbRemote.PARAM_SERIAL));
-        int key = Integer.parseInt(session.getParms().get("key"));
+        NanoHTTPD.Response serialError = ChimpUtils.checkSerial(session, serial);
+        if (serialError != null) {
+            return serialError;
+        }
+
+        String key = session.getParms().get("key");
+        int code = Integer.parseInt(key);
         synchronized (iChimpDevice) {
-            switch (key) {
+            switch (code) {
                 case 3:
                     iChimpDevice.press(PhysicalButton.HOME, TouchPressType.DOWN_AND_UP);
                     break;
@@ -38,9 +46,11 @@ public class TextHandler implements PathHandler {
                 case -1:
                     iChimpDevice.reboot(null);
                     break;
+                default:
+                    return new NanoHTTPD.Response(NanoHTTPD.Response.Status.CONFLICT, "text/plain", "Unknown key=" + key);
             }
         }
 
-        return new NanoHTTPD.Response("");
+        return new NanoHTTPD.Response("Pressed key=" + key);
     }
 }

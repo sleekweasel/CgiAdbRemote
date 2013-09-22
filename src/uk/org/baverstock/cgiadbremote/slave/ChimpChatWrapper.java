@@ -1,4 +1,4 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.slave;
 
 import com.android.chimpchat.ChimpChat;
 
@@ -17,7 +17,7 @@ public interface ChimpChatWrapper {
     class Real implements ChimpChatWrapper {
         @Override
         public ChimpChat getChimpChat() {
-            return AndroidDebugBridgeSingleton.getChimpChat();
+            return ChimpChatSingleton.getChimpChat();
         }
     }
     ChimpChat getChimpChat();

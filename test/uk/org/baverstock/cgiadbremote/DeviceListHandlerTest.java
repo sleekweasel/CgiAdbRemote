@@ -2,6 +2,7 @@ package uk.org.baverstock.cgiadbremote;
 
 import fi.iki.elonen.NanoHTTPD;
 import org.junit.Test;
+import uk.org.baverstock.cgiadbremote.master.DeviceListHandler;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;

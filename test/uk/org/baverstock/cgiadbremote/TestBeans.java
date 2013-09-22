@@ -1,11 +1,12 @@
 package uk.org.baverstock.cgiadbremote;
 
 import com.android.ddmlib.IDevice;
+import uk.org.baverstock.cgiadbremote.master.AndroidDebugBridgeWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static uk.org.baverstock.cgiadbremote.AndroidDebugBridgeWrapper.Noop.bridgeWithDevices;
+import static uk.org.baverstock.cgiadbremote.master.AndroidDebugBridgeWrapper.Noop.bridgeWithDevices;
 
 public class TestBeans {
     public static final IDevice DEVICE_1 = FakeIDevice.anIDevice().withName("device1").withSerialNumber(

@@ -63,7 +63,7 @@ public abstract class NanoHTTPD {
     /**
      * Pseudo-Parameter to use to store the actual query string in the parameters map for later re-processing.
      */
-    private static final String QUERY_STRING_PARAMETER = "NanoHttpd.QUERY_STRING";
+    public static final String QUERY_STRING_PARAMETER = "NanoHttpd.QUERY_STRING";
     private final String hostname;
     private final int myPort;
     private ServerSocket myServerSocket;

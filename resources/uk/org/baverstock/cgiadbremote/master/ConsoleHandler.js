@@ -39,11 +39,11 @@ function mousePut(i, e, what) {
     ih = Math.round(i.height);
     iw = Math.round(i.width);
 
-    touch = "touch?device=" + document.param_serialNumber +
+    touch = document.param_monkeyHostPort + "touch?device=" + document.param_serialNumber +
         "&deg=" + qParam("deg", "0") +
         "&"+what+"=?" + x1 + "," + y1 +
         "&img=?" + iw + "," + ih;
-    window.frames["stdout"].location=url(touch);
+    window.frames["stdout"].location=touch; //url(touch);
     return true;
 }
 function mouseUp(i, e) {
@@ -66,12 +66,12 @@ function mouseUp(i, e) {
     ih = Math.round(i.height);
     iw = Math.round(i.width);
 
-    touch = "touch?device=" + document.param_serialNumber +
+    touch = document.param_monkeyHostPort+"touch?device=" + document.param_serialNumber +
         "&deg=" + qParam("deg", "0") +
         "&down=?" + x1 + "," + y1 +
         "&up=?" + x2 + "," + y2 +
         "&img=?" + iw + "," + ih;
-    window.frames["stdout"].location=url(touch);
+    window.frames["stdout"].location=touch; //url(touch);
 
     renewAutoScreen();
     return true;

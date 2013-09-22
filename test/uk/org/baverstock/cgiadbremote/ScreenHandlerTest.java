@@ -6,6 +6,8 @@ import com.android.ddmlib.IDevice;
 import com.android.ddmlib.TimeoutException;
 import fi.iki.elonen.NanoHTTPD;
 import org.junit.Test;
+import uk.org.baverstock.cgiadbremote.master.DeviceToInputStream;
+import uk.org.baverstock.cgiadbremote.master.ScreenHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

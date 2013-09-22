@@ -1,9 +1,11 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.TimeoutException;
 import fi.iki.elonen.NanoHTTPD;
+import uk.org.baverstock.cgiadbremote.MiscUtils;
+import uk.org.baverstock.cgiadbremote.PathHandler;
 
 import java.io.IOException;
 
@@ -23,7 +25,7 @@ public class ScreenHandler implements PathHandler {
     @Override
     public NanoHTTPD.Response handle(NanoHTTPD.IHTTPSession session) {
         try {
-            IDevice device = MiscUtils.getDevice(session, bridge);
+            IDevice device = MiscUtils.getDeviceForSession(session, bridge);
             NanoHTTPD.Response response = new NanoHTTPD.Response(
                     NanoHTTPD.Response.Status.OK,
                     "image/png",

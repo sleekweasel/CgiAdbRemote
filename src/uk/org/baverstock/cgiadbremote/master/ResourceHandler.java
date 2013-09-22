@@ -1,6 +1,7 @@
-package uk.org.baverstock.cgiadbremote;
+package uk.org.baverstock.cgiadbremote.master;
 
 import fi.iki.elonen.NanoHTTPD;
+import uk.org.baverstock.cgiadbremote.PathHandler;
 
 import java.io.InputStream;
 

@@ -1,51 +1,50 @@
 package uk.org.baverstock.cgiadbremote;
 
+import com.android.chimpchat.core.IChimpDevice;
 import com.android.ddmlib.AndroidDebugBridge;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.ServerRunner;
+import uk.org.baverstock.cgiadbremote.master.*;
+import uk.org.baverstock.cgiadbremote.master.AdbCmdHandler;
+import uk.org.baverstock.cgiadbremote.slave.ChimpChatWrapper;
+import uk.org.baverstock.cgiadbremote.slave.TextHandler;
+import uk.org.baverstock.cgiadbremote.slave.TouchHandler;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Provide access to this host's Android devices over HTTP.
  */
 public class CgiAdbRemote extends NanoHTTPD {
 
-    public static final String ROOT_PATH = "/";
-    public static final String CONSOLE_PATH = "/console";
-    public static final String SCREEN_PATH = "/screendump";
-    public static final String TOUCH_PATH = "/touch";
-    public static final String TEXT_PATH = "/text";
-    public static final String ADBKILL_PATH = "/killServer";
-    public static final String RESOURCE_PATH = "/resource";
-    public static final String ADBCMD_PATH = "/adbCmd";
     public static final String PARAM_SERIAL = "device";
 
-    private final Map<String, PathHandler> pathHandlerMap;
+    private final PathHandlers pathHandlers;
 
-    public CgiAdbRemote(int port, Map<String, PathHandler> PathHandlerMap) {
+    public CgiAdbRemote(int port, PathHandlers PathHandlerMap) {
         super(port);
-        pathHandlerMap = PathHandlerMap;
+        pathHandlers = PathHandlerMap;
     }
 
-    private String hashAsParms(Map<String, String> parms) {
-        StringBuilder sb = new StringBuilder();
-        if (parms != null) {
-            for (Map.Entry<String, String> entry : parms.entrySet()) {
-                sb.append(sb.length() > 0 ? " & " : "? ");
-                sb.append(entry.getKey()).append("=").append(entry.getValue());
-            }
-        }
-        return sb.toString();
+    @Override
+    public void stop() {
+        super.stop();
+        pathHandlers.stop();
     }
 
     @Override
     public Response serve(IHTTPSession session) {
-        System.err.println(String.format("%s: %s %s%s", new Date(), session.getMethod(), session.getPath(),
-                hashAsParms(session.getParms())));
-        PathHandler pathHandler = pathHandlerMap.get(session.getPath());
+        Response response = getResponse(session);
+
+        System.err.println(String.format("%s: %s %03d %s ? %s",
+                new Date(), session.getMethod(), response.getStatus().getRequestStatus(), session.getPath(),
+                session.getParms().get(NanoHTTPD.QUERY_STRING_PARAMETER)));
+
+        return response;
+    }
+
+    private Response getResponse(IHTTPSession session) {
+        PathHandler pathHandler = pathHandlers.get(session.getPath());
         if (pathHandler != null) {
             try {
                 return pathHandler.handle(session);
@@ -55,12 +54,6 @@ public class CgiAdbRemote extends NanoHTTPD {
             }
         }
         return new Response(Response.Status.NOT_FOUND, "text/plain", "Not found: " + session.getPath());
-    }
-
-    @Override
-    public void stop() {
-        super.stop();
-        new ChimpChatWrapper.Real().getChimpChat().shutdown();
     }
 
     static public int getInt(String key, int defaultInt) {
@@ -74,25 +67,60 @@ public class CgiAdbRemote extends NanoHTTPD {
     }
 
     public static void main(String[] args) {
-        int port = getInt("port", 8080);
-        CgiAdbRemote cgiAdbRemote = new CgiAdbRemote(port, getPathHandlers(
-                new CachingListingDeviceConnectionMap(new ChimpChatWrapper.Real())));
+        final CgiAdbRemote cgiAdbRemote;
+        int slave = getInt("slave", 0);
+        if (slave == 0) {
+            cgiAdbRemote = new CgiAdbRemote(getInt("port", 8080), masterPathHandlers());
+        } else {
+            PathHandlers pathHandlers = slavePathHandlers(
+                    new ChimpChatWrapper.Real(), System.getProperty("slave"));
+            cgiAdbRemote = new CgiAdbRemote(slave, pathHandlers);
+            pathHandlers.put("/quit", new PathHandler() {
+                @Override
+                public Response handle(IHTTPSession session) {
+                    cgiAdbRemote.stop();
+                    return null;
+                }
+            });
+        }
         ServerRunner.executeInstance(cgiAdbRemote);
     }
 
-    private static HashMap<String, PathHandler> getPathHandlers(CachingListingDeviceConnectionMap deviceConnectionMap) {
-        HashMap<String, PathHandler> pathHandlers = new HashMap<String, PathHandler>();
+    private static PathHandlers masterPathHandlers() {
+        PathHandlers pathHandlers = new PathHandlers();
 
         AndroidDebugBridgeWrapper.Real bridge = new AndroidDebugBridgeWrapper.Real();
-        AndroidDebugBridge.addDeviceChangeListener(deviceConnectionMap);
-        pathHandlers.put(ROOT_PATH, new DeviceListHandler(bridge));
-        pathHandlers.put(CONSOLE_PATH, new ConsoleHandler(bridge));
-        pathHandlers.put(TOUCH_PATH, new TouchHandler(deviceConnectionMap));
-        pathHandlers.put(TEXT_PATH, new TextHandler(deviceConnectionMap));
-        pathHandlers.put(ADBKILL_PATH, new AdbKillHandler());
-        pathHandlers.put(RESOURCE_PATH, new ResourceHandler());
-        pathHandlers.put(ADBCMD_PATH, new AdbCmdHandler(deviceConnectionMap));
-        pathHandlers.put(SCREEN_PATH, new ScreenHandler(bridge, new ScreenshotToInputStream()));
+        AndroidDebugBridge.addDeviceChangeListener(new NullDeviceChangeListener());
+
+        pathHandlers.put("/resource", new ResourceHandler());
+        pathHandlers.put("/killServer", new AdbKillHandler());
+
+        pathHandlers.put("/", new DeviceListHandler(bridge));
+        final MonkeySlaveProvider slaver = new MonkeySlaveProvider();
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                slaver.killAllTheMonkeys();
+            }
+        }));
+        pathHandlers.put("/console", new ConsoleHandler(bridge, slaver));
+        pathHandlers.put("/adbCmd", new AdbCmdHandler(bridge));
+        pathHandlers.put("/screendump", new ScreenHandler(bridge, new ScreenshotToInputStream()));
+
+        return pathHandlers;
+    }
+
+    private static PathHandlers slavePathHandlers(final ChimpChatWrapper real, String serial)
+    {
+        PathHandlers pathHandlers = new PathHandlers() {
+            @Override
+            public void stop() {
+                real.getChimpChat().shutdown();
+            }
+        };
+        IChimpDevice chimp = real.getChimpChat().waitForConnection(10 * 1000, serial);
+        pathHandlers.put("/touch", new TouchHandler(chimp, serial));
+        pathHandlers.put("/text", new TextHandler(chimp, serial));
 
         return pathHandlers;
     }
