@@ -20,9 +20,6 @@
 serial: {{getSerialNumber}}
 name: {{getName}}
 AvdName: {{getAvdName}}
-BatteryLevel: {{getBatteryLevel}}
-<br>
-
 <br>If the device's clock shows the wrong time and it's unresponsive, the
 screen is probably powered off.
 <br>
@@ -35,6 +32,14 @@ screen is probably powered off.
           <input type="button" value="home" onclick="keyEvent(this, 3)">
           <input type="button" value="menu" onclick="keyEvent(this, 82)">
           <input type="button" value="back" onclick="keyEvent(this, 4)">
+          <input type="button" value="search" onclick="keyEvent(this, 84)">
+          <input type="button" value="U" onclick="keyEvent(this, 19)">
+          <input type="button" value="D" onclick="keyEvent(this, 20)">
+          <input type="button" value="L" onclick="keyEvent(this, 21)">
+          <input type="button" value="R" onclick="keyEvent(this, 22)">
+          <input type="button" value="C" onclick="keyEvent(this, 23)">
+          <input type="button" value="E" onclick="keyEvent(this, 66)">
+
           <input type="button" value="waken" onclick="keyEvent(this, 26)">
           <input type="button" value="reboot" onclick="keyEvent(this, -1)">
           <input type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">

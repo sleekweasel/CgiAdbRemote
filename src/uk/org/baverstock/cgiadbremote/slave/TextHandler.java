@@ -40,6 +40,27 @@ public class TextHandler implements PathHandler {
                 case 4:
                     iChimpDevice.press(PhysicalButton.BACK, TouchPressType.DOWN_AND_UP);
                     break;
+                case 84:
+                    iChimpDevice.press(PhysicalButton.SEARCH, TouchPressType.DOWN_AND_UP);
+                    break;
+                case 19:
+                    iChimpDevice.press(PhysicalButton.DPAD_UP, TouchPressType.DOWN_AND_UP);
+                    break;
+                case 20:
+                    iChimpDevice.press(PhysicalButton.DPAD_DOWN, TouchPressType.DOWN_AND_UP);
+                    break;
+                case 21:
+                    iChimpDevice.press(PhysicalButton.DPAD_LEFT, TouchPressType.DOWN_AND_UP);
+                    break;
+                case 22:
+                    iChimpDevice.press(PhysicalButton.DPAD_RIGHT, TouchPressType.DOWN_AND_UP);
+                    break;
+                case 23:
+                    iChimpDevice.press(PhysicalButton.DPAD_CENTER, TouchPressType.DOWN_AND_UP);
+                    break;
+                case 66:
+                    iChimpDevice.press(PhysicalButton.ENTER, TouchPressType.DOWN_AND_UP);
+                    break;
                 case 26:
                     iChimpDevice.wake();
                     break;
@@ -50,7 +71,6 @@ public class TextHandler implements PathHandler {
                     return new NanoHTTPD.Response(NanoHTTPD.Response.Status.CONFLICT, "text/plain", "Unknown key=" + key);
             }
         }
-
         return new NanoHTTPD.Response("Pressed key=" + key);
     }
 }

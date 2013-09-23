@@ -23,7 +23,7 @@ buildscript {
 
 repositories {
     mavenCentral()
-    flatDir { dirs '/home/tim/lib/android-sdk-linux/tools/lib' }
+    flatDir { dirs "$System.env.ANDROID_HOME/tools/lib" }
 }
 
 version = '1.0'
