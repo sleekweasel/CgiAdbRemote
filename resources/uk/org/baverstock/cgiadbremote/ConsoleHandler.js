@@ -21,7 +21,7 @@ function mouseDown(i, e) {
     return true;
 }
 function mouseMove(i, e) {
-    if (document.lastStamp > 0 && e.timeStamp > document.lastStamp + 250) {
+    if (document.lastStamp > 0 && e.timeStamp > document.lastStamp + 100) {
         mousePut(i, e, 'move');
         renewAutoScreen();
     }
