@@ -5,17 +5,6 @@
 </head>
 <body>
 <h1 id="banner" style="color: red">{{getBanner}}</h1>
-<a href='/'>Devices</a>
-{{monkeyHostPort}}
-serial: {{getSerialNumber}}
-name: {{getName}}
-AvdName: {{getAvdName}}
-BatteryLevel: {{getBatteryLevel}}
-<br>
-document.param_touchdelay = {{touchDelay}};
-document.param_refreshNum = {{refreshNum}};
-document.param_idledelay = {{idledelay}};
-document.param_serialNumber = "{{getSerialNumber}}";
 <script type="text/javascript">
     document.param_touchdelay = {{touchDelay}};
     document.param_refreshNum = {{refreshNum}};
@@ -27,10 +16,17 @@ document.param_serialNumber = "{{getSerialNumber}}";
 <br/>
 <iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
 <iframe height=100 width='100%' id=logger name=logger></iframe><br>
+{{monkeyHostPort}}
+serial: {{getSerialNumber}}
+name: {{getName}}
+AvdName: {{getAvdName}}
+BatteryLevel: {{getBatteryLevel}}
+<br>
 
 <br>If the device's clock shows the wrong time and it's unresponsive, the
 screen is probably powered off.
 <br>
+          <a href='/'>Devices</a>
           <input type='button' value='adb shell' onclick="onAdb()">
           <input type="text" id="adbcmd">
           Experimental: <input type="button" value="Keyboard" onclick='window.open("/keyboard?device={{getSerialNumber}}", "Keyboard", "height=200,width="+Math.floor(window.innerWidth/2)+",alwaysRaised=yes")'>

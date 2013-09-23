@@ -35,7 +35,7 @@ public class MiscUtils {
         File adbcmd = new File(key == null ? name : System.getProperty(key, name));
         for (String path : System.getenv("PATH").split(":")) {
             File cmd = new File(new File(path), name);
-            System.out.println("Trying " + cmd + " can " + cmd.canExecute() + cmd.canRead());
+//            System.out.println("Trying " + cmd + " can " + cmd.canExecute() + cmd.canRead());
             if (cmd.canRead() && cmd.canExecute()) {
                 adbcmd = cmd;
                 break;

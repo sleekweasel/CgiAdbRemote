@@ -2,11 +2,8 @@ package uk.org.baverstock.cgiadbremote.master;
 
 import uk.org.baverstock.cgiadbremote.CgiAdbRemote;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.management.ManagementFactory;
-import java.net.ServerSocket;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.*;
@@ -25,28 +22,26 @@ public class MonkeySlaveProvider {
         Integer monkey = serialToPort.get(serial);
         if (monkey != null) {
             Process process = portToProcess.get(monkey);
-            if (!processLives(process)) {
-                drop(monkey);
+            try {
+                process.exitValue();
+                drop(monkey, new RuntimeException("Monkey already dead"));
                 monkey = null;
+            } catch (IllegalThreadStateException e) {
             }
         }
         if (monkey == null) {
             List<String> inputArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
             List<String> monkeyArgs = new ArrayList<String>(inputArguments);
-            final int slavePort = getFreeSocket();
-            if (slavePort == -1) {
-                return slavePort;
-            }
-            monkeyArgs.add("-Dslave=" + slavePort);
+            monkeyArgs.add("-Dslave="+serial);
             try {
                 CodeSource codeSource = CgiAdbRemote.class.getProtectionDomain().getCodeSource();
                 File jarFile = new File(codeSource.getLocation().toURI().getPath());
                 if (jarFile.getPath().endsWith(".jar")) {
-                    monkeyArgs.add(0, jarFile.getPath());
-                    monkeyArgs.add(0, "-jar");
+                    monkeyArgs.add("-jar");
+                    monkeyArgs.add(jarFile.getPath());
                     monkeyArgs.add(0, "java");
                 } else {
-                    monkeyArgs.add(0, "uk.org.baverstock.cgiadbremote.CgiAdbRemote");
+                    monkeyArgs.add("uk.org.baverstock.cgiadbremote.CgiAdbRemote");
                     monkeyArgs.add(0, System.getProperty("java.class.path"));
                     monkeyArgs.add(0, "-cp");
                     monkeyArgs.add(0, "java");
@@ -56,11 +51,31 @@ public class MonkeySlaveProvider {
             }
             System.out.println(monkeyArgs);
             ProcessBuilder processBuilder = new ProcessBuilder(monkeyArgs);
-            processBuilder.redirectErrorStream(true);
             try {
                 final Process process = processBuilder.start();
-                add(monkey, process, serial);
-                final InputStream inputStream = process.getInputStream();
+                InputStream inputStream1 = process.getInputStream();
+                System.out.println(inputStream1.toString());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream1));
+                for (int times = 10; times > 0 && monkey == null; --times) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                    String line = bufferedReader.readLine();
+                    System.out.println(line);
+                    if (line != null)
+                    try {
+                        monkey = Integer.parseInt(line.split(" ")[0]);
+                    }
+                    catch (Exception e) {
+                        System.out.println(e.toString());
+                    }
+                }
+                final Integer slavePort = monkey;
+                System.out.println("Monkey port " + monkey + " for " + serial);
+                add(slavePort, process, serial);
+                final InputStream inputStream = process.getErrorStream();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -72,38 +87,24 @@ public class MonkeySlaveProvider {
                             }
                         } catch (IOException e) {
                             process.destroy();
-                            drop(slavePort);
+                            drop(slavePort, e);
                         }
                     }
                 }).start();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            monkey = slavePort;
         }
         return monkey;
     }
 
-    private int getFreeSocket() {
-        for (int retry = 10; retry > 0; --retry) {
-            ServerSocket serverSocket = null;
-            try {
-                serverSocket = new ServerSocket(0);
-                int slavePort = serverSocket.getLocalPort() + 1; // Haha. No way.
-                serverSocket.close();
-                if (slavePort > 0) {
-                    return slavePort;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return -1;
-    }
-
     private void add(Integer port, Process process, String serial) {
         synchronized (portToProcess) {
-            if (!portToProcess.containsKey(port)) {
+            if (portToProcess.containsKey(port)) {
+                System.out.println(String.format("Attempt to re-chimp %s on %d!", serial, port));
+            }
+            else {
+                System.out.println(String.format("Chimping %s on %d!", serial, port));
                 portToProcess.put(port, process);
                 serialToPort.put(serial, port);
                 portToSerial.put(port, serial);
@@ -111,28 +112,29 @@ public class MonkeySlaveProvider {
         }
     }
 
-    private void drop(Integer monkey) {
+    private void drop(Integer monkey, Exception e) {
         synchronized (portToProcess) {
             if (portToProcess.containsKey(monkey)) {
                 portToProcess.remove(monkey);
                 String serial = portToSerial.remove(monkey);
                 serialToPort.remove(serial);
+                System.out.println(String.format("De-chimped %s on %d because...", serial, monkey));
+                e.printStackTrace();
+            } else {
+                System.out.println("Unmapped port has no monkey: " + monkey + " because...");
+                e.printStackTrace();
             }
         }
     }
 
-    private boolean processLives(Process process) {
-        try {
-            process.exitValue();
-            return true;
-        }
-        catch (IllegalThreadStateException e) {
-            return false;
-        }
-    }
 
     public void killAllTheMonkeys() {
         for (Process process : portToProcess.values()) {
+            for (Map.Entry<Integer, Process> integerProcessEntry : portToProcess.entrySet()) {
+                if (integerProcessEntry.getValue().equals(process)) {
+                    System.err.println("Dechimping " + integerProcessEntry.getKey());
+                }
+            }
             process.destroy();
         }
         portToProcess.clear();

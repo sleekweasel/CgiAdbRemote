@@ -41,9 +41,9 @@ public class ConsoleHandler implements PathHandler {
             return new NanoHTTPD.Response(INTERNAL_ERROR, "text/plain", "Unable to allocate a free port for this monkey.");
         }
         String host = session.getHeaders().get("host").split(":")[0] + ":" + port;
-        for (Map.Entry<String, String> stringStringEntry : session.getHeaders().entrySet()) {
-            System.err.println(stringStringEntry.getKey() + "=" + stringStringEntry.getValue());
-        }
+//        for (Map.Entry<String, String> stringStringEntry : session.getHeaders().entrySet()) {
+//            System.err.println("Header... " + stringStringEntry.getKey() + "=" + stringStringEntry.getValue());
+//        }
 
 
         Extras extras = new Extras(host);

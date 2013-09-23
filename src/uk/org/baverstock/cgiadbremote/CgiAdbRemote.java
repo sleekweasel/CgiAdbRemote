@@ -2,6 +2,7 @@ package uk.org.baverstock.cgiadbremote;
 
 import com.android.chimpchat.core.IChimpDevice;
 import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.DdmPreferences;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.ServerRunner;
 import uk.org.baverstock.cgiadbremote.master.*;
@@ -36,8 +37,8 @@ public class CgiAdbRemote extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         Response response = getResponse(session);
 
-        System.err.println(String.format("%s: %s %03d %s ? %s",
-                new Date(), session.getMethod(), response.getStatus().getRequestStatus(), session.getPath(),
+        System.err.println(String.format("%s: %d %s %03d %s ? %s",
+                new Date(), this.getListeningPort(), session.getMethod(), response.getStatus().getRequestStatus(), session.getPath(),
                 session.getParms().get(NanoHTTPD.QUERY_STRING_PARAMETER)));
 
         return response;
@@ -68,13 +69,15 @@ public class CgiAdbRemote extends NanoHTTPD {
 
     public static void main(String[] args) {
         final CgiAdbRemote cgiAdbRemote;
-        int slave = getInt("slave", 0);
-        if (slave == 0) {
+        String slave = System.getProperty("slave");
+        if (slave == null) {
+            System.out.println("Master...");
             cgiAdbRemote = new CgiAdbRemote(getInt("port", 8080), masterPathHandlers());
         } else {
+            System.out.println("Slave...");
             PathHandlers pathHandlers = slavePathHandlers(
-                    new ChimpChatWrapper.Real(), System.getProperty("slave"));
-            cgiAdbRemote = new CgiAdbRemote(slave, pathHandlers);
+                    new ChimpChatWrapper.Real(), slave);
+            cgiAdbRemote = new CgiAdbRemote(0, pathHandlers);
             pathHandlers.put("/quit", new PathHandler() {
                 @Override
                 public Response handle(IHTTPSession session) {
@@ -88,6 +91,7 @@ public class CgiAdbRemote extends NanoHTTPD {
 
     private static PathHandlers masterPathHandlers() {
         PathHandlers pathHandlers = new PathHandlers();
+        DdmPreferences.setTimeOut(10 * 1000);
 
         AndroidDebugBridgeWrapper.Real bridge = new AndroidDebugBridgeWrapper.Real();
         AndroidDebugBridge.addDeviceChangeListener(new NullDeviceChangeListener());

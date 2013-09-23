@@ -19,7 +19,7 @@ public class ServerRunner {
             System.exit(-1);
         }
 
-        System.out.println("Server started, Hit Enter to stop.\n");
+        System.out.println(server.getListeningPort() + " Server started, Hit Enter to stop.\n");
 
         try {
             System.in.read();
