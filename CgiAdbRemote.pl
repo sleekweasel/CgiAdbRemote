@@ -189,7 +189,9 @@ $touchdelay *= 2; # Interval is 500ms
             ." table { border: solid 1px; border-collapse: collapse }"
             ." td { border:1px solid }"
             ." --></style>";
-      print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}<table>";
+      print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}";
+      print "<a href='/?historical=1'>HISTORICAL</a>";
+      print "<table>";
       @serial = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
@@ -205,17 +207,22 @@ $touchdelay *= 2; # Interval is 500ms
         my $OSTYPE = `uname`;
         if (${OSTYPE} =~ /darwin/i) {
           print "<tr>darwin</tr>";
-          @serial = map {
+          @lsusb = map {
               /^\s*Serial Number:\s*(\S+)/ && ($1) || ()
           } execute "system_profiler SPUSBDataType|grep Serial"; 
         }
         elsif (${OSTYPE} =~ /linux/i) {
           print "<tr>linux</tr>";
-          @serial = map {
+          @lsusb = map {
                 /^\s*iSerial\s*\d+\s+(\S+)/ && ($1) || ()
           } execute "lsusb -v 2>&1 | grep Serial"; 
         }
+	@serial = @lsusb;
       }
+      if ($cgi->param('historial')) {
+        @serial = ( @serial, keys %product );
+      }
+
       for my $who (sort { lc($a) cmp lc($b) } @serial) {
         unless ($product{$who}) {
           my $summary = "";
