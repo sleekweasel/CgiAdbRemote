@@ -219,7 +219,7 @@ $touchdelay *= 2; # Interval is 500ms
         }
 	@serial = @lsusb;
       }
-      if ($cgi->param('historial')) {
+      if ($cgi->param('historical')) {
         @serial = ( @serial, keys %product );
       }
 
@@ -237,7 +237,7 @@ $touchdelay *= 2; # Interval is 500ms
             }
           }
           $product{$who}{SUMMARY} = $summary;
-          $product{$who}{'sdcard.asset'} ||= "/sdcard/asset";
+          $product{$who}{'sdcard.asset'} ||= "no sdcard.asset";
           saveRef($product{$who}, "product", $who);
         }
         unless ($product{$who}{'sdcard.asset'} !~ /sdcard/) {
@@ -250,7 +250,7 @@ $touchdelay *= 2; # Interval is 500ms
           }
           saveRef($product{$who}, "product", $who);
         }
-        $product{$who}{'sdcard.asset'} ||= "sdcard.asset";
+        $product{$who}{'sdcard.asset'} ||= "no /sdcard/asset";
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
             .($online{$who} ? "<a href='$href'>$who</a> device</td>" : "disconnected <a href='$href'>$who</a>")
