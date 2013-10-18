@@ -175,7 +175,7 @@ $touchdelay *= 2; # Interval is 500ms
       return if !ref $cgi;
       
       my $who = $cgi->param('name');
-      $cmd="$::adb devices";
+      $cmd = "$::adb devices";
       @devices = execute $cmd;
       if ($? != 0) {
         push @devices, errorRunning($cmd);
@@ -189,14 +189,31 @@ $touchdelay *= 2; # Interval is 500ms
             ." table { border: solid 1px; border-collapse: collapse }"
             ." td { border:1px solid }"
             ." --></style>";
-      print "<table>";
+      print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}<table>";
       @serial = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
             unshift @serial, $1;
+            $online{$1} = 1;
         }
         else {
             print "<tr><td colspan=4>$_</tr>\n" if $_ =~ /\S/;
+        }
+      }
+
+      if ($cgi->param('lsusb')) {
+        my $OSTYPE = `uname`;
+        if (${OSTYPE} =~ /darwin/i) {
+          print "<tr>darwin</tr>";
+          @serial = map {
+              /^\s*Serial Number:\s*(\S+)/ && ($1) || ()
+          } execute "system_profiler SPUSBDataType|grep Serial"; 
+        }
+        elsif (${OSTYPE} =~ /linux/i) {
+          print "<tr>linux</tr>";
+          @serial = map {
+                /^\s*iSerial\s*\d+\s+(\S+)/ && ($1) || ()
+          } execute "lsusb -v 2>&1 | grep Serial"; 
         }
       }
       for my $who (sort { lc($a) cmp lc($b) } @serial) {
@@ -228,7 +245,8 @@ $touchdelay *= 2; # Interval is 500ms
         }
         $product{$who}{'sdcard.asset'} ||= "sdcard.asset";
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
-        print "<tr><td><a href='$href'>$who</a> device</td>"
+        print "<tr><td>"
+            .($online{$who} ? "<a href='$href'>$who</a> device</td>" : "disconnected <a href='$href'>$who</a>")
             ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ." $product{$who}{'ro.product.model'}"
