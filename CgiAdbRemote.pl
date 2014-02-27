@@ -192,10 +192,8 @@ $touchdelay *= 2; # Interval is 500ms
       print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}";
       print "<a href='/?historical=1'>HISTORICAL</a>";
       print "<table>";
-      @serial = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
-            unshift @serial, $1;
             $online{$1} = 1;
         }
         else {
@@ -203,27 +201,34 @@ $touchdelay *= 2; # Interval is 500ms
         }
       }
 
+      %lsusb = ();
       if ($cgi->param('lsusb')) {
         my $OSTYPE = `uname`;
         if (${OSTYPE} =~ /darwin/i) {
           print "<tr>darwin</tr>";
-          @lsusb = map {
+          %lsusb = map { $_ => 1 } map {
               /^\s*Serial Number:\s*(\S+)/ && ($1) || ()
           } execute "system_profiler SPUSBDataType|grep Serial"; 
         }
         elsif (${OSTYPE} =~ /linux/i) {
           print "<tr>linux</tr>";
-          @lsusb = map {
-                /^\s*iSerial\s*\d+\s+(\S+)/ && ($1) || ()
-          } execute "lsusb -v 2>&1 | grep Serial"; 
+          %lsusb = map { $_ => 1 } map {
+                /^\s*iSerial\s+\d+\s+(\S+)/ && ($1) || ()
+          } execute "lsusb -v 2>&1 | grep iSerial"; 
         }
-	@serial = @lsusb;
-      }
-      if ($cgi->param('historical')) {
-        @serial = ( @serial, keys %product );
       }
 
-      for my $who (sort { lc($a) cmp lc($b) } @serial) {
+      %historical = ();
+      if ($cgi->param('historical')) {
+        %historical = map { $_ => 1 } ( @serial, keys %product );
+      }
+
+      $count = 0;
+      @deviceids = sort { lc($a) cmp lc($b) }
+                    keys { map { $_ => 1 }
+                    grep { /\w/  && $_ || () }
+                    ( keys %online, keys %lsusb, keys %historial ) };
+      for my $who ( @deviceids ) {
         unless ($product{$who}) {
           my $summary = "";
           my @props = execute "adb -s $who shell cat /system/build.prop /sdcard/asset";
@@ -253,7 +258,7 @@ $touchdelay *= 2; # Interval is 500ms
         $product{$who}{'sdcard.asset'} ||= "no /sdcard/asset";
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
-            .($online{$who} ? "<a href='$href'>$who</a> device</td>" : "disconnected <a href='$href'>$who</a>")
+            .($online{$who} ? (++$count) . " <a href='$href'>$who</a> device</td>" : "offline/absent: <a href='$href'>$who</a>")
             ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ." $product{$who}{'ro.product.model'}"
