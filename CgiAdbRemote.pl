@@ -197,7 +197,7 @@ $touchdelay *= 2; # Interval is 500ms
             $online{$1} = 1;
         }
         else {
-            print "<tr><td colspan=4>$_</tr>\n" if $_ =~ /\S/;
+            print "<tr><td colspan=5>$_</tr>\n" if $_ =~ /\S/;
         }
       }
 
@@ -247,7 +247,7 @@ $touchdelay *= 2; # Interval is 500ms
           saveRef($product{$who}, "product", $who);
         }
         unless ($product{$who}{'sdcard.asset'} !~ /sdcard/) {
-          my @props = execute "adb -s $who shell cat /sdcard/asset";
+          my @props = execute "adb -s '$who' shell cat /sdcard/asset 2>/dev/null";
           for (@props) {
             next if /^\s*#/;
             s/\s+$//;
@@ -259,7 +259,7 @@ $touchdelay *= 2; # Interval is 500ms
         $product{$who}{'sdcard.asset'} ||= "no /sdcard/asset";
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
-            .($online{$who} ? (++$count) . " <a href='$href'>$who</a> device</td>" : "offline/absent: <a href='$href'>$who</a>")
+            .($online{$who} ? (++$count) . "<td><a href='$href'>$who</a> device</td>" : "-<td>offline/absent: <a href='$href'>$who</a>")
             ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ." $product{$who}{'ro.product.model'}"
