@@ -224,10 +224,11 @@ $touchdelay *= 2; # Interval is 500ms
       }
 
       $count = 0;
-      @deviceids = sort { lc($a) cmp lc($b) }
-                    keys { map { $_ => 1 }
+      %ids = map { $_ => 1 }
                     grep { /\w/  && $_ || () }
-                    ( keys %online, keys %lsusb, keys %historial ) };
+                    ( keys %online, keys %lsusb, keys %historical );
+      @deviceids = sort { lc($a) cmp lc($b) }
+                    keys %ids;
       for my $who ( @deviceids ) {
         unless ($product{$who}) {
           my $summary = "";
@@ -727,7 +728,26 @@ if ($foreground) {
   MyWebServer->new($port)->run();
 }
 else {
+  $pidFile = "$0.pid";
+  if (-f $pidFile and open PID, $pidFile ) {
+    $pid = <PID>;
+    close PID;
+    @proc = grep { /^\s*$pid\b/ } ( qx/ps ax/ );
+    print "Found old $pid - ".join("\n", @proc)."\n";
+    if ($proc[0] =~ /CgiAdbRemote/) {
+      print "Looks like me. Attempting to kill old me... $proc\n";
+      system "kill $pid";
+      sleep 1;
+    }
+    else {
+      print "Doesn't look like me. You kill it if you want.\n";
+    }
+  }
+  unlink $pidFile;
   my $pid = MyWebServer->new($port)->background();
   print "Use 'kill $pid' to stop server running on port $port.\n";
+  open PID, ">$pidFile";
+  print PID $pid;
+  close PID;
 }
 
