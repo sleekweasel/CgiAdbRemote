@@ -188,10 +188,12 @@ $touchdelay *= 2; # Interval is 500ms
       print "<style><!--"
             ." table { border: solid 1px; border-collapse: collapse }"
             ." td { border:1px solid }"
+            ." th { border:1px solid }"
             ." --></style>";
       print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}";
       print "<a href='/?historical=1'>HISTORICAL</a>";
       print "<table>";
+      print "<tr><th colspan='2'>Devices</th><th>Asset</th><th>ro.product .brand .model .mfr</th><th>summary</th></tr>\n";
       for (@devices) {
         if (/^(\S+)\s+device$/) {
             $online{$1} = 1;
