@@ -194,6 +194,7 @@ $touchdelay *= 2; # Interval is 500ms
       print "<a href='/?historical=1'>HISTORICAL</a>";
       print "<table>";
       print "<tr><th colspan='2'>Devices</th><th>Asset</th><th>model</th><th>brand</th><th>manufr</th><th>summary</th></tr>\n";
+      %online = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
             $online{$1} = 1;
