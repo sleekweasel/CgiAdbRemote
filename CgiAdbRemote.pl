@@ -131,6 +131,8 @@ $touchdelay *= 2; # Interval is 500ms
 
   my %dispatch = (
       '/' => \&resp_root,
+      '/browsedir' => \&resp_browsedir,
+      '/pullfile' => \&resp_pullfile,
       '/screenshot' => \&resp_screenshot,
       '/console' => \&resp_console,
       '/killServer' => \&resp_killServer,
@@ -149,16 +151,17 @@ $touchdelay *= 2; # Interval is 500ms
       my $cgi  = shift;
     
       my $path = $cgi->path_info();
-      my $handler = $dispatch{$path};
+      my ( $nowt, $pc1, $pcr ) = split("/", $path);
+      my $handler = $dispatch{"/$pc1"};
       logw $cgi->url(-query=>1, -path_info=>1);
 
       if (ref($handler) eq "CODE") {
           print "HTTP/1.0 200 OK\r\n";
-          $handler->($cgi);
+          $handler->($cgi, $pcr);
       }
       elsif (ref($handler) eq "HASH") {
           print "HTTP/1.0 $$handler{status}\r\n";
-          $$handler{response}($cgi);
+          $$handler{response}($cgi, $pcr);
       }
       else {
           print "HTTP/1.0 404 Not found\r\n";
@@ -263,7 +266,7 @@ $touchdelay *= 2; # Interval is 500ms
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
             .($online{$who} ? (++$count) . "<td><a href='$href'>$who</a> device</td>" : "-<td>offline/absent: <a href='$href'>$who</a>")
-            ."<td>$product{$who}{'sdcard.asset'}"
+            ."<td><a href=\"/browsedir?device=$who\">$product{$who}{'sdcard.asset'}</a>"
             ."<td>$product{$who}{'ro.product.model'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ."<td>$product{$who}{'ro.product.manufacturer'}</td>"
@@ -565,6 +568,78 @@ END
           runAdb "$shell input keyevent $key";
           return;
       }
+  }
+
+  sub resp_browsedir {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+      my $path = $cgi->param('path') || "/";
+
+      my $cmd = "$::adb -s $who shell ls -l -a $path";
+      warn localtime().": $$: $cmd\n";
+      my @listing = execute $cmd;
+      if ($? != 0) {
+        print $cgi->header, errorRunning($cmd);
+        return;
+      }
+      my $listing = "";
+      for my $entry ( @listing ) {
+        if ($entry =~ /^([ld].*?)(\S+)\s*$/ ) {
+          my $details = $1;
+          my $name = $2;
+          my $link = $name;
+          $link = "$path/$link" unless $link =~ /^\//;
+          $listing .= "$details<a href='/browsedir?device=$who&path=$link'>$name<\/a>\n";
+        } elsif ($entry =~ /^(-.*?)(\S+)\s*$/ ) { 
+          my $details = $1;
+          my $name = $2;
+          my $link = $name;
+          $link = "$path/$link" unless $link =~ /^\//;
+          my $leaf = $name;
+          $leaf =~ s{/(\S+/)*}{}g;
+          $listing .= "$details<a href='/pullfile/$leaf?device=$who&path=$link'>$name<\/a>\n";
+        } else {
+          $listing .= "$entry";
+        }
+      }
+      print $cgi->header,
+            $cgi->start_html("$who $path"),
+            "<h1>$who $path</h1>",
+            "<pre>$listing</pre>",
+            $cgi->end_html;
+  }
+
+  sub resp_pullfile {
+      my $cgi  = shift;   # CGI.pm object
+      return if !ref $cgi;
+      
+      my $who = $cgi->param('device');
+      my $path = $cgi->param('path') || "/";
+
+      my $cmd = "$::adb -s $who shell ls -l -a $path";
+      warn localtime().": $$: $cmd\n";
+      my @out = execute $cmd;
+      if ($? != 0) {
+        print $cgi->header, errorRunning($cmd), $out;
+        return;
+      }
+      if ($#out != 0 || $out[0] !~ /^-/) {
+        print $cgi->header, "$#out Not a file...<pre>".join("\n",@out)."</pre>";
+        return;
+      }
+
+      $cmd = "$::adb -s $who pull $path /tmp/pull.$$";
+      unlink $path;
+      warn localtime().": $$: $cmd\n";
+      my $out = execute $cmd;
+      if ($? != 0) {
+        print $cgi->header, errorRunning($cmd), $out;
+        return;
+      }
+      my $ext = $path; $ext =~ s/.*\.([^\.]+)$/$1/;
+      print $cgi->header( -type => 'image/$ext' ), qx(cat /tmp/pull.$$);
   }
 
   sub resp_screenshot {
