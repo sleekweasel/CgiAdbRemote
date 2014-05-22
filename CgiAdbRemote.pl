@@ -576,8 +576,9 @@ END
       
       my $who = $cgi->param('device');
       my $path = $cgi->param('path') || "/";
+      my $su = $cgi->param('su') ? "su -c " : "";
 
-      my $cmd = "$::adb -s $who shell ls -l -a $path";
+      my $cmd = "$::adb -s $who shell $su ls -l -a $path";
       warn localtime().": $$: $cmd\n";
       my @listing = execute $cmd;
       if ($? != 0) {
@@ -591,7 +592,7 @@ END
           my $name = $2;
           my $link = $name;
           $link = "$path/$link" unless $link =~ /^\//;
-          $listing .= "$details<a href='/browsedir?device=$who&path=$link'>$name<\/a>\n";
+          $listing .= "$details <a href='/browsedir?device=$who&path=$link&su=1'>".($su ? "" : "+su</a> <a href='/browsedir?device=$who&path=$link'>")."$name</a>\n";
         } elsif ($entry =~ /^(-.*?)(\S+)\s*$/ ) { 
           my $details = $1;
           my $name = $2;
@@ -599,14 +600,17 @@ END
           $link = "$path/$link" unless $link =~ /^\//;
           my $leaf = $name;
           $leaf =~ s{/(\S+/)*}{}g;
-          $listing .= "$details<a href='/pullfile/$leaf?device=$who&path=$link'>$name<\/a>\n";
+          $listing .= "$details <a href='/pullfile/$leaf?device=$who&path=$link&su=1'>".($su?"":"+su</a> <a href='/pullfile/$leaf?device=$who&path=$link'>")."$name</a>\n";
         } else {
           $listing .= "$entry";
         }
       }
+      if ($listing =~ /opendir failed|Permission denied/i) {
+        $listing .= "<a href='/browsedir?device=$who&path=$path&su=1'>Try with su?</a>";
+      }
       print $cgi->header,
             $cgi->start_html("$who $path"),
-            "<h1>$who $path</h1>",
+            "<h1>$su$who $path</h1>",
             "<pre>$listing</pre>",
             $cgi->end_html;
   }
@@ -630,7 +634,9 @@ END
         return;
       }
 
-      $cmd = "$::adb -s $who pull $path /tmp/pull.$$";
+      $cmd = $cgi->param('su')
+             ? "$::adb -s $who shell su -c cat $path > /tmp/pull.$$"
+             : "$::adb -s $who pull $path /tmp/pull.$$";
       unlink $path;
       warn localtime().": $$: $cmd\n";
       my $out = execute $cmd;
