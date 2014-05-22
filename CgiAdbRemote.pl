@@ -196,14 +196,14 @@ $touchdelay *= 2; # Interval is 500ms
       print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}";
       print "<a href='/?historical=1'>HISTORICAL</a>";
       print "<table>";
-      print "<tr><th colspan='2'>Devices</th><th>Asset</th><th>model</th><th>brand</th><th>manufr</th><th>summary</th></tr>\n";
+      print "<tr><th colspan='2'>Devices</th><th>fs</th><th>Asset</th><th>model</th><th>brand</th><th>manufr</th><th>summary</th></tr>\n";
       %online = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
             $online{$1} = 1;
         }
         else {
-            print "<tr><td colspan=8>$_</tr>\n" if $_ =~ /\S/;
+            print "<tr><td colspan=9>$_</tr>\n" if $_ =~ /\S/;
         }
       }
 
@@ -266,7 +266,8 @@ $touchdelay *= 2; # Interval is 500ms
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
             .($online{$who} ? (++$count) . "<td><a href='$href'>$who</a> device</td>" : "-<td>offline/absent: <a href='$href'>$who</a>")
-            ."<td><a href=\"/browsedir?device=$who\">$product{$who}{'sdcard.asset'}</a>"
+            ."<td><a href=\"/browsedir?device=$who\">/</a>"
+            ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.model'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ."<td>$product{$who}{'ro.product.manufacturer'}</td>"
