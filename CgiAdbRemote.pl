@@ -266,7 +266,7 @@ $touchdelay *= 2; # Interval is 500ms
         my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
             .($online{$who} ? (++$count) . "<td><a href='$href'>$who</a> device</td>" : "-<td>offline/absent: <a href='$href'>$who</a>")
-            ."<td><a href=\"/browsedir?device=$who\">/</a>"
+            ."<td><a href=\"/browsedir?device=$who\">fs</a>"
             ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.model'}"
             ."<td>$product{$who}{'ro.product.brand'}"
