@@ -634,10 +634,10 @@ END
         print $cgi->header, "$#out Not a file...<pre>".join("\n",@out)."</pre>";
         return;
       }
-
+      my $pull = "/tmp/pull.$$";
       $cmd = $cgi->param('su')
-             ? "$::adb -s $who shell su -c cat $path > /tmp/pull.$$"
-             : "$::adb -s $who pull $path /tmp/pull.$$";
+             ? "$::adb -s $who shell su -c cat $path > $pull"
+             : "$::adb -s $who pull $path $pull";
       unlink $path;
       warn localtime().": $$: $cmd\n";
       my $out = execute $cmd;
@@ -646,7 +646,16 @@ END
         return;
       }
       my $ext = $path; $ext =~ s/.*\.([^\.]+)$/$1/;
-      print $cgi->header( -type => 'image/$ext' ), qx(cat /tmp/pull.$$);
+      if (-T $pull) {
+        if ($pull =~ /^<[!?]/) {
+          print $cgi->header( -type => 'application/xml' ), qx(cat $pull);
+        } else {
+          print $cgi->header( -type => 'text/plain' ), qx(cat $pull);
+        }
+      }
+      else {
+        print $cgi->header( -type => 'image/$ext' ), qx(cat $pull);
+      }
   }
 
   sub resp_screenshot {
