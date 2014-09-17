@@ -1,4 +1,12 @@
 <script type="text/javascript">
+function logThing(doc, thing) {
+    if (doc.logger != null) {
+        logg = doc.logger.frameElement.contentDocument;
+        logg.body.innerHTML = logg.body.innerHTML +
+            "<pre>" + thing + "</pre>";
+        logg.body.scrollTop = logg.height;
+    }
+}
 document.dragstart = function() { return false; }
 function renewAutoScreen() {
     document.refreshScreenAfter = $::touchdelay;
@@ -225,24 +233,24 @@ function maybeRotate(image) {
 }
 function everyHalfSecond() {
   if (document.refreshNum != 0) {
-    bar = '';
+    var bar = '';
     for (i=0; i<document.refreshScreenAfter; i++) {
       bar += '*';
     }
-    refresh = "Auto refresh in: " + bar + " (" + document.refreshNum + " more)";
+    var refresh = "Auto refresh in: " + bar + " (" + document.refreshNum + " more)";
     document.title=refresh;
   }
   else {
     refresh = "<span style='color: red'>Auto refresh paused until user activity</span>";
   }
-  document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+getScale();
+  document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+getScale()+" drn=" + document.refreshNum + " drsa=" + document.refreshScreenAfter;
   if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter <= 0) {
       document.refreshNum = document.refreshNum - 1;
-      screen = document.getElementById("screen");
+      var screen = document.getElementById("screen");
       screen.style.border="5px dotted red";
-      screen.src = screen.src.split("#")[0] + "#" + new Date();
+      screen.src = screen.src.split("&STAMP")[0] + "&STAMP=" + new Date();
     }
   }
 }
@@ -253,14 +261,7 @@ function onLoadScreen(image) {
   image.style.border="5px dotted grey";
 }
 function logResponse(doc) {
-    if (doc.logger != null) {
-        logg = doc.logger.frameElement.contentDocument;
-        logg.body.innerHTML = logg.body.innerHTML +
-            "<pre>" +
-            doc.stdout.frameElement.contentDocument.body.innerHTML +
-            "</pre>";
-        logg.body.scrollTop = logg.height;
-    }
+  logThing(doc, doc.stdout.frameElement.contentDocument.body.innerHTML);
 }
 
 setInterval(everyHalfSecond, 500);
