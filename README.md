@@ -9,7 +9,7 @@ Example Usage:
 >./CgiAdbRemote.pl
 
 Full options:  
->  -port=       : port upon which the server should run (default: 8080)
+>  -port=       : port upon which the server should run (default: 8080).  
   -banner=     : Message to display in big red at the top of the screen.  
   -adb=        : location of the adb command, if not available on the path.  
   -foreground  : do not run in the background; mainly for development.  
