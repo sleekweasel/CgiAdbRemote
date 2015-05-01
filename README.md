@@ -42,7 +42,7 @@ this script (ideally, typing 'adb' on the command-line will work, but you can
 specify a command-line option); the user running it must have permissions to
 invoke adb on the devices.
 
-This script requires Perl and the module HTTP::Server::Simple::CGI (On Debian/Ubuntu: `apt-get install libhttp-server-simple-perl` On other systems, see [CPAN](http://www.cpan.org).)
+This script requires Perl and the module HTTP::Server::Simple::CGI (On Debian/Ubuntu: `apt-get install libhttp-server-simple-perl` On other systems, see [CPAN](http://www.cpan.org) (and if you use local::lib, remember to put the output of 'perl -I$HOME/perl5/lib/perl5 -Mlocal::lib' into your .bash_profile or system's equivalent).
 
 Due to the implementation details, '1' is a reserved value on the command-line:
 to pass the value '1' to a command-line option, write it as '01'.
