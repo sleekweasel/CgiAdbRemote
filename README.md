@@ -6,10 +6,10 @@ CgiAdbRemote
 Copyright 2013 Tim Baverstock.
 
 Example Usage:  
->./CgiAdbRemote.pl -port=8181
+>./CgiAdbRemote.pl
 
 Full options:  
->  -port=       : port upon which the server should run.  
+>  -port=       : port upon which the server should run (default: 8080).  
   -banner=     : Message to display in big red at the top of the screen.  
   -adb=        : location of the adb command, if not available on the path.  
   -foreground  : do not run in the background; mainly for development.  
@@ -43,7 +43,7 @@ this script (ideally, typing 'adb' on the command-line will work, but you can
 specify a command-line option); the user running it must have permissions to
 invoke adb on the devices.
 
-This script requires Perl and the module HTTP::Server::Simple::CGI (On Debian/Ubuntu: `apt-get install libhttp-server-simple-perl` On other systems, see [CPAN](http://www.cpan.org).)
+This script requires Perl and the module HTTP::Server::Simple::CGI (On Debian/Ubuntu: `apt-get install libhttp-server-simple-perl` On other systems, see [CPAN](http://www.cpan.org) (and if you use local::lib, remember to put the output of 'perl -I$HOME/perl5/lib/perl5 -Mlocal::lib' into your .bash_profile or system's equivalent).
 
 Due to the implementation details, '1' is a reserved value on the command-line:
 to pass the value '1' to a command-line option, write it as '01'.
