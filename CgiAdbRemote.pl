@@ -6,6 +6,7 @@ die "Use -banner=Something, not -banner Something\n" if $banner eq '1';
 die "Use -adb=Something, not -adb adb\n" if $adb eq '1';
 die "use -autodelay=01, not -autodelay 1\n" if $autodelay eq '1';
 die "use -touchdelay=01, not -touchdelay 1\n" if $touchdelay eq '1';
+die "use -view_only=01, not -view_only 1\n" if $view_only eq '1';
 
 $port ||= 8080;
 $foreground ||= 0;
@@ -13,6 +14,7 @@ $adb ||= 'adb';
 $banner ||= "WARNING: TESTS MAY BE RUNNING";
 $autodelay ||= 7;
 $touchdelay ||= 1.5;
+$view_only ||= 0;
 
 $autodelay *= 2; # Interval is 500ms
 $touchdelay *= 2; # Interval is 500ms
@@ -263,7 +265,7 @@ $touchdelay *= 2; # Interval is 500ms
           saveRef($product{$who}, "product", $who);
         }
         $product{$who}{'sdcard.asset'} ||= "no /sdcard/asset";
-        my $href = "/console?device=$who#mode=".$flags{$who}{inputMode};
+        my $href = "/console?view_only=$::view_only&device=$who#mode=".$flags{$who}{inputMode};
         print "<tr><td>"
             .($online{$who} ? (++$count) . "<td><a href='$href'>$who</a> device</td>" : "-<td>offline/absent: <a href='$href'>$who</a>")
             ."<td><a href=\"/browsedir?device=$who\">fs</a>"
@@ -286,6 +288,7 @@ $touchdelay *= 2; # Interval is 500ms
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      $::disabled = $cgi->param('view_only') ? 'disabled="disabled"' : "";
 
       my $myself = $cgi->self_url;
 

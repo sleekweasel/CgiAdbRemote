@@ -15,6 +15,7 @@ Full options:
   -foreground  : do not run in the background; mainly for development.  
   -autodelay=  : Seconds of idle before reloading the screen.  
   -touchdelay= : Seconds after a touch before reloading the screen.  
+  -view_only=  : Avoid accidental clicks (url parameter, easily removed)
 
 Run this on the machine with the devices attached, then browse on some other
 machine to http://the.phone.host:8080/ (or other nominated port) for a list of
