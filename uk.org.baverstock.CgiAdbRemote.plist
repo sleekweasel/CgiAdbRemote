@@ -4,6 +4,7 @@
 <dict>
         <key>Debug</key>
         <false/>
+        <key>EnvironmentVariables</key>
         <dict>
             <key>LANG</key>
             <string>en_GB.UTF-8</string>
