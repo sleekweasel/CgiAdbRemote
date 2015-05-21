@@ -35,10 +35,9 @@
         <string>Aqua</string>
         <key>ProgramArguments</key>
         <array>
-               <string>perl</string>
                <string>/Users/qa/CgiAdbRemote/CgiAdbRemote.pl</string>
                <string>-foreground</string>
-               <string>-view_only</string>
+               <string>-view_only=01</string>
         </array>
         <key>RunAtLoad</key>
         <true/>
