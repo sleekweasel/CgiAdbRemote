@@ -101,11 +101,11 @@ $touchdelay *= 2; # Interval is 500ms
   }
 
   sub readFile {
-    my $leafname = shift;
-    unless ($leafname =~ /^\//) {
+    my $filename = shift;
+    unless ($filename =~ /^\//) {
       my $basename = $0;
-      $basename =~ s/[^\/]*$/$leafname/;
-      $leafname = $basename;
+      $basename =~ s/[^\/]*$/$filename/;
+      $filename = $basename;
     }
     local $/=undef;
     open FILE, "<$filename" or die "Open $filename failed: $!";
