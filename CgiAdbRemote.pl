@@ -106,6 +106,7 @@ $touchdelay *= 2; # Interval is 500ms
     $filename =~ s/[^\/]*$/$leafname/;
     local $/=undef;
     open FILE, "<$filename" or die "Open $filename failed: $!";
+    bindir FILE;
     $data = <FILE>;
     close FILE;
     return $data;
@@ -655,13 +656,13 @@ END
       my $ext = $path; $ext =~ s/.*\.([^\.]+)$/$1/;
       if (-T $pull) {
         if ($pull =~ /^<[!?]/) {
-          print $cgi->header( -type => 'application/xml' ), qx(cat $pull);
+          print $cgi->header( -type => 'application/xml' ), readFile($pull);
         } else {
-          print $cgi->header( -type => 'text/plain' ), qx(cat $pull);
+          print $cgi->header( -type => 'text/plain' ), readFile($pull);
         }
       }
       else {
-        print $cgi->header( -type => 'image/$ext' ), qx(cat $pull);
+        print $cgi->header( -type => 'image/$ext' ), readFile($pull);
       }
   }
 
@@ -687,7 +688,7 @@ result.writeToFile('$who.png','png')
 END
           close MONKEY;
           execute "monkeyrunner $who.monkey";
-          $image = qx(cat $who.png);
+          $image = readFile("$who.png");
           print $cgi->header( -type => 'image/png' ), $image;
           return;
         }
