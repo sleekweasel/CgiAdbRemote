@@ -109,7 +109,7 @@ $touchdelay *= 2; # Interval is 500ms
     }
     local $/=undef;
     open FILE, "<$filename" or die "Open $filename failed: $!";
-    bindir FILE;
+    binmode FILE;
     $data = <FILE>;
     close FILE;
     return $data;
