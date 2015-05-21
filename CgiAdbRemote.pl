@@ -101,10 +101,14 @@ $touchdelay *= 2; # Interval is 500ms
   }
 
   sub readFile {
-        my $leafname = shift;
-        my $filename = $0;
-        $filename =~ s/[^\/]*$/$leafname/;
-        return `cat $filename`;
+    my $leafname = shift;
+    my $filename = $0;
+    $filename =~ s/[^\/]*$/$leafname/;
+    local $/=undef;
+    open FILE, "<$filename" or die "Open $filename failed: $!";
+    $data = <FILE>;
+    close FILE;
+    return $data;
   }
 
   sub execute {

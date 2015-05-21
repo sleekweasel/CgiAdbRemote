@@ -15,7 +15,15 @@
             <key>ANDROID_HOME</key>
             <string>/local/adt-bundle-mac-x86_64-LATEST/sdk</string>
             <key>PATH</key>
-            <string>/local/adt-bundle-mac-x86_64-LATEST/sdk/build-tools:/local/adt-bundle-mac-x86_64-LATEST/sdk/platform-tools</string>
+            <string>/Users/qa/perl5/bin:/local/adt-bundle-mac-x86_64-LATEST/sdk/build-tools:/local/adt-bundle-mac-x86_64-LATEST/sdk/platform-tools</string>
+            <key>PERL5LIB</key>
+            <string>/Users/qa/perl5/lib/perl5</string>
+            <key>PERL_LOCAL_LIB_ROOT</key>
+            <string>/Users/qa/perl5</string>
+            <key>PERL_MB_OPT</key>
+            <string>--install_base /Users/qa/perl5</string>
+            <key>PERL_MM_OPT</key>
+            <string>INSTALL_BASE=/Users/qa/perl5</string>
         </dict>
         <key>GroupName</key>
         <string>localaccounts</string>
@@ -27,14 +35,17 @@
         <string>Aqua</string>
         <key>ProgramArguments</key>
         <array>
-               <string>/Users/qa/CgiAdbRemote/CgiAdbRemote</string>
+               <string>perl</string>
+               <string>/Users/qa/CgiAdbRemote/CgiAdbRemote.pl</string>
+               <string>-foreground</string>
+               <string>-view_only</string>
         </array>
         <key>RunAtLoad</key>
         <true/>
         <key>StandardErrorPath</key>
-        <string>logs/launchd.err.log</string>
+        <string>launchd.err.log</string>
         <key>StandardOutPath</key>
-        <string>logs/launchd.out.log</string>
+        <string>launchd.out.log</string>
         <key>UserName</key>
         <string>qa</string>
         <key>WorkingDirectory</key>
