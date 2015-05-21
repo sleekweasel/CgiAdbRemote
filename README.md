@@ -45,6 +45,9 @@ invoke adb on the devices.
 
 This script requires Perl and the module HTTP::Server::Simple::CGI (On Debian/Ubuntu: `apt-get install libhttp-server-simple-perl` On other systems, see [CPAN](http://www.cpan.org) (and if you use local::lib, remember to put the output of 'perl -I$HOME/perl5/lib/perl5 -Mlocal::lib' into your .bash_profile or system's equivalent).
 
+On Mac, you can tweak the CgiAdbRemote.plist file and drop it into your
+Library/LaunchAgents directory (or the system one).
+
 Due to the implementation details, '1' is a reserved value on the command-line:
 to pass the value '1' to a command-line option, write it as '01'.
 
