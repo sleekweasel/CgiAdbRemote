@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Debug</key>
+        <false/>
+        <dict>
+            <key>LANG</key>
+            <string>en_GB.UTF-8</string>
+            <key>LANGUAGE</key>
+            <string>en_GB.UTF-8</string>
+            <key>LC_ALL</key>
+            <string>en_GB.UTF-8</string>
+            <key>ANDROID_HOME</key>
+            <string>/local/adt-bundle-mac-x86_64-LATEST/sdk</string>
+            <key>PATH</key>
+            <string>/local/adt-bundle-mac-x86_64-LATEST/sdk/build-tools:/local/adt-bundle-mac-x86_64-LATEST/sdk/platform-tools</string>
+        </dict>
+        <key>GroupName</key>
+        <string>localaccounts</string>
+        <key>KeepAlive</key>
+        <true/>
+        <key>Label</key>
+        <string>uk.org.baverstock.CgiAdbRemote</string>
+        <key>LimitLoadToSessionType</key>
+        <string>Aqua</string>
+        <key>ProgramArguments</key>
+        <array>
+               <string>/Users/qa/CgiAdbRemote/CgiAdbRemote</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>StandardErrorPath</key>
+        <string>logs/launchd.err.log</string>
+        <key>StandardOutPath</key>
+        <string>logs/launchd.out.log</string>
+        <key>UserName</key>
+        <string>qa</string>
+        <key>WorkingDirectory</key>
+        <string>/Users/qa/CgiAdbRemote</string>
+</dict>
+</plist>
