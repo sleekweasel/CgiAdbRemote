@@ -1,6 +1,8 @@
 CgiAdbRemote
 ============
 
+** I would strongly encourage you to use https://github.com/openstf/stf instead! **
+
 ###### For remotely monitoring and controlling *unrooted* Android devices connected to a physically inaccessible machine, through a local web browser (only tested on Chrome currently).
 
 Copyright 2013 Tim Baverstock.
