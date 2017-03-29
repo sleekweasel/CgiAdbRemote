@@ -116,10 +116,22 @@ $touchdelay *= 2; # Interval is 500ms
   }
 
   sub execute {
-    # Allow access to ?$ return code:
-    local $SIG{'CHLD'} = 'DEFAULT';
     my $cmd = shift;
-    return qx/$cmd/;
+    my $timeout = shift || 15;
+    my $w = wantarray;
+    eval {
+        # Allow access to ?$ return code:
+        local $SIG{'CHLD'} = 'DEFAULT';
+        local $SIG{'ALRM'} = sub { die "alarm\n" }; # NB: \n required
+        alarm $timeout;
+        $ret = $w ? [ qx/$cmd/ ] : qx/$cmd/;
+        alarm 0;
+    };
+    if ($@) {
+      die unless $@ eq 'alarm\n';
+      return "TIMEDOUT: $cmd";
+    }
+    return $w ? @$ret : $ret;
   }
 
   sub runCmd {
