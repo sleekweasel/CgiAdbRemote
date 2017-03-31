@@ -158,6 +158,7 @@ $touchdelay *= 2; # Interval is 500ms
       '/screenshot' => \&resp_screenshot,
       '/console' => \&resp_console,
       '/killServer' => \&resp_killServer,
+      '/quitquitquit' => \&resp_quitThis,
       '/touch' => \&resp_touch,
       '/keyboard' => \&resp_keyboard,
       '/settings' => \&resp_settings,
@@ -713,6 +714,10 @@ END
       $image =~ s/\r\n/\n/g;
       $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       print $cgi->header( -type => 'image/png' ), $image;
+  }
+
+  sub resp_quitThis {
+    exit 0;
   }
 
   sub resp_killServer {
