@@ -301,6 +301,7 @@ $touchdelay *= 2; # Interval is 500ms
       $killServer=~s/(\$(::)?\w+)/eval $1/ge;
       print $killServer;
       print " " . localtime();
+      print "<pre>" . join(", ", sort keys %dispatch) . "</pre>";
       print $cgi->end_html;
   }
 
