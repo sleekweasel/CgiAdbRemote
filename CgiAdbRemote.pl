@@ -310,6 +310,7 @@ $touchdelay *= 2; # Interval is 500ms
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $screenflags = $cgi->param('screenflags');
       $::disabled = $cgi->param('view_only') ? 'disabled="disabled"' : "";
 
       my $myself = $cgi->self_url;
@@ -688,8 +689,9 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $screenflags = $cgi->param('screenflags');
 
-      my $cmd = "$::adb -s $who  shell screencap -p";
+      my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $::adb -s $who  shell" : "$::adb -s $who  shell screencap -p";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
       if ($? != 0 || $image =~ /^screencap: permission denied/) {
@@ -712,7 +714,8 @@ END
         print $cgi->header, errorRunning($cmd);
         return;
       }
-      $image =~ s/\r\n/\n/g;
+      $image =~ s/\r\n/\n/g unless $screenflags=~/,deline,/;
+      $image =~ s/\r\n/\n/g unless $image =~ /[^\r]\n/; # Replace \r\n unless there are ANY \ns on their own...
       $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       print $cgi->header( -type => 'image/png' ), $image;
   }
