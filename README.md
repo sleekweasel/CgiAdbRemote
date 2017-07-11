@@ -59,6 +59,8 @@ Library/LaunchAgents directory (or the system one).
 Due to the implementation details, '1' is a reserved value on the command-line:
 to pass the value '1' to a command-line option, write it as '01'.
 
+Android 8.0 'O': add &screenflags=,deline, to get the screenshot working - until I work out how to autodetect it.
+
 [TODO](https://github.com/sleekweasel/CgiAdbRemote/issues):
 
 0. Move these TODOs into the issues tracker!
