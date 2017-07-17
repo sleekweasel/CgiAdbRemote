@@ -18,6 +18,7 @@ $view_only ||= 0;
 
 $autodelay *= 2; # Interval is 500ms
 $touchdelay *= 2; # Interval is 500ms
+
 {
   package MyWebServer;
 
@@ -115,6 +116,13 @@ $touchdelay *= 2; # Interval is 500ms
     return $data;
   }
 
+  $TIMELIMIT='';
+  if (qx(which timelimit)) {
+      $TIMELIMIT='timelimit -t 20 -T 10 '
+  } elsif (qx(which timeout)) {
+      $TIMELIMIT='timeout -k10s 20s '
+  }
+
   sub execute {
     my $cmd = shift;
     my $timeout = shift || 15;
@@ -124,6 +132,7 @@ $touchdelay *= 2; # Interval is 500ms
         local $SIG{'CHLD'} = 'DEFAULT';
         local $SIG{'ALRM'} = sub { die "alarm\n" }; # NB: \n required
         alarm $timeout;
+        $cmd = "$TIMELIMIT$cmd" unless $cmd =~ /$TIMELIMIT/;
         $ret = $w ? [ qx/$cmd/ ] : qx/$cmd/;
         alarm 0;
     };
@@ -201,7 +210,7 @@ $touchdelay *= 2; # Interval is 500ms
       return if !ref $cgi;
       
       my $who = $cgi->param('name');
-      $cmd = "$::adb devices";
+      $cmd = "$::adb devices 2>&1";
       @devices = execute $cmd;
       if ($? != 0) {
         push @devices, errorRunning($cmd);
@@ -211,6 +220,8 @@ $touchdelay *= 2; # Interval is 500ms
             $cgi->start_html("Devices");
       my $myself = $cgi->self_url;
       print $cgi->h1("$cmd ");
+      print "ANDROID_ADB_SERVER_PORT=@{[$ENV{'ANDROID_ADB_SERVER_PORT'} || 'default? 5037']} ";
+      print "ADB_SERVER_SOCKET=@{[$ENV{'ADB_SERVER_SOCKET'} || 'default?']} ";
       print "<style><!--"
             ." table { border: solid 1px; border-collapse: collapse }"
             ." td { border:1px solid }"
@@ -691,7 +702,7 @@ END
       my $who = $cgi->param('device');
       my $screenflags = $cgi->param('screenflags');
 
-      my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $::adb -s $who  shell" : "$::adb -s $who  shell screencap -p";
+      my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb -s $who  shell" : "$::adb -s $who  shell screencap -p";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
       if ($? != 0 || $image =~ /^screencap: permission denied/) {
