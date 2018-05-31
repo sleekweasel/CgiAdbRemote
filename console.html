@@ -112,6 +112,9 @@ function keyPress(i, e) {
     renewAutoScreen();
     return true;
 }
+function setScreenflags(flag) {
+    window.location.href=window.location.href.replace(/screenflags=[^&#]*/, '').replace('?', '?screenflags='+flag+'&')
+}
 function setInputMode(mode) {
     updateHash('mode', mode);
     colourInputMode();
@@ -324,6 +327,12 @@ setInterval(everyHalfSecond, 500);
       <input $::disabled type="button" value="adb reboot" onclick="rebootDevice()">
       <br>If the device's clock shows the wrong time and it's unresponsive, the
           screen is probably powered off.
+      <br>Try these if screen is broken: 
+		<input type="button" value="deline" onclick="setScreenflags(',deline,')">
+		<input type="button" value="pull" onclick="setScreenflags(',pull,')">
+		<input type="button" value="pull,deline" onclick="setScreenflags(',pull,deline,')">
+		<input type="button" value="new" onclick="setScreenflags(',new,')">
+		<input type="button" value="new,deline" onclick="setScreenflags(',new,deline,')">
     </td>
   </tr>
 </table>

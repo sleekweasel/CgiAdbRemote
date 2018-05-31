@@ -702,6 +702,15 @@ END
       my $who = $cgi->param('device');
       my $screenflags = $cgi->param('screenflags');
 
+      if ($screenflags =~ /,pull,/) {
+          execute "adb -s $who shell screencap /sdcard/$who.png";
+          execute "adb -s $who pull /sdcard/$who.png /tmp/";
+          $image = readFile("/tmp/$who.png");
+      $image =~ s/\r\n/\n/g unless $screenflags=~/,deline,/;
+          print $cgi->header( -type => 'image/png' ), $image;
+          return;
+      }
+
       my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb -s $who  shell" : "$::adb -s $who  shell screencap -p";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
