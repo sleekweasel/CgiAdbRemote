@@ -475,6 +475,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
 
       my $coords = $cgi->param('coords');
       my $up = $cgi->param('swipe');
@@ -513,6 +514,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
 
       print $cgi->header,
             $cgi->start_html("$who")
@@ -529,6 +531,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
 
       my $key = $cgi->param('key');
       my $down = $cgi->param('down');
@@ -584,6 +587,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
 
       print $cgi->header,
             $cgi->start_html("$who");
@@ -597,6 +601,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
 
       my $text = $cgi->param('text');
       my $key = $cgi->param('key');
@@ -624,6 +629,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
       my $path = $cgi->param('path') || "/";
       my $su = $cgi->param('su') ? "su -c " : "";
 
@@ -669,6 +675,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
       my $path = $cgi->param('path') || "/";
 
       my $cmd = "$::adb $swho shell ls -l -a $path";
@@ -711,6 +718,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
       my $screenflags = $cgi->param('screenflags');
 
       if ($screenflags =~ /,pull,/) {
@@ -808,6 +816,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
       my $mode = $cgi->param('mode');
 
       print $cgi->header,
@@ -846,6 +855,7 @@ END
       return if !ref $cgi;
       
       my $who = $cgi->param('device');
+      my $swho = who_param_port($who);
       my $cmd = $cgi->param('cmd');
 
       print $cgi->header,
