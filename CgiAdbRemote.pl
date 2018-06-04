@@ -282,7 +282,7 @@ $touchdelay *= 2; # Interval is 500ms
       for my $who ( @deviceids ) {
         unless ($product{$who}) {
           my $summary = "";
-          my $swho = who_param_port($who)
+          my $swho = who_param_port($who);
           my @props = execute "$::adb $swho shell cat /system/build.prop /sdcard/asset";
           for (@props) {
             next if /^\s*#/;
@@ -713,7 +713,6 @@ END
       my $who = $cgi->param('device');
       my $screenflags = $cgi->param('screenflags');
 
-<<<<<<< HEAD
       if ($screenflags =~ /,pull,/) {
           execute "adb $swho shell screencap /sdcard/$who.png";
           execute "adb $swho pull /sdcard/$who.png /tmp/";
