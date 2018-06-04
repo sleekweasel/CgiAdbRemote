@@ -41,7 +41,7 @@ $touchdelay *= 2; # Interval is 500ms
   sub errorRunning {
     my $cmd = shift;
     return "Error running '$cmd'; is adb available? "
-        .(($::adb eq 'adb')?"which adb='".qx/which adb/."'":"adb=$::adb");
+        .(($::adb eq 'adb')?"which adb='".qx/which adb|tr -cd ' -~'/."'":"adb=$::adb");
   }
 
   sub Ref {
@@ -205,6 +205,16 @@ $touchdelay *= 2; # Interval is 500ms
       }
   }
 
+  sub who_param_port {
+    my $who = shift;
+    my $bits = split(':', $who);
+    my $swho = "-s $bits[-1]";
+    $swho .= " -P $bits[-2]" if $bits[-2];
+    $swho .= " -H $bits[-3]" if $bits[-3];
+    return $swho
+  }
+  
+
   sub resp_root {
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
@@ -272,7 +282,8 @@ $touchdelay *= 2; # Interval is 500ms
       for my $who ( @deviceids ) {
         unless ($product{$who}) {
           my $summary = "";
-          my @props = execute "adb -s $who shell cat /system/build.prop /sdcard/asset";
+          my $swho = who_param_port($who)
+          my @props = execute "$::adb $swho shell cat /system/build.prop /sdcard/asset";
           for (@props) {
             next if /^\s*#/;
             s/\s+$//;
@@ -287,7 +298,7 @@ $touchdelay *= 2; # Interval is 500ms
           saveRef($product{$who}, "product", $who);
         }
         unless ($product{$who}{'sdcard.asset'} !~ /sdcard/) {
-          my @props = execute "adb -s '$who' shell cat /sdcard/asset 2>/dev/null";
+          my @props = execute "$::adb -s '$who' shell cat /sdcard/asset 2>/dev/null";
           for (@props) {
             next if /^\s*#/;
             s/\s+$//;
@@ -474,7 +485,7 @@ END
       print $cgi->header,
             $cgi->start_html("$who");
 
-      my $shell = "-s $who shell ";
+      my $shell = "$swho shell ";
 
     warn "touch mode = " . $flags{$who}{inputMode};
       $flags{$who}{inputMode} ||= 0;
@@ -526,7 +537,7 @@ END
             $cgi->start_html("$who");
 
       if ($key) {
-        my $shell = "-s $who shell ";
+        my $shell = "$swho shell ";
         my $k = $getevent{$who}{$key};
         runAdb "$shell \"sendevent $$k{DEV} $$k{EVENT10} $$k{CODE10} $down; sendevent $$k{DEV} 0 0 0\"";
         return;
@@ -577,7 +588,7 @@ END
       print $cgi->header,
             $cgi->start_html("$who");
 
-      my $shell = "-s $who";
+      my $shell = "$swho";
       runAdb "$shell reboot";
   }
 
@@ -593,7 +604,7 @@ END
       print $cgi->header,
             $cgi->start_html("$who");
 
-      my $shell = "-s $who shell ";
+      my $shell = "$swho shell ";
 
       if ($text eq ' ') {
         $text = undef; $key = 62;
@@ -616,13 +627,10 @@ END
       my $path = $cgi->param('path') || "/";
       my $su = $cgi->param('su') ? "su -c " : "";
 
-      my $cmd = "$::adb -s $who shell $su ls -l -a $path";
+      my $cmd = "$::adb $swho shell $su ls -l -a $path";
       warn localtime().": $$: $cmd\n";
       my @listing = execute $cmd;
-      if ($? != 0) {
-        print $cgi->header, errorRunning($cmd);
-        return;
-      }
+      my $listerr = $?;
       my $listing = "";
       for my $entry ( @listing ) {
         if ($entry =~ /^([ld].*?)(\S+)\s*$/ ) {
@@ -646,6 +654,9 @@ END
       if ($listing =~ /opendir failed|Permission denied/i) {
         $listing .= "<a href='/browsedir?device=$who&path=$path&su=1'>Try with su?</a>";
       }
+      if ($listerr != 0) {
+        $listing .= errorRunning($cmd);
+      }
       print $cgi->header,
             $cgi->start_html("$who $path"),
             "<h1>$su$who $path</h1>",
@@ -660,7 +671,7 @@ END
       my $who = $cgi->param('device');
       my $path = $cgi->param('path') || "/";
 
-      my $cmd = "$::adb -s $who shell ls -l -a $path";
+      my $cmd = "$::adb $swho shell ls -l -a $path";
       warn localtime().": $$: $cmd\n";
       my @out = execute $cmd;
       if ($? != 0) {
@@ -673,8 +684,8 @@ END
       }
       my $pull = "/tmp/pull.$$";
       $cmd = $cgi->param('su')
-             ? "$::adb -s $who shell su -c cat $path > $pull"
-             : "$::adb -s $who pull $path $pull";
+             ? "$::adb $swho shell su -c cat $path > $pull"
+             : "$::adb $swho pull $path $pull";
       unlink $path;
       warn localtime().": $$: $cmd\n";
       my $out = execute $cmd;
@@ -702,16 +713,17 @@ END
       my $who = $cgi->param('device');
       my $screenflags = $cgi->param('screenflags');
 
+<<<<<<< HEAD
       if ($screenflags =~ /,pull,/) {
-          execute "adb -s $who shell screencap /sdcard/$who.png";
-          execute "adb -s $who pull /sdcard/$who.png /tmp/";
+          execute "adb $swho shell screencap /sdcard/$who.png";
+          execute "adb $swho pull /sdcard/$who.png /tmp/";
           $image = readFile("/tmp/$who.png");
       $image =~ s/\r\n/\n/g unless $screenflags=~/,deline,/;
           print $cgi->header( -type => 'image/png' ), $image;
           return;
       }
 
-      my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb -s $who  shell" : "$::adb -s $who  shell screencap -p";
+      my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb $swho  shell" : "$::adb $swho  shell screencap -p";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
       if ($? != 0 || $image =~ /^screencap: permission denied/) {
@@ -805,8 +817,8 @@ END
       logg "mode=$mode";
 
       if ($mode) {
-        my $cmdw = decodeGetEvent("adb -s $who shell getevent -lp");
-        my $cmdn = decodeGetEvent("adb -s $who shell getevent -p");
+        my $cmdw = decodeGetEvent("$::adb $swho shell getevent -lp");
+        my $cmdn = decodeGetEvent("$::adb $swho shell getevent -p");
         my %event;
         for my $k ( keys %$cmdw ) {
           my ( $dev, $desc ) = split(/:/, $k);
@@ -839,7 +851,7 @@ END
 
       print $cgi->header,
             $cgi->start_html("$who");
-      runAdb "-s $who shell $cmd" if $cmd !~ /^\s*$/;
+      runAdb "$swho shell $cmd" if $cmd !~ /^\s*$/;
   }
 }
 
