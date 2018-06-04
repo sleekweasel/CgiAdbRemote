@@ -207,7 +207,7 @@ $touchdelay *= 2; # Interval is 500ms
 
   sub who_param_port {
     my $who = shift;
-    my $bits = split(':', $who);
+    my @bits = split(':', $who);
     my $swho = "-s $bits[-1]";
     $swho .= " -P $bits[-2]" if $bits[-2];
     $swho .= " -H $bits[-3]" if $bits[-3];
