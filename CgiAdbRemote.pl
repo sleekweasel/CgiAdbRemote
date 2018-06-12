@@ -116,6 +116,7 @@ $touchdelay *= 2; # Interval is 500ms
     return $data;
   }
 
+  # Unfortunately, not all emulators have timeout - maybe deploy that adaptively.
   $TIMELIMIT='';
   if (qx(which timelimit)) {
       $TIMELIMIT='timelimit -t 20 -T 10 '
@@ -722,7 +723,7 @@ END
       my $screenflags = $cgi->param('screenflags');
 
       if ($screenflags =~ /,pull,/) {
-          execute "adb $swho shell timeout 10 screencap /sdcard/$who.png";
+          execute "adb $swho shell screencap /sdcard/$who.png";
           execute "adb $swho pull /sdcard/$who.png /tmp/";
           $image = readFile("/tmp/$who.png");
       $image =~ s/\r\n/\n/g unless $screenflags=~/,deline,/;
@@ -730,7 +731,9 @@ END
           return;
       }
 
-      my $cmd = $screenflags =~ /,new,/ ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb $swho  shell" : "$::adb $swho  shell timeout 10 screencap -p";
+      my $cmd = $screenflags =~ /,new,/
+          ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb $swho  shell"
+          : "$TIMELIMIT $::adb $swho  shell screencap -p";
       warn localtime().": $$: $cmd\n";
       my $image = execute $cmd;
       if ($? != 0 || $image =~ /^screencap: permission denied/) {
