@@ -22,33 +22,35 @@ function url(rest) {
 function getScale() {
   return document.autoScale;
 }
-function mouseDown(i, e) {
+function mouseDown(image, e) {
     if ('$::disabled') { return true; }
     document.firstDown = e;
     document.lastStamp = e.timeStamp;
-    //mousePut(i, e);
+    //mousePut(image, e);
     //renewAutoScreen();
     return true;
 }
-function mouseMove(i, e) {
+function mouseMove(image, e) {
     if ('$::disabled') { return true; }
+
+    document.getElementById('xtick').style.left = event.offsetX + 'px';
+    document.getElementById('ytick').style.top = event.offsetY + 'px';
+
     if (document.lastStamp > 0 && e.timeStamp > document.lastStamp + 250) {
-      mousePut(i, e);
+      mousePut(image, e);
       renewAutoScreen();
     }
     return true;
 }
-function mousePut(i, e) {
+function mousePut(image, e) {
     document.lastStamp = e.timeStamp;
-    xoff = i.x - window.pageXOffset;
-    yoff = i.y - window.pageYOffset;
 
     s = getScale();
-    x1 = Math.round((e.clientX-xoff)/s);
-    y1 = Math.round((e.clientY-yoff)/s);
+    x1 = Math.round(e.offsetX/s);
+    y1 = Math.round(e.offsetY/s);
 
-    ih = Math.round(i.height);
-    iw = Math.round(i.width);
+    ih = Math.round(image.height);
+    iw = Math.round(image.width);
 
     touch = "touch?device=$who" +
           "&deg=" + qParam("deg", "0") +
@@ -57,7 +59,7 @@ function mousePut(i, e) {
     window.frames["stdout"].location=url(touch);
     return true;
 }
-function mouseUp(i, e) {
+function mouseUp(image, e) {
     if ('$::disabled') { return true; }
     document.lastStamp = 0;
     f=document.firstDown;
@@ -66,18 +68,21 @@ function mouseUp(i, e) {
       return;
     }
 
-    xoff = i.x - window.pageXOffset;
-    yoff = i.y - window.pageYOffset;
+    // This mysteriously acquired a 1-200 Y offset. offsetXY is 'experimental', sadly.
+    // xoff = image.x - window.pageXOffset;
+    // yoff = image.y - window.pageYOffset;
+    // x1 = Math.round((f.clientX-xoff)/s);
+    // y1 = Math.round((f.clientY-yoff)/s);
 
     s = getScale();
-    x1 = Math.round((f.clientX-xoff)/s);
-    y1 = Math.round((f.clientY-yoff)/s);
+    x1 = Math.round(f.offsetX/s);
+    y1 = Math.round(f.offsetY/s);
 
-    x2 = Math.round((e.x-xoff)/s);
-    y2 = Math.round((e.y-yoff)/s);
+    x2 = Math.round(e.offsetX/s);
+    y2 = Math.round(e.offsetY/s);
 
-    ih = Math.round(i.height);
-    iw = Math.round(i.width);
+    ih = Math.round(image.height);
+    iw = Math.round(image.width);
 
     touch = "touch?device=$who" +
           "&deg=" + qParam("deg", "0") +
@@ -89,21 +94,21 @@ function mouseUp(i, e) {
     renewAutoScreen();
     return true;
 }
-function rebootDevice(i, e) {
+function rebootDevice(image, e) {
     window.frames["stdout"].location=url("reboot?device=$who");
     renewAutoScreen();
     return true;
 }
-function keyPress(i, e) {
+function keyPress(image, e) {
 // Try to handle keypress and keydown together: assume charCode=0 if press.
     if (e.keyCode == 8) {
-      keyEvent(i, 67);
+      keyEvent(image, 67);
     }
     else if (e.charCode == 0) {
       return;
     }
     else if (e.charCode == 32) {
-      keyEvent(i, 62);
+      keyEvent(image, 62);
     }
     else {
       window.frames["stdout"].location=url(
@@ -134,7 +139,7 @@ function colourInputMode() {
     b.style.color='white';
   }
 }
-function keyEvent(i, e) {
+function keyEvent(image, e) {
     window.frames["stdout"].location=url("text?device=$who&key="+e);
     renewAutoScreen();
     return true;
@@ -284,6 +289,7 @@ setInterval(everyHalfSecond, 500);
     <input $::disabled type="button" value="back" onclick="keyEvent(this, 4)">
     <input $::disabled type="button" value="power" onclick="keyEvent(this, 26)">
     <input $::disabled type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
+    <input $::disabled type="button" value="enter" onclick="keyEvent(this, 'ENTER')">
     Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))">
   <th rowspan=2>
     <table border=1>
@@ -334,7 +340,7 @@ setInterval(everyHalfSecond, 500);
       <input $::disabled type="button" value="adb reboot" onclick="rebootDevice()">
       <br>If the device's clock shows the wrong time and it's unresponsive, the
           screen is probably powered off.
-      <br>Try these if screen is broken: 
+      <br>Try these if screen is broken:
 		<input type="button" value="deline" onclick="setScreenflags(',deline,')">
 		<input type="button" value="pull" onclick="setScreenflags(',pull,')">
 		<input type="button" value="pull,deline" onclick="setScreenflags(',pull,deline,')">
@@ -345,7 +351,8 @@ setInterval(everyHalfSecond, 500);
 </table>
 <br>
 <div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
-<img id="screen" style="border:5px dotted blue" draggable="false"
+<div style="position: relative; top:0px">
+<img id="screen" style="position:fixed:top:6px;border:5px dotted blue" draggable="false"
   onmousedown="mouseDown(this, event)"
   onmousemove="mouseMove(this, event)"
   onmouseleave="mouseUp(this, event)"
@@ -353,6 +360,9 @@ setInterval(everyHalfSecond, 500);
   onmouseup="mouseUp(this,event)"
   onload="onLoadScreen(this)"
   src="/screenshot?device=$who&screenflags=$screenflags">
+<div id="xtick" style="position:absolute;top:0px;left:0px;border:5px solid red"></div>
+<div id="ytick" style="position:absolute;top:0px;left:4px;border:5px solid red"></div>
+</div>
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
   document.getElementById("autoScale").checked = (qParam("autoScale", "false") == 'true');
