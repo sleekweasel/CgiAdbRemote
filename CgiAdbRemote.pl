@@ -253,7 +253,8 @@ $touchdelay *= 2; # Interval is 500ms
       %online = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
-            $online{$1} = 1;
+          $who="$ssocket:$1";
+            $online{$who} = 1;
         }
         else {
             print "<tr><td colspan=9>$_</tr>\n" if $_ =~ /\S/;
@@ -289,7 +290,6 @@ $touchdelay *= 2; # Interval is 500ms
       @deviceids = sort { lc($a) cmp lc($b) }
                     keys %ids;
       for my $who ( @deviceids ) {
-        $who="$ssocket:$who";
         my $swho = who_param_port($who);
         unless ($product{$who}) {
           my $summary = "";
