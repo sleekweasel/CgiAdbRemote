@@ -5,7 +5,7 @@ function url(rest) {
     here.push(rest);
     return here.join("/");
 }
-function killServer() {
+function killServer(socket) {
     if (!confirm("Are you really sure you want to kill ADB?")) {
       alert("User uncertain. Aborted.");
     }
@@ -14,12 +14,12 @@ function killServer() {
         alert("Tests were running, Aborted.");
       }
       else {
-        window.frames["stdout"].location=url("killServer");
+        window.frames["stdout"].location=url("killServer?ssocket=" + socket);
       }
     }
 }
 </script>
-<input type='button' value="kill-server" onclick="killServer()">
+<input type='button' value="kill-server" onclick="killServer('$::ssocket')">
 <iframe height=50 width=500 id=stdout name=stdout></iframe><br>
 <hr>
 <a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.

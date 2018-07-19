@@ -228,7 +228,7 @@ $touchdelay *= 2; # Interval is 500ms
         @server_sockets = [ "tcp:localhost:$cgi->param('android_adb_server_port')" ];
       }
       else {
-        @server_sockets = map { /-L tcp:(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) } grep { /\badb\b.*\bserver\b/ } qx{ps -axopid,command};
+        @server_sockets = map { /-L tcp:(?:localhost:)?(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) } grep { /\badb\b.*\bserver\b/ } qx{ps -axopid,command};
       }
 
       print $cgi->header,
@@ -236,6 +236,8 @@ $touchdelay *= 2; # Interval is 500ms
       my $myself = $cgi->self_url;
 
       for $ssocket ( @server_sockets ) {
+        $::ssocket = $ssocket;
+        next unless $ssocket;
         $cmd = "$::adb -L $ssocket devices";
         print $cgi->h1("$cmd ");
         @devices = execute "$cmd 2>&1";
@@ -504,14 +506,14 @@ END
       $touch = $TOUCH[$flags{$who}{inputMode}];
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
         my $cmd = $touch->{down}($touch, $who, $1, $2, $3, $4);
-        runAdb "$shell \"$cmd\"" if $cmd;
+        runAdb "$swho $shell \"$cmd\"" if $cmd;
         return;
       }
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
         my $cmd = $touch->{downup}($touch, $who, $3, $4, $1, $2, $5, $6);
         if ($cmd) {
           if ($cmd !~ /monkeyrunner/) {
-            runAdb "$shell \"$cmd\"";
+            runAdb "$swho $shell \"$cmd\"";
           } else {
             runCmd "$cmd";
           }
@@ -553,7 +555,7 @@ END
       if ($key) {
         my $shell = "$swho shell ";
         my $k = $getevent{$who}{$key};
-        runAdb "$shell \"sendevent $$k{DEV} $$k{EVENT10} $$k{CODE10} $down; sendevent $$k{DEV} 0 0 0\"";
+        runAdb "$swho $shell \"sendevent $$k{DEV} $$k{EVENT10} $$k{CODE10} $down; sendevent $$k{DEV} 0 0 0\"";
         return;
       }
       else {
@@ -604,7 +606,7 @@ END
             $cgi->start_html("$who");
 
       my $shell = "$swho";
-      runAdb "$shell reboot";
+      runAdb "$swho $shell reboot";
   }
 
   sub resp_text {
@@ -626,11 +628,11 @@ END
         $text = undef; $key = 62;
       }
       if ($text) {
-          runAdb "$shell input text $text";
+          runAdb "$swho $shell input text $text";
           return;
       }
       if ($key) {
-          runAdb "$shell input keyevent $key";
+          runAdb "$swho $shell input keyevent $key";
           return;
       }
   }
@@ -782,7 +784,8 @@ END
 
       print $cgi->header,
             $cgi->start_html("$who");
-      runAdb "kill-server";
+      my $socket = $cgi->param('ssocket');
+      runAdb "-L $socket kill-server";
   }
 
   sub decodeGetEvent {
