@@ -222,10 +222,10 @@ $touchdelay *= 2; # Interval is 500ms
 
       my $who = $cgi->param('name');
       if ($cgi->param('adb_server_socket')) {
-        @server_sockets = [ $cgi->param('adb_server_socket') ];
+        @server_sockets = ( $cgi->param('adb_server_socket') );
       }
       elsif ($cgi->param('android_adb_server_port')) {
-        @server_sockets = [ "tcp:localhost:$cgi->param('android_adb_server_port')" ];
+        @server_sockets = ( "tcp:localhost:$cgi->param('android_adb_server_port')" );
       }
       else {
         @server_sockets = map { /-L tcp:(?:localhost:)?(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) } grep { /\badb\b.*\bserver\b/ } qx{ps -axopid,command};
