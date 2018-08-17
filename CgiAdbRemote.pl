@@ -221,8 +221,8 @@ $touchdelay *= 2; # Interval is 500ms
       return if !ref $cgi;
 
       my $who = $cgi->param('name');
-      if ($cgi->param('adb_server_socket')) {
-        @server_sockets = ( $cgi->param('adb_server_socket') );
+      if ($cgi->param('adb_server_socket') || $ENV['ADB_SERVER_SOCKET']) {
+        @server_sockets = ( $cgi->param('adb_server_socket') || $ENV['ADB_SERVER_SOCKET']);
       }
       elsif ($cgi->param('android_adb_server_port')) {
         @server_sockets = ( "tcp:localhost:$cgi->param('android_adb_server_port')" );
@@ -734,20 +734,21 @@ END
       my $swho = who_param_port($who);
       my $screenflags = $cgi->param('screenflags');
 
+      my $image;
+      my $cmd;
       if ($screenflags =~ /,pull,/) {
-          execute "adb $swho shell screencap /sdcard/$who.png";
-          execute "adb $swho pull /sdcard/$who.png /tmp/";
-          $image = readFile("/tmp/$who.png");
-      $image =~ s/\r\n/\n/g unless $screenflags=~/,deline,/;
-          print $cgi->header( -type => 'image/png' ), $image;
-          return;
+          $image = execute($cmd = "adb $swho shell screencap /sdcard/$who.png") && 
+                    execute("adb $swho pull /sdcard/$who.png /tmp/") && 
+                    readFile("/tmp/$who.png");
+      } else {
+        my $cmd = $screenflags =~ /,piped,/
+            ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb $swho  shell"
+            : "$TIMELIMIT $::adb $swho shell screencap -p";
+        warn localtime().": $$: $cmd\n";
+        $image = execute $cmd;
+        $image && $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
       }
-
-      my $cmd = $screenflags =~ /,new,/
-          ? "export LOCALE=C; export LC_ALL=C; echo screencap -p | $TIMELIMIT $::adb $swho  shell"
-          : "$TIMELIMIT $::adb $swho  shell screencap -p";
-      warn localtime().": $$: $cmd\n";
-      my $image = execute $cmd;
+      $first_err = $!;
       if ($? != 0 || $image =~ /^screencap: permission denied/) {
         if (1) {
           # Experimental... monkeyrunner as fallback.
@@ -762,15 +763,14 @@ END
           close MONKEY;
           execute "monkeyrunner $who.monkey";
           $image = readFile("$who.png");
-          print $cgi->header( -type => 'image/png' ), $image;
-          return;
+          $cmd .= " ... and monkeyrunner";
         }
-        print $cgi->header, errorRunning($cmd);
+      } 
+      if ($? != 0) {
+        print $cgi->header, errorRunning($cmd), $out;
         return;
       }
-      $image =~ s/\r\n/\n/g unless $screenflags=~/,deline,/;
-      $image =~ s/\r\n/\n/g unless $image =~ /[^\r]\n/; # Replace \r\n unless there are ANY \ns on their own...
-      $image =~ s/^\* daemon not running\. starting it now on port \d+ \*\s+\* daemon started successfully \*\s+//;
+      $image =~ /^\211PNG\r\n\032\n/ || $image =~ s/\r\n/\n/g unless $screenflags =~ /,nomagic,/;
       print $cgi->header( -type => 'image/png' ), $image;
   }
 
