@@ -293,13 +293,6 @@ setInterval(everyHalfSecond, 500);
     Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))">
   <th rowspan=2>
     <table border=1>
-     <tr><th colspan=3><input $::disabled type="button" value="up" onclick="keyEvent(this, 19)"></th>
-     <tr><th colspan><input $::disabled type="button" value="left" onclick="keyEvent(this, 21)"></th>
-         <th colspan><input $::disabled type="button" value="click" onclick="keyEvent(this, 23)"></th>
-         <th colspan><input $::disabled type="button" value="right" onclick="keyEvent(this, 22)"></th>
-     <tr><th colspan=3><input $::disabled type="button" value="down" onclick="keyEvent(this, 20)"></th>
-    </table>
-    <table border=1>
       <tr>
         <th colspan=2>
           <input type="button" value="refresh 0deg" id='d0deg' onclick="updateHash('deg',0); window.location.reload()">
@@ -350,19 +343,30 @@ setInterval(everyHalfSecond, 500);
   </tr>
 </table>
 <br>
-<div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
-<div style="position: relative; top:0px">
-<img id="screen" style="position:fixed:top:6px;border:5px dotted blue" draggable="false"
-  onmousedown="mouseDown(this, event)"
-  onmousemove="mouseMove(this, event)"
-  onmouseleave="mouseUp(this, event)"
-  onmouseout="mouseUp(this, event)"
-  onmouseup="mouseUp(this,event)"
-  onload="onLoadScreen(this)"
-  src="/screenshot?device=$who&screenflags=$screenflags">
-<div id="xtick" style="position:absolute;top:0px;left:0px;border:5px solid red"></div>
-<div id="ytick" style="position:absolute;top:0px;left:4px;border:5px solid red"></div>
+<div id="floatbuttons" style="position: relative; top: 0px">
+    <table border=1>
+     <tr><th colspan=3><input $::disabled type="button" value="up" onclick="keyEvent(this, 19)"></th>
+         <td>
+            <div style="position: relative; top:0px">
+            <img id="screen" style="position:fixed:top:6px;border:5px dotted blue" draggable="false"
+              onmousedown="mouseDown(this, event)"
+              onmousemove="mouseMove(this, event)"
+              onmouseleave="mouseUp(this, event)"
+              onmouseout="mouseUp(this, event)"
+              onmouseup="mouseUp(this,event)"
+              onload="onLoadScreen(this)"
+              src="/screenshot?device=$who&screenflags=$screenflags">
+            <div id="xtick" style="position:absolute;top:0px;left:0px;border:5px solid red"></div>
+            <div id="ytick" style="position:absolute;top:0px;left:4px;border:5px solid red"></div>
+            </div>
+         </td>
+     <tr><th colspan><input $::disabled type="button" value="left" onclick="keyEvent(this, 21)"></th>
+         <th colspan><input $::disabled type="button" value="click" onclick="keyEvent(this, 23)"></th>
+         <th colspan><input $::disabled type="button" value="right" onclick="keyEvent(this, 22)"></th>
+     <tr><th colspan=3><input $::disabled type="button" value="down" onclick="keyEvent(this, 20)"></th>
+    </table>
 </div>
+<div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
   document.getElementById("autoScale").checked = (qParam("autoScale", "false") == 'true');

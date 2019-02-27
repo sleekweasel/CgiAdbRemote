@@ -18,12 +18,70 @@ $view_only ||= 0;
 
 $autodelay *= 2; # Interval is 500ms
 $touchdelay *= 2; # Interval is 500ms
-
 {
+  use Scalar::Util qw( reftype );
+
+  sub Ref {
+    my $d = shift;
+    my $i = shift || "";
+    my $x = shift || "";
+    my $max = shift;
+    return "TOO DEEP max=$max vs 0: " . ( $max == 0 ) if defined $max && !$max;
+    $max ||= 30;
+    my $ref = reftype $d;
+    if ($ref eq 'ARRAY') {
+      my $ret = "";
+      for (@$d) {
+        $ret .= "," if $ret;
+        $ret .= "$i$x". Ref($_, "$i$x", $x, $max-1);
+      }
+      $ret .= $i if $ret;
+      return "[$ret]";
+    }
+    elsif ($ref eq 'HASH') {
+      my $ret = "";
+      for my $k (sort keys %$d) {
+        $ret .= "," if $ret;
+        $ret .= "$i$x'$k' => ". Ref($$d{$k}, "$i$x", $x, $max-1);
+      }
+      $ret .= "$i" if $ret;
+      return "{ ".(ref($d) =~ /:/ && ref($d))."$ret}";
+    }
+    elsif ($ref eq 'SCALAR') {
+      return " \\ " . Ref($$d, "$i$x", $x, $max-1);
+    }
+    else {
+      return "'$d'"
+    }
+  }
+
+
+package CGParams;
+sub new {
+  my $class = shift;
+  my $this = { params => { @_ } };
+  bless $this, (ref($class) || $class);
+  return $this;
+}
+sub param {
+  my $this = shift;
+  my $that = shift;
+  $this->{params}{$that};
+}
+sub start_html{
+  "<html><head><title>@_</title></head><body>"
+}
+sub end_html{ "</body></html>" }
+1;
+
   package MyWebServer;
 
-  use HTTP::Server::Simple::CGI;
-  use base qw( HTTP::Server::Simple::CGI );
+  use HTTP::Daemon;
+  use IO::Socket::INET;
+  use Data::Dumper;
+
+#  use HTTP::Server::Simple::CGI;
+#  use base qw( HTTP::Server::Simple::CGI );
 
   sub logg {
     my $thing = shift;
@@ -44,37 +102,6 @@ $touchdelay *= 2; # Interval is 500ms
         .(($::adb eq 'adb')?"which adb='".qx/which adb|tr -cd ' -~'/."'":"adb=$::adb");
   }
 
-  sub Ref {
-    my $d = shift;
-    my $i = shift || "";
-    my $x = shift || "";
-    my $ref = ref $d;
-    if ($ref eq 'ARRAY') {
-      my $ret = "";
-      for (@$d) {
-        $ret .= "," if $ret;
-        $ret .= "$i$x". Ref($_, "$i$x", $x);
-      }
-      $ret .= $i if $ret;
-      return "[$ret]";
-    }
-    elsif ($ref eq 'HASH') {
-      my $ret = "";
-      for my $k (sort keys %$d) {
-        $ret .= "," if $ret;
-        $ret .= "$i$x'$k' => ". Ref($$d{$k}, "$i$x", $x);
-      }
-      $ret .= "$i" if $ret;
-      return "{$ret}";
-    }
-    elsif ($ref eq 'SCALAR') {
-      return " \\ " . Ref($d, "$i$x", $x);
-    }
-    else {
-      return "'$d'";
-    }
-  }
-
   sub loadRef {
     my $ext = shift;
     my $who = shift;
@@ -93,7 +120,7 @@ $touchdelay *= 2; # Interval is 500ms
     my $who = shift;
     mkdir("$0.devices");
     if (open FILE, ">$0.devices/$who.$ext") {
-      print FILE Ref($ref, "\n", " ");
+      print FILE ::Ref($ref, "\n", " ");
       close FILE;
     }
     else {
@@ -151,7 +178,7 @@ $touchdelay *= 2; # Interval is 500ms
     if ($? != 0) {
         $data = errorRunning($cmd);
     }
-    print $data;
+    $data;
   }
 
   sub runAdb {
@@ -178,6 +205,79 @@ $touchdelay *= 2; # Interval is 500ms
       '/adbCmd' => \&resp_adbCmd,
       # ...
   );
+
+
+sub NEW_SERVER {
+  $cmd_server_port = 8084;
+  $httpd=HTTP::Daemon->new(
+    LocalPort => $cmd_server_port,
+    Timeout => 5, # Seconds
+    ReuseAddr => 1
+  ) || die "$! for miniserver ANDROID_ADB_SERVER_PORT=$ENV{'ANDROID_ADB_SERVER_PORT'} - port $cmd_server_port";
+
+  $MINIPID=$$;
+
+  %requeue = ();
+
+  while ((my $clientConn = $httpd->accept) || true) {
+    unless (defined $clientConn) {
+      # Tick - ensure someone's going to service outstanding requests.
+      next;
+    }
+    my $req = $clientConn->get_request;
+    unless ($req) {
+      $clientConn->close if $clientComm;
+      undef $clientConn;
+      next
+    }
+
+    $clientConn->force_last_request; # For simplicity: this isn't high throughput.
+
+    $res = HTTP::Response->new(200, "OK");
+    $res->content_type("text/html");
+    $cgi = new CGParams($req->uri->query_form);
+    $path = $req->uri->path;
+    $method = $req->method;
+    $cmdfd = undef;
+
+    my ( $nowt, $pc1, $pcr ) = split("/", $path);
+    my $handler = $dispatch{"/$pc1"};
+    logw $req->uri;
+
+# Single-thread for now; later either fork for everything, or hybrid fork-queue for sequential-sensitive (UI) operations.
+#
+#    if ($pid = fork) { $clientConn->close; undef $clientConn ; next }
+#    unless (defined $pid) {
+#      $res = HTTP::Response->new(500, "Fork failed on server");
+#    }
+
+    if (ref($handler) eq "CODE") {
+        $handler->($res, $cgi, $req);
+    }
+    elsif (ref($handler) eq "HASH") {
+        print "HASH\n";
+        $res->content($$handler{response}($res, $cgi, $req))
+    }
+    else {
+      $res = HTTP::Response->new(404, "Path or method not known $path $method");
+      $res->header("Content-type" => "text/plain");
+      $res->content(
+        "Dunno $method $path yet\n".
+        "\nTry one of:\n".
+                qx{ perl -nle 'print "\$1  \$2\t\$3" if /m[\{=]\\^([^:]+):(\\S+).\\)[^#]*(#.*)?/' $0 }.
+        "\n\n".Dumper($req))
+    }
+    if ($chunk_cmd) {
+      $res->content(
+        open($cmdfd, "($chunk_cmd ; date '+== end %clientConn') 2>&1 |") ? sub { $l = <$cmdfd> } : $!
+      );
+    }
+    $res->header("XPID" => $$);
+    $clientConn->send_response($res);
+    close $cmdfd if $cmdfd;
+    $clientConn->close if $clientComm; undef $clientConn;
+  }
+}
 
   sub handle_request {
       my $self = shift;
@@ -217,41 +317,36 @@ $touchdelay *= 2; # Interval is 500ms
 
 
   sub resp_root {
-      my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
-
+      my $res = shift;   # HTTP::Response
+      my $cgi = shift;  # Queries
       my $who = $cgi->param('name');
-      if ($cgi->param('adb_server_socket') || $ENV['ADB_SERVER_SOCKET']) {
-        @server_sockets = ( $cgi->param('adb_server_socket') || $ENV['ADB_SERVER_SOCKET']);
-      }
-      elsif ($cgi->param('android_adb_server_port')) {
-        @server_sockets = ( "tcp:localhost:$cgi->param('android_adb_server_port')" );
-      }
-      else {
-        @server_sockets = map { /-L tcp:(?:localhost:)?(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) } grep { /\badb\b.*\bserver\b/ } qx{ps -axopid,command};
-      }
 
-      print $cgi->header,
-            $cgi->start_html("Devices");
-      my $myself = $cgi->self_url;
+      @server_sockets = $cgi->param('adb_server_socket') ||
+                        $ENV['ADB_SERVER_SOCKET'] ||
+                        ($cgi->param('android_adb_server_port') && "tcp:localhost:".$cgi->param('android_adb_server_port') ) ||
+                        (map { /-L tcp:(?:localhost:)?(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) }
+                          grep { /\badb\b.*\bserver\b/ }
+                          qx{ps -axopid,command});
+
+      $res->add_content("<html><head><title>Devices</title></head><body>");
 
       for $ssocket ( @server_sockets ) {
         $::ssocket = $ssocket;
         next unless $ssocket;
         $cmd = "$::adb -L $ssocket devices";
-        print $cgi->h1("$cmd ");
+        $res->add_content("<h1>$cmd</h1>");
         @devices = execute "$cmd 2>&1";
         push @devices, errorRunning($cmd) if ($? != 0);
 
-      print "<style><!--"
+      $res->add_content("<style><!--"
             ." table { border: solid 1px; border-collapse: collapse }"
             ." td { border:1px solid }"
             ." th { border:1px solid }"
-            ." --></style>";
-      print "<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}";
-      print "<a href='/?historical=1'>HISTORICAL</a>";
-      print "<table>";
-      print "<tr><th colspan='2'>Devices</th><th>fs</th><th>Asset</th><th>model</th><th>brand</th><th>manufr</th><th>summary</th></tr>\n";
+            ." --></style>"
+            ."<a href='/?lsusb=1'>USB PROBE</a> $ENV{OSTYPE}"
+            ."<a href='/?historical=1'>HISTORICAL</a>"
+            ."<table>"
+            ."<tr><th colspan='2'>Devices</th><th>fs</th><th>Asset</th><th>model</th><th>brand</th><th>manufr</th><th>summary</th></tr>\n");
       %online = ();
       for (@devices) {
         if (/^(\S+)\s+device$/) {
@@ -259,7 +354,7 @@ $touchdelay *= 2; # Interval is 500ms
             $online{$who} = 1;
         }
         else {
-            print "<tr><td colspan=9>$_</tr>\n" if $_ =~ /\S/;
+            $res->add_content("<tr><td colspan=9>$_</tr>\n") if $_ =~ /\S/;
         }
       }
 
@@ -267,13 +362,13 @@ $touchdelay *= 2; # Interval is 500ms
       if ($cgi->param('lsusb')) {
         my $OSTYPE = `uname`;
         if (${OSTYPE} =~ /darwin/i) {
-          print "<tr>darwin</tr>";
+          $res->add_content("<tr>darwin</tr>");
           %lsusb = map { $_ => 1 } map {
               /^\s*Serial Number:\s*(\S+)/ && ($1) || ()
           } execute "system_profiler SPUSBDataType|grep Serial";
         }
         elsif (${OSTYPE} =~ /linux/i) {
-          print "<tr>linux</tr>";
+          $res->add_content("<tr>linux</tr>");
           %lsusb = map { $_ => 1 } map {
                 /^\s*iSerial\s+\d+\s+(\S+)/ && ($1) || ()
           } execute "lsusb -v 2>&1 | grep iSerial";
@@ -321,42 +416,38 @@ $touchdelay *= 2; # Interval is 500ms
         }
         $product{$who}{'sdcard.asset'} ||= "no /sdcard/asset";
         my $href = "/console?view_only=$::view_only&device=$who#mode=".$flags{$who}{inputMode};
-        print "<tr><td>"
+        $res->add_content( "<tr><td>"
             .($online{$who} ? (++$count) . "<td><a href='$href'>$who</a> device</td>" : "-<td>offline/absent: <a href='$href'>$who</a>")
             ."<td><a href=\"/browsedir?device=$who\">fs</a>"
             ."<td>$product{$who}{'sdcard.asset'}"
             ."<td>$product{$who}{'ro.product.model'}"
             ."<td>$product{$who}{'ro.product.brand'}"
             ."<td>$product{$who}{'ro.product.manufacturer'}</td>"
-            ."<td>($product{$who}{SUMMARY})</td>";
+            ."<td>($product{$who}{SUMMARY})</td>");
       }
-      print "</table>";
+      $res->add_content("</table>");
       my $killServer = readFile("killserver.html");
       $killServer=~s/(\$(::)?\w+)/eval $1/ge;
-      print $killServer;
+      $res->add_content($killServer);
     }
-      print " " . localtime();
-      print "<pre>" . join(", ", sort keys %dispatch) . "</pre>";
-      print $cgi->end_html;
+      $res->add_content(" " . localtime()
+                         ."<pre>" . join(", ", sort keys %dispatch) . "</pre>"
+                         ."</html>");
   }
 
   sub resp_console {
-      my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
+      my $res = shift;
+      my $cgi = shift;
 
       my $who = $cgi->param('device');
       my $screenflags = $cgi->param('screenflags');
       $::disabled = $cgi->param('view_only') ? 'disabled="disabled"' : "";
 
-      my $myself = $cgi->self_url;
-
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content("<html><head><title>$who</title></head>");
       my $console = readFile("console.html");
       $::product = $product{$who}{SUMMARY} || "unknown";
       $console=~s/(\$(::)?\w+)/eval $1/ge;
-      print $console;
-      print $cgi->end_html;
+      $res->add_content($console);
   }
 
 @TOUCH=(
@@ -484,6 +575,7 @@ END
 );
 
   sub resp_touch {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
 
@@ -496,8 +588,7 @@ END
       my $rot = $cgi->param('rot');
       my $img = $cgi->param('img');
 
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content($who);
 
       my $shell = "$swho shell ";
 
@@ -506,16 +597,16 @@ END
       $touch = $TOUCH[$flags{$who}{inputMode}];
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)$/) {
         my $cmd = $touch->{down}($touch, $who, $1, $2, $3, $4);
-        runAdb "$swho $shell \"$cmd\"" if $cmd;
+        $res->add_content(runAdb "$swho $shell \"$cmd\"") if $cmd;
         return;
       }
       if ("$down$up$img" =~ /^\?(\d+),(\d+)\?(\d+),(\d+)\?(\d+),(\d+)$/) {
         my $cmd = $touch->{downup}($touch, $who, $3, $4, $1, $2, $5, $6);
         if ($cmd) {
           if ($cmd !~ /monkeyrunner/) {
-            runAdb "$swho $shell \"$cmd\"";
+            $res->add_content(runAdb "$swho $shell \"$cmd\"");
           } else {
-            runCmd "$cmd";
+            $res->add_content(runCmd "$cmd");
           }
         }
         return;
@@ -523,25 +614,25 @@ END
   }
 
   sub resp_settings {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
 
-      print $cgi->header,
+      $res->content(
             $cgi->start_html("$who")
             ."Flags...<pre>"
-            .Ref($flags{$who}, "\n ", ". ")
+            .::Ref($flags{$who}, "\n ", ". ")
             ."</pre>"
             ."getevent...<pre>"
-            .Ref($getevent{$who}, "\n ", ". ")
-            ."</pre>";
+            .::Ref($getevent{$who}, "\n ", ". ")
+            ."</pre>");
   }
 
   sub resp_keyboard {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
@@ -549,17 +640,18 @@ END
       my $key = $cgi->param('key');
       my $down = $cgi->param('down');
 
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content(
+            $cgi->start_html("$who")
+      );
 
       if ($key) {
         my $shell = "$swho shell ";
         my $k = $getevent{$who}{$key};
-        runAdb "$swho $shell \"sendevent $$k{DEV} $$k{EVENT10} $$k{CODE10} $down; sendevent $$k{DEV} 0 0 0\"";
+        $res->add_content(runAdb "$swho $shell \"sendevent $$k{DEV} $$k{EVENT10} $$k{CODE10} $down; sendevent $$k{DEV} 0 0 0\"");
         return;
       }
       else {
-        print <<END;
+        $res->add_content( <<END
 <script type='text/javascript'>
   function key(b, k, d) {
     window.frames['stdout'].location='/keyboard?device=$who&key='+k+'&down='+d
@@ -579,39 +671,40 @@ END
 <iframe height=20 width='100%' id=stdout></iframe><br>
 Slide off key to hold<br>
 END
+);
         for $k (sort { length $a <=> length $b || $a cmp $b } grep { /KEY_/ } keys %{$getevent{$who}}) {
           my $name = $k; $name =~ s/KEY_//;
           if ($k eq 'KEY_POWER') {
             # Prevent inadvertent power off! :D
-            print "<input type='button' value='$name' id='$k' "
-                  ."onmouseup=\"key(this, '$k', 1); setTimeout(powerUp, 100); \">";
+            $res->add_content( "<input type='button' value='$name' id='$k' "
+                  ."onmouseup=\"key(this, '$k', 1); setTimeout(powerUp, 100); \">");
           }
           else {
-            print "<input type='button' value='$name' "
+            $res->add_content( "<input type='button' value='$name' "
                   ."onmousedown=\"key(this, '$k', 1)\" "
-                  ."onmouseup=\"key(this, '$k', 0)\">";
+                  ."onmouseup=\"key(this, '$k', 0)\">");
           }
         }
       }
   }
 
   sub resp_reboot {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
 
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content(
+            $cgi->start_html("$who"));
 
       my $shell = "$swho";
-      runAdb "$swho $shell reboot";
+      $res->add_content(runAdb "$swho $shell reboot");
   }
 
   sub resp_text {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
@@ -619,8 +712,8 @@ END
       my $text = $cgi->param('text');
       my $key = $cgi->param('key');
 
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content(
+            $cgi->start_html("$who"));
 
       my $shell = "$swho shell ";
 
@@ -628,18 +721,18 @@ END
         $text = undef; $key = 62;
       }
       if ($text) {
-          runAdb "$swho $shell input text $text";
+          $res->add_content(runAdb "$swho $shell input text $text");
           return;
       }
       if ($key) {
-          runAdb "$swho $shell input keyevent $key";
+          $res->add_content(runAdb "$swho $shell input keyevent $key");
           return;
       }
   }
 
   sub resp_browsedir {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
@@ -676,16 +769,16 @@ END
       if ($listerr != 0) {
         $listing .= errorRunning($cmd);
       }
-      print $cgi->header,
-            $cgi->start_html("$who $path"),
-            "<h1>$su$who $path</h1>",
-            "<pre>$listing</pre>",
-            $cgi->end_html;
+      $res->add_content(
+            $cgi->start_html("$who $path").
+            "<h1>$su$who $path</h1>".
+            "<pre>$listing</pre>".
+            $cgi->end_html);
   }
 
   sub resp_pullfile {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
@@ -695,11 +788,11 @@ END
       warn localtime().": $$: $cmd\n";
       my @out = execute $cmd;
       if ($? != 0) {
-        print $cgi->header, errorRunning($cmd), $out;
+        $res->add_content(errorRunning($cmd). $out);
         return;
       }
       if ($#out != 0 || $out[0] !~ /^-/) {
-        print $cgi->header, "$#out Not a file...<pre>".join("\n",@out)."</pre>";
+        $res->add_content("$#out Not a file...<pre>".join("\n",@out)."</pre>");
         return;
       }
       my $pull = "/tmp/pull.$$";
@@ -710,25 +803,26 @@ END
       warn localtime().": $$: $cmd\n";
       my $out = execute $cmd;
       if ($? != 0) {
-        print $cgi->header, errorRunning($cmd), $out;
+        $res->add_content( errorRunning($cmd). $out);
         return;
       }
       my $ext = $path; $ext =~ s/.*\.([^\.]+)$/$1/;
       if (-T $pull) {
         if ($pull =~ /^<[!?]/) {
-          print $cgi->header( -type => 'application/xml' ), readFile($pull);
+          $res->content_type('application/xml' )
         } else {
-          print $cgi->header( -type => 'text/plain' ), readFile($pull);
+          $res->content_type('text/plain' )
         }
       }
       else {
-        print $cgi->header( -type => 'image/$ext' ), readFile($pull);
+        $res->content_type('image/$ext' )
       }
+      $res->content(readFile($pull))
   }
 
   sub resp_screenshot {
-      my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
+      my $res = shift;
+      my $cgi = shift;   # CGI.pm object
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
@@ -767,11 +861,13 @@ END
         }
       } 
       if ($? != 0) {
-        print $cgi->header, errorRunning($cmd), $out;
+        $res->code(503);
+        $res->content(errorRunning($cmd). $out);
         return;
       }
       $image =~ /^\211PNG\r\n\032\n/ || $image =~ s/\r\n/\n/g unless $screenflags =~ /,nomagic,/;
-      print $cgi->header( -type => 'image/png' ), $image;
+      $res->content_type('image/png');
+      $res->content($image);
   }
 
   sub resp_quitThis {
@@ -779,13 +875,13 @@ END
   }
 
   sub resp_killServer {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content(
+            $cgi->start_html("$who"));
       my $socket = $cgi->param('ssocket');
-      runAdb "-L $socket kill-server";
+      $res->add_content(runAdb "-L $socket kill-server");
   }
 
   sub decodeGetEvent {
@@ -828,6 +924,7 @@ END
   }
 
   sub resp_setInputMode {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
       return if !ref $cgi;
 
@@ -835,8 +932,8 @@ END
       my $swho = who_param_port($who);
       my $mode = $cgi->param('mode');
 
-      print $cgi->header,
-            $cgi->start_html("$who");
+      $res->add_content(
+            $cgi->start_html("$who"));
 
       logg "mode=$mode";
 
@@ -867,16 +964,16 @@ END
   }
 
   sub resp_adbCmd {
+      my $res = shift;
       my $cgi  = shift;   # CGI.pm object
-      return if !ref $cgi;
 
       my $who = $cgi->param('device');
       my $swho = who_param_port($who);
       my $cmd = $cgi->param('cmd');
 
-      print $cgi->header,
-            $cgi->start_html("$who");
-      runAdb "$swho shell $cmd" if $cmd !~ /^\s*$/;
+      $res->add_content(
+            $cgi->start_html("$who"));
+      $res->add_content(runAdb "$swho shell $cmd") if $cmd !~ /^\s*$/;
   }
 }
 
@@ -901,9 +998,13 @@ for (readdir DIR) {
 }
 closedir DH;
 
-print MyWebServer::Ref(\%MyWebServer::getevent, "\n ", ". "), "\n";
-print MyWebServer::Ref(\%MyWebServer::flags, "\n ", ". "), "\n";
-print MyWebServer::Ref(\%MyWebServer::product, "\n ", ". "), "\n";
+print ::Ref(\%MyWebServer::getevent, "\n ", ". "), "\n";
+print ::Ref(\%MyWebServer::flags, "\n ", ". "), "\n";
+print ::Ref(\%MyWebServer::product, "\n ", ". "), "\n";
+
+MyWebServer::NEW_SERVER()
+
+__END__
 
 # start the server on $port
 if ($foreground) {
