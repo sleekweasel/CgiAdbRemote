@@ -280,10 +280,7 @@ function logResponse(doc) {
 
 setInterval(everyHalfSecond, 500);
 </script>
-<a href='/'>Adb devices</a>$::product
 <h1 id="banner" style="color: red">$::banner</h1>
-<iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
-<iframe height=60 width='100%' id=logger name=logger></iframe><br>
 
 <div id="floatbuttons" style="position: relative; top: 0px">
     <br>
@@ -291,22 +288,12 @@ setInterval(everyHalfSecond, 500);
     <br>
     <table border=1>
      <tr>
+
       <td>
-         <div style="position: relative; top:0px">
-         <img id="screen" style="position:fixed:top:6px;border:5px dotted blue" draggable="false"
-           onmousedown="mouseDown(this, event)"
-           onmousemove="mouseMove(this, event)"
-           onmouseleave="mouseUp(this, event)"
-           onmouseout="mouseUp(this, event)"
-           onmouseup="mouseUp(this,event)"
-           onload="onLoadScreen(this)"
-           src="/screenshot?device=$who&screenflags=$screenflags">
-         <div id="xtick" style="position:absolute;top:0px;left:0px;border:5px solid red"></div>
-         <div id="ytick" style="position:absolute;top:0px;left:4px;border:5px solid red"></div>
-         </div>
-      </td>
-      <td>
-         <div id="coords"></div>
+        <a href='/'>Back to adb devices</a> $::product
+        <br>
+      <hr>
+         <div id="coords">Android coords</div>
       <hr>
        <div>
         <input $::disabled type="button" value="home" onclick="keyEvent(this, 3)">
@@ -326,7 +313,7 @@ setInterval(everyHalfSecond, 500);
         <input $::disabled type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
         <input $::disabled type="button" value="enter" onclick="keyEvent(this, 'ENTER')">
         <hr>
-        Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))"><span id=scale></span>
+        Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))"><span id=scale>1</span>
         <table border=1>
           <tr>
             <th colspan=2>
@@ -373,12 +360,31 @@ setInterval(everyHalfSecond, 500);
     </table>
 
       </td>
+
+      <td>
+         <div style="position: relative; top:0px">
+         <img id="screen" style="position:fixed:top:6px;border:5px dotted blue" draggable="false"
+           onmousedown="mouseDown(this, event)"
+           onmousemove="mouseMove(this, event)"
+           onmouseleave="mouseUp(this, event)"
+           onmouseout="mouseUp(this, event)"
+           onmouseup="mouseUp(this,event)"
+           onload="onLoadScreen(this)"
+           src="/screenshot?device=$who&screenflags=$screenflags">
+         <div id="xtick" style="position:absolute;top:0px;left:0px;border:5px solid red"></div>
+         <div id="ytick" style="position:absolute;top:0px;left:4px;border:5px solid red"></div>
+         </div>
+      </td>
     </table>
 </div>
+<iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
+<iframe height=60 width='100%' id=logger name=logger></iframe><br>
 <div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
   document.getElementById("autoScale").checked = (qParam("autoScale", "false") == 'true');
+  document.getElementById("stdout").height=document.getElementById('scale').offsetHeight * 3;
+  document.getElementById("logger").height=document.getElementById('scale').offsetHeight * 10;
 </script>
 <hr>
 <a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
