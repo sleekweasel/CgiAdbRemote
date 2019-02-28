@@ -191,7 +191,8 @@ function maybeRotate(image) {
     document.autoScale = 1;
     if (autoScale == "true") {
       br = document.getElementById("bottomright");
-      hh = br.offsetTop;
+      tt = document.getElementById('refreshAfter').getBoundingClientRect();
+      hh = br.offsetTop - tt.bottom;
       ww = br.offsetLeft;
       switch (deg) {
         case '90': case '270':
