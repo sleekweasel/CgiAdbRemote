@@ -208,7 +208,7 @@ sub end_html{ "</body></html>" }
 
 
 sub NEW_SERVER {
-  $cmd_server_port = $port;
+  $cmd_server_port = $::port;
   $httpd=HTTP::Daemon->new(
     LocalPort => $cmd_server_port,
     Timeout => 5, # Seconds
