@@ -290,7 +290,7 @@ setInterval(everyHalfSecond, 500);
     <table border=1>
      <tr>
 
-      <td>
+      <td valign=top>
         <a href='/'>Back to adb devices</a> $::product
         <br>
       <hr>
@@ -314,7 +314,7 @@ setInterval(everyHalfSecond, 500);
         <input $::disabled type="text" id="textEntry" value="Type here" onkeypress="keyPress(this, event)" onkeydown="keyPress(this, event)">
         <input $::disabled type="button" value="enter" onclick="keyEvent(this, 'ENTER')">
         <hr>
-        Autoscale: <input type="checkbox" id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))"><span id=scale>1</span>
+        Autoscale: <input type="checkbox" checked id="autoScale" value="autoScale" onclick="updateHash('autoScale', this.checked); maybeRotate(document.getElementById('screen'))"><span id=scale>1</span>
         <table border=1>
           <tr>
             <th colspan=2>
@@ -362,7 +362,7 @@ setInterval(everyHalfSecond, 500);
 
       </td>
 
-      <td>
+      <td valign=top>
          <div style="position: relative; top:0px">
          <img id="screen" style="position:fixed:top:6px;border:5px dotted blue" draggable="false"
            onmousedown="mouseDown(this, event)"
@@ -384,9 +384,11 @@ setInterval(everyHalfSecond, 500);
 <div id="topleft" style="position:fixed;top:0px;left:0px;"></div>
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
-  document.getElementById("autoScale").checked = (qParam("autoScale", "false") == 'true');
+  var ascal = document.getElementById("autoScale");
+  ascal.checked = (qParam("autoScale", "true") == 'true');
   document.getElementById("stdout").height=document.getElementById('scale').offsetHeight * 3;
   document.getElementById("logger").height=document.getElementById('scale').offsetHeight * 10;
+  updateHash('autoScale', ascal.checked); maybeRotate(document.getElementById('screen'));
 </script>
 <hr>
 <a href='https://github.com/sleekweasel/CgiAdbRemote'>CgiAdbRemote</a> is on github.
