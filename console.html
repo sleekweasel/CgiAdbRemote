@@ -257,7 +257,7 @@ function everyHalfSecond() {
   else {
     refresh = "<span style='color: red'>Auto refresh paused until user activity</span>";
   }
-  document.getElementById('refreshAfter').innerHTML= refresh + ", scale "+getScale()+" drn=" + document.refreshNum + " drsa=" + document.refreshScreenAfter;
+  document.getElementById('refreshAfter').innerHTML= refresh;
   if (document.refreshScreenAfter > 0 && document.refreshNum != 0) {
     document.refreshScreenAfter = document.refreshScreenAfter - 1;
     if (document.refreshScreenAfter <= 0) {
@@ -280,10 +280,9 @@ function logResponse(doc) {
 
 setInterval(everyHalfSecond, 500);
 </script>
-<h1 id="banner" style="color: red">$::banner</h1>
+<div style="color: red; font-size: 150%">$::banner</div>
 
 <div id="floatbuttons" style="position: relative; top: 0px">
-    <br>
       <span id="refreshAfter"></span>
     <br>
     <table border=1>
