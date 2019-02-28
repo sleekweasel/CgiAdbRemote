@@ -191,8 +191,9 @@ function maybeRotate(image) {
     document.autoScale = 1;
     if (autoScale == "true") {
       br = document.getElementById("bottomright");
-      tt = document.getElementById('refreshAfter').getBoundingClientRect();
-      hh = br.offsetTop - tt.bottom;
+      tl = document.getElementById("topleft");
+      tt = document.getElementById('refreshAfter').getBoundingClientRect().bottom;
+      hh = br.offsetTop - Math.max(tl.offsetTop, tt) - 15; // 15 = 3xborder
       ww = br.offsetLeft;
       switch (deg) {
         case '90': case '270':
@@ -295,10 +296,10 @@ setInterval(everyHalfSecond, 500);
       <hr>
          <div id="coords">Android coords</div>
       <hr>
-       <div>
-        <input $::disabled type="button" value="home" onclick="keyEvent(this, 3)">
-        <input $::disabled type="button" value="menu/unlock" onclick="keyEvent(this, 82)">
-        <input $::disabled type="button" value="back" onclick="keyEvent(this, 4)">
+       <div style='float:right'>
+        <input $::disabled type="button" value="home" onclick="keyEvent(this, 3)"><br>
+        <input $::disabled type="button" value="menu/unlock" onclick="keyEvent(this, 82)"><br>
+        <input $::disabled type="button" value="back" onclick="keyEvent(this, 4)"><br>
         <input $::disabled type="button" value="power" onclick="keyEvent(this, 26)">
        </div>
        <p>
@@ -380,6 +381,7 @@ setInterval(everyHalfSecond, 500);
 <iframe height=20 width='100%' id=stdout name=stdout onload="logResponse(document)"></iframe><br>
 <iframe height=60 width='100%' id=logger name=logger></iframe><br>
 <div id="bottomright" style="position:fixed;bottom:0px;right:0px;"></div>
+<div id="topleft" style="position:fixed;top:0px;left:0px;"></div>
 <script type="text/javascript">
   document.getElementById("textEntry").focus();
   document.getElementById("autoScale").checked = (qParam("autoScale", "false") == 'true');
