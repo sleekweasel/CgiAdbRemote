@@ -208,7 +208,7 @@ sub end_html{ "</body></html>" }
 
 
 sub NEW_SERVER {
-  $cmd_server_port = 8084;
+  $cmd_server_port = $port;
   $httpd=HTTP::Daemon->new(
     LocalPort => $cmd_server_port,
     Timeout => 5, # Seconds
@@ -246,10 +246,15 @@ sub NEW_SERVER {
 
 # Single-thread for now; later either fork for everything, or hybrid fork-queue for sequential-sensitive (UI) operations.
 #
-#    if ($pid = fork) { $clientConn->close; undef $clientConn ; next }
-#    unless (defined $pid) {
-#      $res = HTTP::Response->new(500, "Fork failed on server");
-#    }
+    if ($pid = fork) { $clientConn->close; undef $clientConn ; next }
+    unless (defined $pid) {
+      $res = HTTP::Response->new(500, "Fork failed on server");
+      $clientConn->send_response($res);
+      $clientConn->close;
+      undef $clientConn;
+      next;
+    }
+#
 
     if (ref($handler) eq "CODE") {
         $handler->($res, $cgi, $req);
