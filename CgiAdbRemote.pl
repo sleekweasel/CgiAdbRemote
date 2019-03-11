@@ -219,6 +219,8 @@ sub NEW_SERVER {
 
   %requeue = ();
 
+  $SIG{'CHLD'} = 'IGNORE'; # Most Unixes auto-reap zombies
+
   while ((my $clientConn = $httpd->accept) || true) {
     unless (defined $clientConn) {
       # Tick - ensure someone's going to service outstanding requests.
@@ -281,6 +283,9 @@ sub NEW_SERVER {
     $clientConn->send_response($res);
     close $cmdfd if $cmdfd;
     $clientConn->close if $clientComm; undef $clientConn;
+
+    # Only one transaction per child. For now, anyway.
+    exit
   }
 }
 
