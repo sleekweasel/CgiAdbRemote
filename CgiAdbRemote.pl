@@ -332,7 +332,7 @@ sub NEW_SERVER {
       my $who = $cgi->param('name');
 
       @server_sockets = $cgi->param('adb_server_socket') ||
-                        $ENV['ADB_SERVER_SOCKET'] ||
+                        $ENV{'ADB_SERVER_SOCKET'} ||
                         ($cgi->param('android_adb_server_port') && "tcp:localhost:".$cgi->param('android_adb_server_port') ) ||
                         (map { /-L tcp:(?:localhost:)?(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) }
                           grep { /\badb\b.*\bserver\b/ }
