@@ -335,7 +335,7 @@ sub NEW_SERVER {
                         $ENV{'ADB_SERVER_SOCKET'} ||
                         ($cgi->param('android_adb_server_port') && "tcp:localhost:".$cgi->param('android_adb_server_port') ) ||
                         (map { /-L tcp:(?:localhost:)?(\d+)|-P (\d+)/ && "tcp:localhost:".( $1 || $2 ) }
-                          grep { /\badb\b.*\bserver\b/ }
+                          grep { /\badb\b.*\b(fork-server|nodaemon).*server\b/ }
                           qx{ps -axopid,command});
 
       $res->add_content("<html><head><title>Devices</title></head><body>");
