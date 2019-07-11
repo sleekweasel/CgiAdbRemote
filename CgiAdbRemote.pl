@@ -50,8 +50,16 @@ $touchdelay *= 2; # Interval is 500ms
     elsif ($ref eq 'SCALAR') {
       return " \\ " . Ref($$d, "$i$x", $x, $max-1);
     }
+    elsif ($ref eq 'REF') {
+      return " \\ " . Ref($$d, "$i$x", $x, $max-1);
+    }
     else {
-      return "'$d'"
+      if ($i =~ /^-/) {
+        ($_ = "'$d'") =~ s/([^ -~])/sprintf("%%%02X", ord($1))/ge;
+        return $_
+      } else {
+        return "'$d'"
+      }
     }
   }
 
@@ -158,15 +166,17 @@ sub end_html{ "</body></html>" }
     eval {
         # Allow access to ?$ return code:
         local $SIG{'CHLD'} = 'DEFAULT';
-        local $SIG{'ALRM'} = sub { die "alarm\n" }; # NB: \n required
+        local $SIG{'ALRM'} = sub { die "alarm\n" }; # NB: \n required to suppress file
         alarm $timeout;
         $cmd = "$TIMELIMIT$cmd" unless $cmd =~ /$TIMELIMIT/;
         $ret = $w ? [ qx/$cmd/ ] : qx/$cmd/;
         alarm 0;
     };
     if ($@) {
-      die unless $@ eq 'alarm\n';
-      return "TIMEDOUT: $cmd";
+      print ::Ref(\[$@,$cmd], "-");
+      die unless $@ eq "alarm\n";
+      my $t =  "TIMEDOUT: $cmd";
+      $ret = $w ? [ $t ] : $t;
     }
     return $w ? @$ret : $ret;
   }
@@ -339,6 +349,11 @@ sub NEW_SERVER {
                           qx{ps -axopid,command});
 
       $res->add_content("<html><head><title>Devices</title></head><body>");
+
+      if ($cgi->param("d1")) {
+          $res->add_content(join(",", @server_sockets));
+          return;
+      }
 
       for $ssocket ( @server_sockets ) {
         $::ssocket = $ssocket;
@@ -1045,3 +1060,4 @@ else {
   close PID;
 }
 
+# vim: set et ts=2 sw=2 :
