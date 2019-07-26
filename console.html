@@ -34,8 +34,9 @@ function mouseDown(image, e) {
 function mouseMove(image, e) {
     if ('$::disabled') { return true; }
 
-    document.getElementById('xtick').style.left = event.offsetX + 'px';
-    document.getElementById('ytick').style.top = event.offsetY + 'px';
+    s = getScale();
+    document.getElementById('xtick').style.left = Math.floor(s*event.offsetX) + 'px';
+    document.getElementById('ytick').style.top = Math.floor(s*event.offsetY) + 'px';
     document.getElementById('coords').innerHTML = 'Android coords: ' + event.offsetX + ',' + event.offsetY + 'px';
 
     if (document.lastStamp > 0 && e.timeStamp > document.lastStamp + 250) {

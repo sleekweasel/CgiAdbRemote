@@ -12,7 +12,7 @@ $port ||= 8080;
 $foreground ||= 0;
 $adb ||= 'adb';
 $banner ||= "WARNING: TESTS MAY BE RUNNING";
-$autodelay ||= 7;
+$autodelay ||= 3.5;
 $touchdelay ||= 1.5;
 $view_only ||= 0;
 
