@@ -4,6 +4,8 @@ CgiAdbRemote
 ** I would strongly encourage you to use https://github.com/openstf/stf instead, if its larger footprint isn't a nuisance for you **
 ** Especially now you can get it in Docker form. **
 
+###### If you really want to use CgiAdbRemote, use the 'multifork' branch **
+
 ###### For remotely monitoring and controlling *unrooted* Android devices connected to a physically inaccessible machine, with minimal host install, through a local web browser (only tested on Chrome currently).
 
 Copyright 2013 Tim Baverstock.
